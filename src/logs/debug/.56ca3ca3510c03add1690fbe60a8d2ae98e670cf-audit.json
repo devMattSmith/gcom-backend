@@ -1,0 +1,20 @@
+{
+    "keep": {
+        "days": false,
+        "amount": 30
+    },
+    "auditLog": "D:\\gcom\\gcom-backend\\gcom-backend\\src\\logs\\debug\\.56ca3ca3510c03add1690fbe60a8d2ae98e670cf-audit.json",
+    "files": [
+        {
+            "date": 1684213190899,
+            "name": "D:\\gcom\\gcom-backend\\gcom-backend\\src\\logs\\debug\\2023-05-16.log",
+            "hash": "b7bf24ac25a9a3f549ead87dfa06898ee843c70f69c966bab6bb085942cfc8a3"
+        },
+        {
+            "date": 1684300519497,
+            "name": "D:\\gcom\\gcom-backend\\gcom-backend\\src\\logs\\debug\\2023-05-17.log",
+            "hash": "4fc528d21fa9788da8859966626776d3b3b67cdf3df894c80298a82d7e16ee29"
+        }
+    ],
+    "hashType": "sha256"
+}

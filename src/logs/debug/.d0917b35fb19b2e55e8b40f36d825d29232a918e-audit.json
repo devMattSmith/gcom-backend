@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": false,
+        "amount": 30
+    },
+    "auditLog": "/Users/suryaraj/Documents/workspace/gcom-backend/src/logs/debug/.d0917b35fb19b2e55e8b40f36d825d29232a918e-audit.json",
+    "files": [
+        {
+            "date": 1684168866492,
+            "name": "/Users/suryaraj/Documents/workspace/gcom-backend/src/logs/debug/2023-05-15.log",
+            "hash": "133516088c2ae7dd74face6d17b5a1092ee19c98c6d636a752f255cd5dbbace3"
+        }
+    ],
+    "hashType": "sha256"
+}

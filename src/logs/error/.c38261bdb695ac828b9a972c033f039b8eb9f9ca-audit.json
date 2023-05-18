@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": false,
+        "amount": 30
+    },
+    "auditLog": "/Users/suryaraj/Documents/workspace/edutech/src/logs/error/.c38261bdb695ac828b9a972c033f039b8eb9f9ca-audit.json",
+    "files": [
+        {
+            "date": 1684157393948,
+            "name": "/Users/suryaraj/Documents/workspace/edutech/src/logs/error/2023-05-15.log",
+            "hash": "d32f3ea48bd132ac20c2b52fe3a98e14f8030183d4fb6ec8ca6d18de64d497a7"
+        }
+    ],
+    "hashType": "sha256"
+}
