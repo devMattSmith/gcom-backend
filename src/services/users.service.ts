@@ -9,17 +9,20 @@ export class UserService {
   public async findAllUser(
     search: string,
     skip: number,
-    limit: number
+    limit: number,
+    sort: string
   ): Promise<User[]> {
-    const users: User[] = await UserModel.find(
-      { name: { $regex: search } },
-      { verification: 0, password: 0 }
-    )
-      .skip(skip)
-      .limit(limit)
-      .sort({ dt_added: -1 })
-      .lean()
+    const users: User[] = await UserModel
+      .find
+      // { name: { $regex: search } },
+      // { verification: 0, password: 0 }
+      ()
+      // .skip(skip)
+      // .limit(limit)
+      // .sort(sort)
+      // .lean()
       .exec();
+    console.log(users);
     return users;
   }
   public async countAllUser(): Promise<number> {
@@ -66,10 +69,9 @@ export class UserService {
       userData = { ...userData, password: hashedPassword };
     }
 
-    const updateUserById: User = await UserModel.findByIdAndUpdate(
-      userId,
-      userData
-    );
+    const updateUserById: User = await UserModel.findByIdAndUpdate(userId, {
+      userData,
+    });
     if (!updateUserById) throw new HttpException(409, "User doesn't exist");
 
     return updateUserById;

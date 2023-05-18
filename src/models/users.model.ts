@@ -96,4 +96,4 @@ const UserSchema: Schema = new Schema(
   { versionKey: false }
 );
 
-export const UserModel = model<User & Document>("User", UserSchema, "Users");
+export const UserModel = model<User & Document>("User", UserSchema);

@@ -18,12 +18,11 @@ export class UserController {
       const findAllUsersData: User[] = await this.user.findAllUser(
         search,
         skip,
-        limit
+        limit,
+        { dt_added: -1 }
       );
 
-      res
-        .status(200)
-        .json({ data: findAllUsersData, count, message: "findAll" });
+      res.status(200).json({ data: findAllUsersData, message: "findAll" });
     } catch (error) {
       next(error);
     }
@@ -67,7 +66,6 @@ export class UserController {
     try {
       const userId: string = req.params.id;
       const userData: User = req.body;
-
       const updateUserData: User = await this.user.updateUser(userId, userData);
 
       res.status(200).json({ data: updateUserData, message: "updated" });
