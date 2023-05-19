@@ -1,14 +1,11 @@
 import { model, Schema, Document } from "mongoose";
-import { Country } from "@interfaces/country.interfaces";
+import { Category } from "@interfaces/category.interfaces";
 
-const CountrySchema: Schema = new Schema(
+const CategorySchema: Schema = new Schema(
   {
     name: {
       type: String,
       required: true,
-    },
-    code: {
-      type: String,
     },
     isDelete: {
       type: Boolean,
@@ -17,6 +14,9 @@ const CountrySchema: Schema = new Schema(
     status: {
       type: Boolean,
       default: false,
+    },
+    image: {
+      type: String,
     },
     dt_added: {
       type: Date,
@@ -29,8 +29,8 @@ const CountrySchema: Schema = new Schema(
   { versionKey: false }
 );
 
-export const CountryModel = model<Country & Document>(
-  "Country",
-  CountrySchema,
-  "Country"
+export const CategoryModel = model<Category & Document>(
+  "Category",
+  CategorySchema,
+  "Category"
 );

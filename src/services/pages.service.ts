@@ -1,0 +1,58 @@
+import { hash } from "bcrypt";
+import { Service } from "typedi";
+import { HttpException } from "@exceptions/httpException";
+import { Pages } from "@interfaces/pages.interfaces";
+import { PagesModel } from "@models/pages.model";
+
+@Service()
+export class PagesService {
+  public async findAllPages(skip: number, limit: number): Promise<Pages[]> {
+    const pages: Pages[] = await PagesModel.find()
+      .skip(skip)
+      .limit(limit)
+      .sort({ dt_added: -1 })
+      .lean()
+      .exec();
+
+    return pages;
+  }
+  public async countAllPages(): Promise<number> {
+    const pages: number = await PagesModel.count();
+    return pages;
+  }
+
+  public async findPageById(pageId: string): Promise<Pages> {
+    const findUser: Pages = await PagesModel.findOne({ _id: pageId });
+    if (!findUser) throw new HttpException(409, "page doesn't exist");
+
+    return findUser;
+  }
+
+  public async createPage(pageData: Pages): Promise<Pages> {
+    const createPageData: Pages = await PagesModel.create({
+      ...pageData,
+    });
+
+    return createPageData;
+  }
+
+  public async updatePage(pageId: string, pageData: Pages): Promise<Pages> {
+    const updateUserById: Pages = await PagesModel.findByIdAndUpdate(
+      pageId,
+      {
+        pageData,
+      },
+      { new: true }
+    );
+    if (!updateUserById) throw new HttpException(409, "Page doesn't exist");
+
+    return updateUserById;
+  }
+
+  public async deletePage(pageId: string): Promise<Pages> {
+    const deletePageById: Pages = await PagesModel.findByIdAndDelete(pageId);
+    if (!deletePageById) throw new HttpException(409, "Page doesn't exist");
+
+    return deletePageById;
+  }
+}

@@ -1,7 +1,7 @@
-export interface Country {
-  _id?: String;
+export interface Pages {
+  _id?: string;
   name: String;
-  code: String;
+  desription: String;
   isDelete: Boolean;
   status: Boolean;
   dt_added: Date;

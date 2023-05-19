@@ -14,15 +14,15 @@ export class UserController {
       limit = limit ? Number(limit) : DATATABLE.limit;
 
       const count = await this.user.countAllUser();
-      // const list = await find(search, skip, limit, { dt_added: -1 });
       const findAllUsersData: User[] = await this.user.findAllUser(
         search,
         skip,
-        limit,
-        { dt_added: -1 }
+        limit
       );
 
-      res.status(200).json({ data: findAllUsersData, message: "findAll" });
+      res
+        .status(200)
+        .json({ data: findAllUsersData, count, message: "findAll" });
     } catch (error) {
       next(error);
     }

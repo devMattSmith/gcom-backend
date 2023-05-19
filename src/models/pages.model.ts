@@ -1,13 +1,13 @@
 import { model, Schema, Document } from "mongoose";
-import { Country } from "@interfaces/country.interfaces";
+import { Pages } from "@interfaces/pages.interfaces";
 
-const CountrySchema: Schema = new Schema(
+const PagesSchema: Schema = new Schema(
   {
     name: {
       type: String,
       required: true,
     },
-    code: {
+    description: {
       type: String,
     },
     isDelete: {
@@ -29,8 +29,8 @@ const CountrySchema: Schema = new Schema(
   { versionKey: false }
 );
 
-export const CountryModel = model<Country & Document>(
-  "Country",
-  CountrySchema,
-  "Country"
+export const PagesModel = model<Pages & Document>(
+  "Pages",
+  PagesSchema,
+  "Pages"
 );

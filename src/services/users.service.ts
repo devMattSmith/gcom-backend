@@ -9,20 +9,19 @@ export class UserService {
   public async findAllUser(
     search: string,
     skip: number,
-    limit: number,
-    sort: string
+    limit: number
+    // sort: string
   ): Promise<User[]> {
-    const users: User[] = await UserModel
-      .find
-      // { name: { $regex: search } },
-      // { verification: 0, password: 0 }
-      ()
-      // .skip(skip)
-      // .limit(limit)
-      // .sort(sort)
-      // .lean()
+    const users: User[] = await UserModel.find(
+      { name: { $regex: search } },
+      { verification: 0, password: 0 }
+    )
+      .skip(skip)
+      .limit(limit)
+      .sort({ dt_added: -1 })
+      .lean()
       .exec();
-    console.log(users);
+
     return users;
   }
   public async countAllUser(): Promise<number> {

@@ -30,7 +30,7 @@ export class App {
     this.initializeMiddlewares();
     this.initializeRoutes(routes);
     this.initializeErrorHandling();
-    this.app.use(helmet())
+    this.app.use(helmet());
   }
 
   public listen() {

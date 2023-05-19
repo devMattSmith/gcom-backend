@@ -57,13 +57,11 @@ export class AuthService {
     if (!isPasswordMatching)
       throw new HttpException(409, "Password is not matching");
 
-    const tokenData = createToken(findUser);
+    const tokenData = await createToken(findUser);
     const result: User = await UserModel.findByIdAndUpdate(
       { _id: findUser._id },
       { verification: tokenData }
     );
-    // console.log(result);
-    // const cookie = createCookie(tokenData);
 
     return { tokenData, findUser };
   }
