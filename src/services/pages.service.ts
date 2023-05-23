@@ -22,10 +22,10 @@ export class PagesService {
   }
 
   public async findPageById(pageId: string): Promise<Pages> {
-    const findUser: Pages = await PagesModel.findOne({ _id: pageId });
-    if (!findUser) throw new HttpException(409, "page doesn't exist");
+    const findPage: Pages = await PagesModel.findOne({ _id: pageId });
+    if (!findPage) throw new HttpException(409, "page doesn't exist");
 
-    return findUser;
+    return findPage;
   }
 
   public async createPage(pageData: Pages): Promise<Pages> {
@@ -37,16 +37,16 @@ export class PagesService {
   }
 
   public async updatePage(pageId: string, pageData: Pages): Promise<Pages> {
-    const updateUserById: Pages = await PagesModel.findByIdAndUpdate(
+    const updatePageById: Pages = await PagesModel.findByIdAndUpdate(
       pageId,
       {
         pageData,
       },
       { new: true }
     );
-    if (!updateUserById) throw new HttpException(409, "Page doesn't exist");
+    if (!updatePageById) throw new HttpException(409, "Page doesn't exist");
 
-    return updateUserById;
+    return updatePageById;
   }
 
   public async deletePage(pageId: string): Promise<Pages> {

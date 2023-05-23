@@ -6,6 +6,7 @@ export interface PermissionSchema {
   list: Boolean;
 }
 export interface RoleSchema {
+  id: string;
   name: String;
   type: Number;
   permissions: [PermissionSchema];

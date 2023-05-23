@@ -1,7 +1,6 @@
 import { model, Schema, Document } from "mongoose";
 import { RoleSchema } from "@interfaces/role.interfaces";
 
-const ObjectId = Schema.Types.ObjectId;
 const PermissionSchema = new Schema({
   module: {
     type: String,

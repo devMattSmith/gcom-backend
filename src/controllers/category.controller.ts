@@ -56,11 +56,11 @@ export class CategoryController {
   ) => {
     try {
       const categoryData: Category = req.body;
-      const createUserData: Category = await this.category.createCategory(
+      const createCategoryData: Category = await this.category.createCategory(
         categoryData
       );
 
-      res.status(201).json({ data: createUserData, message: "created" });
+      res.status(201).json({ data: createCategoryData, message: "created" });
     } catch (error) {
       next(error);
     }
