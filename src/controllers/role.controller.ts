@@ -8,14 +8,9 @@ export class RoleController {
 
   public getRoles = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      let { skip, limit, search } = req.body;
-
-      skip = skip ? Number(skip) : DATATABLE.skip;
-      limit = limit ? Number(limit) : DATATABLE.limit;
-
       const count = await this.reviews.countAllRoles();
       const findAllHelpSupportData: RoleSchema[] =
-        await this.reviews.findAllRoles(skip, limit);
+        await this.reviews.findAllRoles();
 
       res
         .status(200)

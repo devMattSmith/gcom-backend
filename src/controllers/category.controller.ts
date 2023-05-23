@@ -12,18 +12,9 @@ export class CategoryController {
     next: NextFunction
   ) => {
     try {
-      let { skip, limit, search } = req.body;
-
-      skip = skip ? Number(skip) : DATATABLE.skip;
-      limit = limit ? Number(limit) : DATATABLE.limit;
-
       const count = await this.category.countAllCategory();
       const findAllCategoryData: Category[] =
-        await this.category.findAllCategory(
-          // search,
-          skip,
-          limit
-        );
+        await this.category.findAllCategory();
 
       res
         .status(200)

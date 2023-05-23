@@ -8,20 +8,12 @@ export class PagesController {
 
   public getPages = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      let { skip, limit, search } = req.body;
-
-      skip = skip ? Number(skip) : DATATABLE.skip;
-      limit = limit ? Number(limit) : DATATABLE.limit;
-
-      const count = await this.pages.countAllPages();
       const findAllPageData: Pages[] = await this.pages.findAllPages(
         skip,
         limit
       );
 
-      res
-        .status(200)
-        .json({ data: findAllPageData, count, message: "findAll" });
+      res.status(200).json({ data: findAllPageData, message: "findAll" });
     } catch (error) {
       next(error);
     }

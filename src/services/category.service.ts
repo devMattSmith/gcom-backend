@@ -6,17 +6,8 @@ import { CategoryModel } from "@models/category.model";
 
 @Service()
 export class CategoryService {
-  public async findAllCategory(
-    skip: number,
-    limit: number
-  ): Promise<Category[]> {
-    const category: Category[] = await CategoryModel.find()
-      .skip(skip)
-      .limit(limit)
-      .sort({ dt_added: -1 })
-      .lean()
-      .exec();
-
+  public async findAllCategory(): Promise<Category[]> {
+    const category: Category[] = await CategoryModel.find();
     return category;
   }
   public async countAllCategory(): Promise<number> {

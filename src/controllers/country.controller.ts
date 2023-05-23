@@ -12,20 +12,9 @@ export class CountryController {
     next: NextFunction
   ) => {
     try {
-      let { skip, limit, search } = req.body;
+      const findAllCountryData: Country[] = await this.country.findAllCountry();
 
-      skip = skip ? Number(skip) : DATATABLE.skip;
-      limit = limit ? Number(limit) : DATATABLE.limit;
-
-      const count = await this.country.countAllCountry();
-      const findAllCountryData: Country[] = await this.country.findAllCountry(
-        skip,
-        limit
-      );
-
-      res
-        .status(200)
-        .json({ data: findAllCountryData, count, message: "findAll" });
+      res.status(200).json({ data: findAllCountryData, message: "findAll" });
     } catch (error) {
       next(error);
     }

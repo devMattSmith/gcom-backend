@@ -5,7 +5,7 @@ import { Routes } from "@interfaces/routes.interface";
 import { ValidationMiddleware } from "@middlewares/validation.middleware";
 
 export class RoleRoute implements Routes {
-  public path = "/v1/role";
+  public path = "/api/v1/role";
   public router = Router();
   public role = new RoleController();
 
@@ -23,7 +23,7 @@ export class RoleRoute implements Routes {
     );
     this.router.put(
       `${this.path}/:id`,
-      ValidationMiddleware(CreateRoleDto, true, true),
+      ValidationMiddleware(CreateRoleDto, true),
       this.role.updateRole
     );
     this.router.delete(`${this.path}/:id`, this.role.deleteRole);

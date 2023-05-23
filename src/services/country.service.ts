@@ -6,14 +6,8 @@ import { CountryModel } from "@models/country.model";
 
 @Service()
 export class CountryService {
-  public async findAllCountry(skip: number, limit: number): Promise<Country[]> {
-    const country: Country[] = await CountryModel.find()
-      .skip(skip)
-      .limit(limit)
-      .sort({ dt_added: -1 })
-      .lean()
-      .exec();
-
+  public async findAllCountry(): Promise<Country[]> {
+    const country: Country[] = await CountryModel.find();
     return country;
   }
 

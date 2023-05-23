@@ -5,7 +5,7 @@ import { Routes } from "@interfaces/routes.interface";
 import { ValidationMiddleware } from "@middlewares/validation.middleware";
 
 export class CategoryRoute implements Routes {
-  public path = "/v1/category";
+  public path = "/api/v1/category";
   public router = Router();
   public category = new CategoryController();
 
@@ -18,12 +18,12 @@ export class CategoryRoute implements Routes {
     this.router.get(`${this.path}/:id`, this.category.getCategoryById);
     this.router.post(
       `${this.path}/create`,
-      ValidationMiddleware(CreateCategoryDto, true, true),
+      ValidationMiddleware(CreateCategoryDto, true),
       this.category.createCategory
     );
     this.router.put(
       `${this.path}/:id`,
-      // ValidationMiddleware(CreateCategoryDto, true),
+      ValidationMiddleware(CreateCategoryDto, true),
       this.category.updateCategory
     );
     this.router.delete(`${this.path}/:id`, this.category.deleteCategory);

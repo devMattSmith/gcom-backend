@@ -12,18 +12,12 @@ export class HelpSupportController {
     next: NextFunction
   ) => {
     try {
-      let { skip, limit, search } = req.body;
-
-      skip = skip ? Number(skip) : DATATABLE.skip;
-      limit = limit ? Number(limit) : DATATABLE.limit;
-
-      const count = await this.reviews.countAllHelpSupportRequests();
       const findAllHelpSupportData: HelpSupport[] =
-        await this.reviews.findAllHelpSupportRequests(skip, limit);
+        await this.reviews.findAllHelpSupportRequests();
 
       res
         .status(200)
-        .json({ data: findAllHelpSupportData, count, message: "findAll" });
+        .json({ data: findAllHelpSupportData, message: "findAll" });
     } catch (error) {
       next(error);
     }

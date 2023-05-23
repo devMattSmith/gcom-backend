@@ -5,7 +5,7 @@ import { ValidationMiddleware } from "@middlewares/validation.middleware";
 import { ReviewsController } from "@/controllers/reviews.controller";
 
 export class ReviewRoute implements Routes {
-  public path = "/v1/reviews";
+  public path = "/api/v1/reviews";
   public router = Router();
   public reviews = new ReviewsController();
 
@@ -23,7 +23,7 @@ export class ReviewRoute implements Routes {
     );
     this.router.put(
       `${this.path}/:id`,
-      ValidationMiddleware(CreateReviewDto, true, true),
+      ValidationMiddleware(CreateReviewDto, true),
       this.reviews.updateReview
     );
     this.router.delete(`${this.path}/:id`, this.reviews.deleteReview);

@@ -6,17 +6,8 @@ import { RoleModel } from "@models/role.model";
 
 @Service()
 export class RoleService {
-  public async findAllRoles(
-    skip: number,
-    limit: number
-  ): Promise<RoleSchema[]> {
-    const roles: any = await RoleModel.find()
-      .skip(skip)
-      .limit(limit)
-      .sort({ dt_added: -1 })
-      .lean()
-      .exec();
-
+  public async findAllRoles(): Promise<RoleSchema[]> {
+    const roles: any = await RoleModel.find();
     return roles;
   }
 
@@ -49,7 +40,7 @@ export class RoleService {
     const updateRoleById: RoleSchema = await RoleModel.findByIdAndUpdate(
       RoleId,
       {
-        RoleData,
+        ...RoleData,
       },
       { new: true }
     );

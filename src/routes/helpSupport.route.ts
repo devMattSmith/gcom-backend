@@ -6,7 +6,7 @@ import { ValidationMiddleware } from "@middlewares/validation.middleware";
 import { HelpSupportController } from "@/controllers/helpSupport.controller";
 
 export class HelpSupportRoute implements Routes {
-  public path = "/v1/helpSupport";
+  public path = "/api/v1/helpSupport";
   public router = Router();
   public helpSupport = new HelpSupportController();
 
@@ -24,7 +24,7 @@ export class HelpSupportRoute implements Routes {
     );
     this.router.put(
       `${this.path}/:id`,
-      ValidationMiddleware(CreateHelpSupportDto, true, true),
+      ValidationMiddleware(CreateHelpSupportDto, true),
       this.helpSupport.updateHelpSupportrequest
     );
     this.router.delete(`${this.path}/:id`, this.helpSupport.deleteHelpSupport);

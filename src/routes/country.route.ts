@@ -5,7 +5,7 @@ import { Routes } from "@interfaces/routes.interface";
 import { ValidationMiddleware } from "@middlewares/validation.middleware";
 
 export class CountryRoute implements Routes {
-  public path = "/v1/country";
+  public path = "/api/v1/country";
   public router = Router();
   public country = new CountryController();
 
@@ -18,7 +18,7 @@ export class CountryRoute implements Routes {
 
     this.router.post(
       `${this.path}/create`,
-      ValidationMiddleware(CreateCountryDto, true, true),
+      ValidationMiddleware(CreateCountryDto, true),
       this.country.createCountry
     );
   }

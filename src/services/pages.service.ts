@@ -6,14 +6,8 @@ import { PagesModel } from "@models/pages.model";
 
 @Service()
 export class PagesService {
-  public async findAllPages(skip: number, limit: number): Promise<Pages[]> {
-    const pages: Pages[] = await PagesModel.find()
-      .skip(skip)
-      .limit(limit)
-      .sort({ dt_added: -1 })
-      .lean()
-      .exec();
-
+  public async findAllPages(): Promise<Pages[]> {
+    const pages: Pages[] = await PagesModel.find();
     return pages;
   }
   public async countAllPages(): Promise<number> {
@@ -40,7 +34,7 @@ export class PagesService {
     const updatePageById: Pages = await PagesModel.findByIdAndUpdate(
       pageId,
       {
-        pageData,
+        ...pageData,
       },
       { new: true }
     );

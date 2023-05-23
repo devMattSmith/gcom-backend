@@ -6,14 +6,8 @@ import { ReviewsModel } from "@models/reviews.model";
 
 @Service()
 export class ReviewsService {
-  public async findAllReviews(skip: number, limit: number): Promise<Reviews[]> {
-    const reviews: Reviews[] = await ReviewsModel.find()
-      .skip(skip)
-      .limit(limit)
-      .sort({ dt_added: -1 })
-      .lean()
-      .exec();
-
+  public async findAllReviews(): Promise<Reviews[]> {
+    const reviews: Reviews[] = await ReviewsModel.find();
     return reviews;
   }
 
@@ -44,7 +38,7 @@ export class ReviewsService {
     const updateReviewById: Reviews = await ReviewsModel.findByIdAndUpdate(
       reviewId,
       {
-        reviewData,
+        ...reviewData,
       },
       { new: true }
     );

@@ -5,7 +5,7 @@ import { Routes } from "@interfaces/routes.interface";
 import { ValidationMiddleware } from "@middlewares/validation.middleware";
 
 export class UserRoute implements Routes {
-  public path = "/v1/users";
+  public path = "/api/v1/users";
   public router = Router();
   public user = new UserController();
 
@@ -23,7 +23,7 @@ export class UserRoute implements Routes {
     );
     this.router.put(
       `${this.path}/:id`,
-      ValidationMiddleware(CreateUserDto, true, true),
+      ValidationMiddleware(CreateUserDto, true),
       this.user.updateUser
     );
     this.router.delete(`${this.path}/:id`, this.user.deleteUser);

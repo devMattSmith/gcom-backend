@@ -6,16 +6,8 @@ import { HelpSupportModel } from "@models/helpSupport.model";
 
 @Service()
 export class HelpSupportService {
-  public async findAllHelpSupportRequests(
-    skip: number,
-    limit: number
-  ): Promise<HelpSupport[]> {
-    const helpSupport: HelpSupport[] = await HelpSupportModel.find()
-      .skip(skip)
-      .limit(limit)
-      .sort({ dt_added: -1 })
-      .lean()
-      .exec();
+  public async findAllHelpSupportRequests(): Promise<HelpSupport[]> {
+    const helpSupport: HelpSupport[] = await HelpSupportModel.find();
 
     return helpSupport;
   }
@@ -48,14 +40,14 @@ export class HelpSupportService {
   }
 
   public async updateHelpSupportRequest(
-    HelpSupportId: string,
-    HelpSupportData: HelpSupport
+    helpSupportId: string,
+    helpSupportData: HelpSupport
   ): Promise<HelpSupport> {
     const updateHelpSupportById: HelpSupport =
       await HelpSupportModel.findByIdAndUpdate(
-        HelpSupportId,
+        helpSupportId,
         {
-          HelpSupportData,
+          ...helpSupportData,
         },
         { new: true }
       );
