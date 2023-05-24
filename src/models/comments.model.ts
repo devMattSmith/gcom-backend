@@ -1,11 +1,19 @@
 import { model, Schema, Document } from "mongoose";
-import { Course } from "@interfaces/course.interfaces";
-
-const CourseSchema: Schema = new Schema(
+import { Pages } from "@interfaces/pages.interfaces";
+const ObjectId = Schema.Types.ObjectId;
+const CommentSchema: Schema = new Schema(
   {
-    name: {
+    text: {
       type: String,
       required: true,
+    },
+    userId: {
+      type: ObjectId,
+      ref: "User",
+    },
+    ticketId: {
+      type: ObjectId,
+      ref: "HelpSupport",
     },
     isDelete: {
       type: Boolean,
@@ -14,9 +22,6 @@ const CourseSchema: Schema = new Schema(
     status: {
       type: Boolean,
       default: false,
-    },
-    image: {
-      type: String,
     },
     dt_added: {
       type: Date,
@@ -29,8 +34,8 @@ const CourseSchema: Schema = new Schema(
   { versionKey: false }
 );
 
-export const CourseModel = model<Course & Document>(
-  "Course",
-  CourseSchema,
-  "Courses"
+export const PagesModel = model<Pages & Document>(
+  "Pages",
+  PagesSchema,
+  "Pages"
 );

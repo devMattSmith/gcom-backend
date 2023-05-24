@@ -16,6 +16,7 @@ export class UserService {
       { name: { $regex: search } },
       { verification: 0, password: 0 }
     )
+
       .skip(skip)
       .limit(limit)
       .sort({ dt_added: -1 })

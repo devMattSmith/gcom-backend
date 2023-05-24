@@ -7,7 +7,36 @@ import { HelpSupportModel } from "@models/helpSupport.model";
 @Service()
 export class HelpSupportService {
   public async findAllHelpSupportRequests(): Promise<HelpSupport[]> {
-    const helpSupport: HelpSupport[] = await HelpSupportModel.find();
+    const helpSupport: HelpSupport[] = await HelpSupportModel.aggregate([
+      {
+        $lookup: {
+          from: "Users",
+          localField: "assignTo",
+          foreignField: "_id",
+          pipeline: [{ $project: { name: 1 } }],
+          as: "user",
+        },
+      },
+
+      // {
+      //   $unwind: { path: "$user", preserveNullAndEmptyArrays: false },
+      // },
+      {
+        $project: {
+          _id: 1,
+          title: 1,
+          orderId: 1,
+
+          clientName: 1,
+          assingTo: "$user",
+          status: 1,
+          // assignTo: 1,
+          dueDate: 1,
+          priority: 1,
+          createdAt: "$dt_added",
+        },
+      },
+    ]);
 
     return helpSupport;
   }

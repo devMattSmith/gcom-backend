@@ -37,7 +37,7 @@ const ReviewsSchema: Schema = new Schema(
 );
 
 export const ReviewsModel = model<Reviews & Document>(
-  "Reviews",
+  "Review",
   ReviewsSchema,
   "Reviews"
 );
