@@ -1,31 +1,25 @@
 import { Router } from "express";
-import { UserController } from "@controllers/users.controller";
-import { CreateUserDto } from "@dtos/users.dto";
+import { CountryController } from "@controllers/country.controller";
+import { CreateCountryDto } from "@dtos/country.dto";
 import { Routes } from "@interfaces/routes.interface";
 import { ValidationMiddleware } from "@middlewares/validation.middleware";
-import { AuthMiddleware } from "@/middlewares/auth.middleware";
-export class UserRoute implements Routes {
-  public path = "/v1/users";
+
+export class CountryRoute implements Routes {
+  public path = "/api/v1/country";
   public router = Router();
-  public user = new UserController();
+  public country = new CountryController();
 
   constructor() {
     this.initializeRoutes();
   }
 
   private initializeRoutes() {
-    this.router.post(`${this.path}`, AuthMiddleware, this.user.getUsers);
-    this.router.get(`${this.path}/:id`, this.user.getUserById);
-    // this.router.post(
-    //   `${this.path}`,
-    //   ValidationMiddleware(CreateUserDto, "body"),
-    //   this.user.createUser
-    // );
-    this.router.put(
-      `${this.path}/:id`,
-      // ValidationMiddleware(CreateUserDto, "body", true),
-      this.user.updateUser
+    this.router.post(`${this.path}`, this.country.getAllCountry);
+
+    this.router.post(
+      `${this.path}/create`,
+      ValidationMiddleware(CreateCountryDto, true),
+      this.country.createCountry
     );
-    this.router.delete(`${this.path}/:id`, this.user.deleteUser);
   }
 }

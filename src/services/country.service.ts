@@ -1,84 +1,26 @@
 import { hash } from "bcrypt";
 import { Service } from "typedi";
 import { HttpException } from "@exceptions/httpException";
-import { User } from "@interfaces/users.interface";
-import { UserModel } from "@models/users.model";
+import { Country } from "@interfaces/country.interfaces";
+import { CountryModel } from "@models/country.model";
 
 @Service()
-export class UserService {
-  public async findAllUser(
-    search: string,
-    skip: number,
-    limit: number
-  ): Promise<User[]> {
-    const users: User[] = await UserModel.find(
-      { name: { $regex: search } },
-      { verification: 0, password: 0 }
-    )
-      .skip(skip)
-      .limit(limit)
-      .sort({ dt_added: -1 })
-      .lean()
-      .exec();
-    return users;
-  }
-  public async countAllUser(): Promise<number> {
-    const users: number = await UserModel.count();
-    return users;
+export class CountryService {
+  public async findAllCountry(): Promise<Country[]> {
+    const country: Country[] = await CountryModel.find();
+    return country;
   }
 
-  public async findUserById(userId: string): Promise<User> {
-    const findUser: User = await UserModel.findOne({ _id: userId });
-    if (!findUser) throw new HttpException(409, "User doesn't exist");
-
-    return findUser;
+  public async countAllCountry(): Promise<number> {
+    const country: number = await CountryModel.count();
+    return country;
   }
 
-  public async createUser(userData: User): Promise<User> {
-    const findUser: User = await UserModel.findOne({ email: userData.email });
-    if (findUser)
-      throw new HttpException(
-        409,
-        `This email ${userData.email} already exists`
-      );
-
-    const hashedPassword = await hash(userData.password, 10);
-    const createUserData: User = await UserModel.create({
-      ...userData,
-      password: hashedPassword,
+  public async createCountry(countryData: Country): Promise<Country> {
+    const createCountryData: Country = await CountryModel.create({
+      ...countryData,
     });
 
-    return createUserData;
-  }
-
-  public async updateUser(userId: string, userData: User): Promise<User> {
-    if (userData.email) {
-      const findUser: User = await UserModel.findOne({ email: userData.email });
-      if (findUser && findUser._id != userId)
-        throw new HttpException(
-          409,
-          `This email ${userData.email} already exists`
-        );
-    }
-
-    if (userData.password) {
-      const hashedPassword = await hash(userData.password, 10);
-      userData = { ...userData, password: hashedPassword };
-    }
-
-    const updateUserById: User = await UserModel.findByIdAndUpdate(
-      userId,
-      userData
-    );
-    if (!updateUserById) throw new HttpException(409, "User doesn't exist");
-
-    return updateUserById;
-  }
-
-  public async deleteUser(userId: string): Promise<User> {
-    const deleteUserById: User = await UserModel.findByIdAndDelete(userId);
-    if (!deleteUserById) throw new HttpException(409, "User doesn't exist");
-
-    return deleteUserById;
+    return createCountryData;
   }
 }

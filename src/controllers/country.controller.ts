@@ -1,91 +1,38 @@
 import { NextFunction, Request, Response } from "express";
 import { Container } from "typedi";
-import { User } from "@interfaces/users.interface";
-import { UserService } from "@services/country.service";
+import { CountryService } from "@services/country.service";
+import { Country } from "@interfaces/country.interfaces";
 import { DATATABLE } from "@config";
-export class UserController {
-  public user = Container.get(UserService);
+export class CountryController {
+  public country = Container.get(CountryService);
 
-  public getUsers = async (req: Request, res: Response, next: NextFunction) => {
+  public getAllCountry = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
     try {
-      let { skip, limit, search } = req.body;
+      const findAllCountryData: Country[] = await this.country.findAllCountry();
 
-      skip = skip ? Number(skip) : DATATABLE.skip;
-      limit = limit ? Number(limit) : DATATABLE.limit;
+      res.status(200).json({ data: findAllCountryData, message: "findAll" });
+    } catch (error) {
+      next(error);
+    }
+  };
 
-      const count = await this.user.countAllUser();
-      // const list = await find(search, skip, limit, { dt_added: -1 });
-      const findAllUsersData: User[] = await this.user.findAllUser(
-        search,
-        skip,
-        limit
+  public createCountry = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const pageData: Country = req.body;
+
+      const createCountryData: Country = await this.country.createCountry(
+        pageData
       );
 
-      res
-        .status(200)
-        .json({ data: findAllUsersData, count, message: "findAll" });
-    } catch (error) {
-      next(error);
-    }
-  };
-
-  public getUserById = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) => {
-    try {
-      const userId: string = req.params.id;
-      const findOneUserData: User = await this.user.findUserById(userId);
-
-      res.status(200).json({ data: findOneUserData, message: "findOne" });
-    } catch (error) {
-      next(error);
-    }
-  };
-
-  public createUser = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) => {
-    try {
-      const userData: User = req.body;
-      const createUserData: User = await this.user.createUser(userData);
-
-      res.status(201).json({ data: createUserData, message: "created" });
-    } catch (error) {
-      next(error);
-    }
-  };
-
-  public updateUser = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) => {
-    try {
-      const userId: string = req.params.id;
-      const userData: User = req.body;
-
-      const updateUserData: User = await this.user.updateUser(userId, userData);
-
-      res.status(200).json({ data: updateUserData, message: "updated" });
-    } catch (error) {
-      next(error);
-    }
-  };
-
-  public deleteUser = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) => {
-    try {
-      const userId: string = req.params.id;
-      const deleteUserData: User = await this.user.deleteUser(userId);
-
-      res.status(200).json({ data: deleteUserData, message: "deleted" });
+      res.status(201).json({ data: createCountryData, message: "created" });
     } catch (error) {
       next(error);
     }

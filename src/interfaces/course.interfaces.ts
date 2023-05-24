@@ -1,7 +1,7 @@
-export interface Country {
-  _id?: String;
+export interface Course {
+  _id?: string;
   name: String;
-  code: String;
+  image: String;
   isDelete: Boolean;
   status: Boolean;
   dt_added: Date;

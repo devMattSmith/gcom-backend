@@ -14,7 +14,6 @@ export class UserController {
       limit = limit ? Number(limit) : DATATABLE.limit;
 
       const count = await this.user.countAllUser();
-      // const list = await find(search, skip, limit, { dt_added: -1 });
       const findAllUsersData: User[] = await this.user.findAllUser(
         search,
         skip,
@@ -67,7 +66,6 @@ export class UserController {
     try {
       const userId: string = req.params.id;
       const userData: User = req.body;
-
       const updateUserData: User = await this.user.updateUser(userId, userData);
 
       res.status(200).json({ data: updateUserData, message: "updated" });
