@@ -9,6 +9,16 @@
             "date": 1684157393948,
             "name": "/Users/suryaraj/Documents/workspace/edutech/src/logs/error/2023-05-15.log",
             "hash": "d32f3ea48bd132ac20c2b52fe3a98e14f8030183d4fb6ec8ca6d18de64d497a7"
+        },
+        {
+            "date": 1684403324345,
+            "name": "/Users/suryaraj/Documents/workspace/edutech/src/logs/error/2023-05-18.log",
+            "hash": "514132d2d9c2670c3a0feed911c696938336e5086e8c0a6af7afe8a4ee09765f"
+        },
+        {
+            "date": 1684945387872,
+            "name": "/Users/suryaraj/Documents/workspace/edutech/src/logs/error/2023-05-24.log",
+            "hash": "2ed390c2f23b6c4658bb3b32e62f7e332d755c4573831ab16f9a778fb5d650a9"
         }
     ],
     "hashType": "sha256"

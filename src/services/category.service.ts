@@ -16,10 +16,10 @@ export class CategoryService {
   }
 
   public async findCategoryById(categoryId: string): Promise<Category> {
-    const findUser: Category = await CategoryModel.findOne({ _id: categoryId });
-    if (!findUser) throw new HttpException(409, "Category doesn't exist");
+    const findCategory: Category = await CategoryModel.findOne({ _id: categoryId });
+    if (!findCategory) throw new HttpException(409, "Category doesn't exist");
 
-    return findUser;
+    return findCategory;
   }
 
   public async createCategory(categoryData: Category): Promise<Category> {
