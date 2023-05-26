@@ -6,8 +6,8 @@ import {
   MaxLength,
 } from "class-validator";
 
-export class CreateHelpSupportDto {
+export class CreateCommentDto {
   @IsString()
   @IsNotEmpty()
-  public title: string;
+  public comment: string;
 }

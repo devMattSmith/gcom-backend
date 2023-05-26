@@ -8,7 +8,10 @@ import { User } from "@interfaces/users.interface";
 import { UserModel } from "@models/users.model";
 
 const createToken = (user: User): TokenData => {
-  const dataStoredInToken: DataStoredInToken = { _id: user._id };
+  const dataStoredInToken: DataStoredInToken = {
+    _id: user._id,
+    role: user.role,
+  };
   const expiresIn: number = 60 * 60;
 
   return {
@@ -42,7 +45,7 @@ export class AuthService {
 
   public async login(
     userData: User
-  ): Promise<{ tokenData: object; findUser: User }> {
+  ): Promise<{ tokenData: object; findUser: User; result: User }> {
     const findUser: User = await UserModel.findOne({ email: userData.email });
     if (!findUser)
       throw new HttpException(
@@ -60,10 +63,11 @@ export class AuthService {
     const tokenData = await createToken(findUser);
     const result: User = await UserModel.findByIdAndUpdate(
       { _id: findUser._id },
-      { verification: tokenData }
+      { verification: tokenData },
+      { new: true }
     );
 
-    return { tokenData, findUser };
+    return { tokenData, findUser, result };
   }
 
   public async logout(userData: User): Promise<User> {

@@ -1,4 +1,4 @@
-export interface HelpSupport {
+export interface Ticket {
   _id?: string;
   title: String;
   clientName: String;
@@ -9,6 +9,4 @@ export interface HelpSupport {
   dueDate: String;
   priority: number;
   status: Boolean;
-  dt_added: Date;
-  dt_upd: Date;
 }

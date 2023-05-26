@@ -18,15 +18,8 @@ const PagesSchema: Schema = new Schema(
       type: Boolean,
       default: false,
     },
-    dt_added: {
-      type: Date,
-      default: new Date(),
-    },
-    dt_upd: {
-      type: Date,
-    },
   },
-  { versionKey: false }
+  { timestamps: true, versionKey: false }
 );
 
 export const PagesModel = model<Pages & Document>(

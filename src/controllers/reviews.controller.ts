@@ -12,10 +12,20 @@ export class ReviewsController {
     next: NextFunction
   ) => {
     try {
-      // const count = await this.reviews.countAllReviews();
-      const findAllReviewsData: Reviews[] = await this.reviews.findAllReviews();
+      let { skip, limit, search } = req.body;
 
-      res.status(200).json({ data: findAllReviewsData, message: "findAll" });
+      skip = skip ? Number(skip) : DATATABLE.skip;
+      limit = limit ? Number(limit) : DATATABLE.limit;
+
+      const count = await this.reviews.countAllUser();
+      const findAllReviewsData: Reviews[] = await this.reviews.findAllReviews(
+        skip,
+        limit
+      );
+
+      res
+        .status(200)
+        .json({ data: findAllReviewsData, count, message: "findAll" });
     } catch (error) {
       next(error);
     }

@@ -4,6 +4,4 @@ export interface Category {
   image: String;
   isDelete: Boolean;
   status: Boolean;
-  dt_added: Date;
-  dt_upd: Date;
 }

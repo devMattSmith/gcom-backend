@@ -1,11 +1,19 @@
 import { model, Schema, Document } from "mongoose";
-import { Pages } from "@interfaces/pages.interfaces";
+import { Comment } from "@interfaces/comment.interfaces";
 const ObjectId = Schema.Types.ObjectId;
+const replySchema: Schema = new Schema({
+  reply: {
+    type: String,
+  },
+  userId: {
+    type: ObjectId,
+    ref: "User",
+  },
+});
 const CommentSchema: Schema = new Schema(
   {
-    text: {
+    comment: {
       type: String,
-      required: true,
     },
     userId: {
       type: ObjectId,
@@ -13,29 +21,19 @@ const CommentSchema: Schema = new Schema(
     },
     ticketId: {
       type: ObjectId,
-      ref: "HelpSupport",
+      ref: "Ticket",
     },
+    replies: [replySchema],
     isDelete: {
       type: Boolean,
       default: false,
     },
-    status: {
-      type: Boolean,
-      default: false,
-    },
-    dt_added: {
-      type: Date,
-      default: new Date(),
-    },
-    dt_upd: {
-      type: Date,
-    },
   },
-  { versionKey: false }
+  { timestamps: true, versionKey: false }
 );
 
-export const PagesModel = model<Pages & Document>(
-  "Pages",
-  PagesSchema,
-  "Pages"
+export const CommentModel = model<Comment & Document>(
+  "Comment",
+  CommentSchema,
+  "Comments"
 );

@@ -1,8 +1,8 @@
 import { model, Schema, Document } from "mongoose";
-import { HelpSupport } from "@interfaces/helpSupport.interfaces";
+import { Ticket } from "@/interfaces/ticket.interfaces";
 import { PRIORITY, STATUS } from "../utils/constant";
 const ObjectId = Schema.Types.ObjectId;
-const HelpSupportSchema: Schema = new Schema(
+const TicketSchema: Schema = new Schema(
   {
     title: {
       type: String,
@@ -41,19 +41,12 @@ const HelpSupportSchema: Schema = new Schema(
       enum: STATUS,
       default: 1,
     },
-    dt_added: {
-      type: Date,
-      default: new Date(),
-    },
-    dt_upd: {
-      type: Date,
-    },
   },
-  { versionKey: false }
+  { timestamps: true, versionKey: false }
 );
 
-export const HelpSupportModel = model<HelpSupport & Document>(
-  "HelpSupport",
-  HelpSupportSchema,
-  "HelpSupport"
+export const TicketModel = model<Ticket & Document>(
+  "Ticket",
+  TicketSchema,
+  "Ticket"
 );

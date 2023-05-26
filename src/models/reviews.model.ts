@@ -25,15 +25,8 @@ const ReviewsSchema: Schema = new Schema(
     description: {
       type: String,
     },
-    dt_added: {
-      type: Date,
-      default: new Date(),
-    },
-    dt_upd: {
-      type: Date,
-    },
   },
-  { versionKey: false }
+  { timestamps: true, versionKey: false }
 );
 
 export const ReviewsModel = model<Reviews & Document>(

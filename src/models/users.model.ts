@@ -1,6 +1,6 @@
 import { model, Schema, Document } from "mongoose";
 import { User } from "@interfaces/users.interface";
-
+import { USER_ROLES } from "../utils/constant";
 const ObjectId = Schema.Types.ObjectId;
 const UserSchema: Schema = new Schema(
   {
@@ -81,19 +81,13 @@ const UserSchema: Schema = new Schema(
     registrationDate: {
       type: String,
     },
-    // role: {
-    //   type: ObjectId,
-    //   ref: "Role",
-    // },
-    dt_added: {
-      type: Date,
-      default: new Date(),
-    },
-    dt_upd: {
-      type: Date,
+    role: {
+      type: Number,
+      enum: USER_ROLES,
+      default: 1,
     },
   },
-  { versionKey: false }
+  { timestamps: true, versionKey: false }
 );
 
 export const UserModel = model<User & Document>("User", UserSchema, "Users");

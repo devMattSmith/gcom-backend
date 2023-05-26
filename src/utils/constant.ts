@@ -9,3 +9,7 @@ export enum PRIORITY {
   LOW = 2,
   MEDIUM = 3,
 }
+export enum USER_ROLES {
+  USER = 1,
+  ADMIN = 2,
+}

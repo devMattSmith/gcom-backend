@@ -6,7 +6,7 @@ import { ReviewsModel } from "@models/reviews.model";
 
 @Service()
 export class ReviewsService {
-  public async findAllReviews(): Promise<Reviews[]> {
+  public async findAllReviews(skip: number, limit: number): Promise<Reviews[]> {
     const reviews: Reviews[] = await ReviewsModel.aggregate([
       {
         $lookup: {
@@ -17,7 +17,7 @@ export class ReviewsService {
         },
       },
       {
-        $unwind: { path: "$user", preserveNullAndEmptyArrays: false },
+        $unwind: { path: "$user", preserveNullAndEmptyArrays: true },
       },
       {
         $lookup: {
@@ -28,7 +28,7 @@ export class ReviewsService {
         },
       },
       {
-        $unwind: { path: "$course", preserveNullAndEmptyArrays: false },
+        $unwind: { path: "$course", preserveNullAndEmptyArrays: true },
       },
       {
         $project: {
@@ -42,10 +42,15 @@ export class ReviewsService {
           reviewDate: "$dt_added",
         },
       },
+      { $skip: skip },
+      { $limit: limit },
     ]);
     return reviews;
   }
-
+  public async countAllUser(): Promise<number> {
+    const reviews: number = await ReviewsModel.count();
+    return reviews;
+  }
   public async findReviewById(reviewId: string): Promise<Reviews> {
     const findReviews: Reviews = await ReviewsModel.findOne({ _id: reviewId });
     if (!findReviews) throw new HttpException(409, "review doesn't exist");

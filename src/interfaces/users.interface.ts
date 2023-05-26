@@ -23,9 +23,7 @@ export interface User {
   intrest: String;
   status: Boolean;
   registrationDate: String;
-  role: String;
-  dt_added: Date;
-  dt_upd: Date;
+  role: Number;
 }
 export interface UserList {
   data: [User];

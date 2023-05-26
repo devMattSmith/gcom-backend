@@ -4,6 +4,4 @@ export interface Pages {
   desription: String;
   isDelete: Boolean;
   status: Boolean;
-  dt_added: Date;
-  dt_upd: Date;
 }
