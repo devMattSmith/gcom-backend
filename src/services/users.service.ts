@@ -16,7 +16,7 @@ export class UserService {
       { name: { $regex: search } },
       { verification: 0, password: 0 }
     )
-
+      .populate("country", "name")
       .skip(skip)
       .limit(limit)
       .sort({ dt_added: -1 })

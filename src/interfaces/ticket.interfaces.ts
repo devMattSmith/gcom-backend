@@ -10,3 +10,13 @@ export interface Ticket {
   priority: number;
   status: Boolean;
 }
+export interface TicketCountAPI {
+  totalTicketCount: number;
+  totalTicketPercentage: String;
+  totalPendingTicketCount: number;
+  allPendingTicketPercentage: String;
+  totalCloseTicketCount: number;
+  allCloseTicketPercentage: String;
+  totalDeleteTicketCount: number;
+  allDeleteTicketPercentage: String;
+}

@@ -16,7 +16,9 @@ export class CategoryService {
   }
 
   public async findCategoryById(categoryId: string): Promise<Category> {
-    const findCategory: Category = await CategoryModel.findOne({ _id: categoryId });
+    const findCategory: Category = await CategoryModel.findOne({
+      _id: categoryId,
+    });
     if (!findCategory) throw new HttpException(409, "Category doesn't exist");
 
     return findCategory;

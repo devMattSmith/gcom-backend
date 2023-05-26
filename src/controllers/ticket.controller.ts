@@ -1,8 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import { Container } from "typedi";
-import { Ticket } from "@/interfaces/ticket.interfaces";
+import { Ticket, TicketCountAPI } from "@/interfaces/ticket.interfaces";
 import { TicketService } from "@/services/ticket.service";
 import { DATATABLE } from "@config";
+import { STATUS } from "../utils/constant";
 export class TicketController {
   public ticket = Container.get(TicketService);
 
@@ -36,8 +37,8 @@ export class TicketController {
       next(error);
     }
   };
-  public percentage = async (percent: number, total: number) => {
-    return ((percent / total) * 100).toFixed(2);
+  public percentage = async (currentMonth: number, oldMonth: number) => {
+    return (((currentMonth - oldMonth) / oldMonth) * 100).toFixed(2);
   };
   public getTicketCountById = async (
     req: Request,
@@ -45,15 +46,89 @@ export class TicketController {
     next: NextFunction
   ) => {
     try {
-      const curentMonthCount = await this.ticket.countAllCurrentMonth({
+      /* all tickets */
+      const curentMonthAllCount = await this.ticket.countAllCurrentMonth({
         isDelete: false,
       });
-      const prevMonthCount = await this.ticket.countAllPrevMonth({
+      const prevMonthAllCount = await this.ticket.countAllPrevMonth({
         isDelete: false,
       });
-      console.log(curentMonthCount, prevMonthCount);
-      console.log(this.percentage(1, 5));
-      res.status(200).json({ data: "cxc", message: "findOne" });
+      const totalTicketCount = await this.ticket.countAllTickets({
+        isdelete: false,
+      });
+      const totalTicketPercentage = await this.percentage(
+        curentMonthAllCount,
+        prevMonthAllCount
+      );
+
+      /* ------- */
+      /* pending */
+      const curentMonthAllPendingCount = await this.ticket.countAllCurrentMonth(
+        {
+          isDelete: false,
+          status: STATUS.INPROGRESS,
+        }
+      );
+      const prevMonthAllPendingCount = await this.ticket.countAllPrevMonth({
+        isDelete: false,
+        status: STATUS.INPROGRESS,
+      });
+      const totalPendingTicketCount = await this.ticket.countAllTickets({
+        isDelete: false,
+        status: STATUS.INPROGRESS,
+      });
+      const allPendingTicketPercentage = await this.percentage(
+        curentMonthAllPendingCount,
+        prevMonthAllPendingCount
+      );
+      /* ------- */
+
+      /* close */
+      const curentMonthAllCloseCount = await this.ticket.countAllCurrentMonth({
+        isDelete: false,
+        status: STATUS.CLOSED,
+      });
+      const prevMonthAllCloseCount = await this.ticket.countAllPrevMonth({
+        isDelete: false,
+        status: STATUS.CLOSED,
+      });
+      const totalCloseTicketCount = await this.ticket.countAllTickets({
+        isDelete: false,
+        status: STATUS.CLOSED,
+      });
+      const allCloseTicketPercentage = await this.percentage(
+        curentMonthAllCloseCount,
+        prevMonthAllCloseCount
+      );
+      /* ------- */
+
+      /* delete */
+      const curentMonthAllDeleteCount = await this.ticket.countAllCurrentMonth({
+        isDelete: true,
+      });
+      const prevMonthAllDeleteCount = await this.ticket.countAllPrevMonth({
+        isDelete: true,
+      });
+      const totalDeleteTicketCount = await this.ticket.countAllTickets({
+        isDelete: true,
+      });
+      const allDeleteTicketPercentage = await this.percentage(
+        curentMonthAllDeleteCount,
+        prevMonthAllDeleteCount
+      );
+      /* ------- */
+      let tickeCountData: TicketCountAPI = {
+        totalTicketCount,
+        totalTicketPercentage,
+        totalPendingTicketCount,
+        allPendingTicketPercentage,
+        totalCloseTicketCount,
+        allCloseTicketPercentage,
+        totalDeleteTicketCount,
+        allDeleteTicketPercentage,
+      };
+
+      res.status(200).json({ data: tickeCountData, message: "findOne" });
     } catch (error) {
       next(error);
     }

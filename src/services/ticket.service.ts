@@ -38,8 +38,8 @@ export class TicketService {
     return ticket;
   }
 
-  public async countAllTickets(): Promise<number> {
-    const ticket: number = await TicketModel.count();
+  public async countAllTickets(condition: object): Promise<number> {
+    const ticket: number = await TicketModel.count(condition);
     return ticket;
   }
 

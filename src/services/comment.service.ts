@@ -71,16 +71,16 @@ export class CommentService {
     return createCommentData;
   }
   public async updateComment(
-    helpSupportId: string,
-    helpSupportData: Comment
+    commentId: string,
+    commentData: Comment
   ): Promise<Comment> {
-    const updateHelpSupportById: Comment = await CommentModel.findByIdAndUpdate(
-      helpSupportId,
-      { $push: { replies: { $each: helpSupportData } } },
+    const updateCommentById: Comment = await CommentModel.findByIdAndUpdate(
+      commentId,
+      { $push: { replies: { $each: commentData } } },
       { new: true }
     );
-    if (!updateHelpSupportById)
+    if (!updateCommentById)
       throw new HttpException(409, "comment doesn't exist");
-    return updateHelpSupportById;
+    return updateCommentById;
   }
 }
