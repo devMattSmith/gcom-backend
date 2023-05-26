@@ -8,6 +8,7 @@ import { ReviewRoute } from "@routes/reviews.route";
 import { RoleRoute } from "@routes/role.route";
 import { CountryRoute } from "@routes/country.route";
 import { ValidateEnv } from "@utils/validateEnv";
+import { CourseRoute } from "./routes/course.route";
 
 ValidateEnv();
 
@@ -20,6 +21,7 @@ const app = new App([
   new ReviewRoute(),
   new RoleRoute(),
   new CountryRoute(),
+  new CourseRoute()
 ]);
 
 app.listen();
