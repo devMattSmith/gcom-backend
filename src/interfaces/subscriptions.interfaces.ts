@@ -4,6 +4,4 @@ export interface Country {
   code: String;
   isDelete: Boolean;
   status: Boolean;
-  dt_added: Date;
-  dt_upd: Date;
 }

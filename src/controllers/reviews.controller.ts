@@ -17,7 +17,7 @@ export class ReviewsController {
       skip = skip ? Number(skip) : DATATABLE.skip;
       limit = limit ? Number(limit) : DATATABLE.limit;
 
-      const count = await this.reviews.countAllReviews();
+      const count = await this.reviews.countAllUser();
       const findAllReviewsData: Reviews[] = await this.reviews.findAllReviews(
         skip,
         limit

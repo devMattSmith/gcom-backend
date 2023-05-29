@@ -18,15 +18,8 @@ const CategorySchema: Schema = new Schema(
     image: {
       type: String,
     },
-    dt_added: {
-      type: Date,
-      default: new Date(),
-    },
-    dt_upd: {
-      type: Date,
-    },
   },
-  { versionKey: false }
+  { timestamps: true, versionKey: false }
 );
 
 export const CategoryModel = model<Category & Document>(

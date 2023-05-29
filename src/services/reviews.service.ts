@@ -6,20 +6,54 @@ import { ReviewsModel } from "@models/reviews.model";
 
 @Service()
 export class ReviewsService {
-  public async findAllReviews(): Promise<Reviews[]> {
-    const reviews: Reviews[] = await ReviewsModel.find();
+  public async findAllReviews(skip: number, limit: number): Promise<Reviews[]> {
+    const reviews: Reviews[] = await ReviewsModel.aggregate([
+      {
+        $lookup: {
+          from: "Users",
+          localField: "userId",
+          foreignField: "_id",
+          as: "user",
+        },
+      },
+      {
+        $unwind: { path: "$user", preserveNullAndEmptyArrays: true },
+      },
+      {
+        $lookup: {
+          from: "Course",
+          localField: "courseId",
+          foreignField: "_id",
+          as: "course",
+        },
+      },
+      {
+        $unwind: { path: "$course", preserveNullAndEmptyArrays: true },
+      },
+      {
+        $project: {
+          _id: 1,
+          comment: 1,
+          rating: 1,
+          status: 1,
+          username: "$user.name",
+          coursename: "$course.name",
+          description: 1,
+          reviewDate: "$dt_added",
+        },
+      },
+      { $skip: skip },
+      { $limit: limit },
+    ]);
     return reviews;
   }
-
-  public async countAllReviews(): Promise<number> {
+  public async countAllUser(): Promise<number> {
     const reviews: number = await ReviewsModel.count();
     return reviews;
   }
-
   public async findReviewById(reviewId: string): Promise<Reviews> {
     const findReviews: Reviews = await ReviewsModel.findOne({ _id: reviewId });
     if (!findReviews) throw new HttpException(409, "review doesn't exist");
-
     return findReviews;
   }
 

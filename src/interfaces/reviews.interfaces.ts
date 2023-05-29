@@ -6,6 +6,4 @@ export interface Reviews {
   description: String;
   rating: Number;
   status: Boolean;
-  dt_added: Date;
-  dt_upd: Date;
 }
