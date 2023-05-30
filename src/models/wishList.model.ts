@@ -9,12 +9,12 @@ const WishListSchema: Schema = new Schema(
     },
     categoryId: {
       type: ObjectId,
-      ref: "User",
+      ref: "Category",
     },
     courseId: [
       {
         type: ObjectId,
-        ref: "User",
+        ref: "Courses",
       },
     ],
     isDelete: {

@@ -86,6 +86,12 @@ const UserSchema: Schema = new Schema(
       enum: USER_ROLES,
       default: 1,
     },
+    wishlist: [
+      {
+        type: ObjectId,
+        ref: "Courses",
+      },
+    ],
   },
   { timestamps: true, versionKey: false }
 );
