@@ -10,30 +10,6 @@ export class WishListService {
       {
         $match: { _id: new Types.ObjectId(userId) },
       },
-      // {
-      //   $lookup: {
-      //     from: "Users",
-      //     localField: "userId",
-      //     foreignField: "_id",
-      //     pipeline: [{ $project: { name: 1 } }],
-      //     as: "user",
-      //   },
-      // },
-      // {
-      //   $unwind: { path: "$user", preserveNullAndEmptyArrays: true },
-      // },
-      // {
-      //   $lookup: {
-      //     from: "Category",
-      //     localField: "categoryId",
-      //     foreignField: "_id",
-      //     pipeline: [{ $project: { name: 1 } }],
-      //     as: "category",
-      //   },
-      // },
-      // {
-      //   $unwind: { path: "$category", preserveNullAndEmptyArrays: true },
-      // },
       {
         $lookup: {
           from: "Courses",
