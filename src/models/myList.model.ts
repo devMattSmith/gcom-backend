@@ -1,15 +1,12 @@
 import { model, Schema, Document } from "mongoose";
-import { WishList } from "@interfaces/wishList.interfaces";
+import { MyList } from "@interfaces/myList.interfaces";
 const ObjectId = Schema.Types.ObjectId;
-const WishListSchema: Schema = new Schema(
+const MyListSchema: Schema = new Schema(
   {
+    name: String,
     userId: {
       type: ObjectId,
       ref: "User",
-    },
-    categoryId: {
-      type: ObjectId,
-      ref: "Category",
     },
     courseId: [
       {
@@ -25,8 +22,8 @@ const WishListSchema: Schema = new Schema(
   { timestamps: true, versionKey: false }
 );
 
-export const WishListModel = model<WishList & Document>(
-  "WishList",
-  WishListSchema,
-  "WishList"
+export const MyListModel = model<MyList & Document>(
+  "MyList",
+  MyListSchema,
+  "MyList"
 );

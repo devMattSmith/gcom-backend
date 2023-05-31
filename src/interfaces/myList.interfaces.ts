@@ -1,4 +1,4 @@
-export interface WishList {
+export interface MyList {
   _id?: string;
   userId: String;
   name: String;

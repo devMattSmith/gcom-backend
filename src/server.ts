@@ -11,6 +11,7 @@ import { CommentRoute } from "@routes/comment.route";
 import { ValidateEnv } from "@utils/validateEnv";
 import { CourseRoute } from "./routes/course.route";
 import { WishListRoute } from "./routes/wishList.route";
+import { MyListRoute } from "./routes/myList.route";
 
 ValidateEnv();
 
@@ -26,6 +27,7 @@ const app = new App([
   new CourseRoute(),
   new CommentRoute(),
   new WishListRoute(),
+  new MyListRoute(),
 ]);
 
 app.listen();
