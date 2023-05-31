@@ -14,12 +14,13 @@ export class WishListRoute implements Routes {
   }
 
   private initializeRoutes() {
-    this.router.post(`${this.path}`, this.wishList.getWishList);
+    this.router.get(`${this.path}/:id`, this.wishList.getWishList);
+    this.router.post(`${this.path}/removeCourse`, this.wishList.removeCourse);
 
     this.router.post(
       `${this.path}/create`,
       ValidationMiddleware(CreateWishListDto, true),
-      this.wishList.createWishList
+      this.wishList.updateuserWishList
     );
   }
 }

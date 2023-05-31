@@ -69,9 +69,13 @@ export class UserService {
       userData = { ...userData, password: hashedPassword };
     }
 
-    const updateUserById: User = await UserModel.findByIdAndUpdate(userId, {
-      userData,
-    });
+    const updateUserById: User = await UserModel.findByIdAndUpdate(
+      userId,
+      {
+        ...userData,
+      },
+      { new: true }
+    );
     if (!updateUserById) throw new HttpException(409, "User doesn't exist");
 
     return updateUserById;
