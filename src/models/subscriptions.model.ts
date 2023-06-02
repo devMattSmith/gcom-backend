@@ -1,9 +1,9 @@
 import { model, Schema, Document } from "mongoose";
-import { Category } from "@interfaces/category.interfaces";
-
+import { Subscriptions } from "@interfaces/subscriptions.interfaces";
+import { PLAN_TYPE } from "../utils/constant";
 const SubscriptionsSchema: Schema = new Schema(
   {
-    name: {
+    title: {
       type: String,
       required: true,
     },
@@ -18,11 +18,25 @@ const SubscriptionsSchema: Schema = new Schema(
     image: {
       type: String,
     },
+    description: {
+      type: String,
+    },
+    planType: {
+      type: Number,
+      enum: PLAN_TYPE,
+      default: 1,
+    },
+    amount: {
+      type: Number,
+    },
+    planId: {
+      type: String,
+    },
   },
   { timestamps: true, versionKey: false }
 );
 
-export const CategoryModel = model<Category & Document>(
+export const SubscriptionsModel = model<Subscriptions & Document>(
   "Subscriptions",
   SubscriptionsSchema,
   "Subscriptions"

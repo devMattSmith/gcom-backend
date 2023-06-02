@@ -15,10 +15,20 @@ export class ReviewRoute implements Routes {
 
   private initializeRoutes() {
     this.router.post(`${this.path}`, AuthMiddleware, this.reviews.getReviews);
+    // this.router.get(
+    //   `${this.path}/:id`,
+    //   AuthMiddleware,
+    //   this.reviews.getReviewById
+    // );
+    // this.router.get(
+    //   `${this.path}/:id`,
+    //   AuthMiddleware,
+    //   this.reviews.getReviewById
+    // );
     this.router.get(
       `${this.path}/:id`,
-      AuthMiddleware,
-      this.reviews.getReviewById
+      // AuthMiddleware,
+      this.reviews.getReviewByUserId
     );
     this.router.post(
       `${this.path}/create`,

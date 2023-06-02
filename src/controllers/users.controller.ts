@@ -8,7 +8,7 @@ export class UserController {
 
   public getUsers = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      let { skip, limit, search } = req.body;
+      let { skip, limit, search, status, startDate, endDate } = req.body;
 
       skip = skip ? Number(skip) : DATATABLE.skip;
       limit = limit ? Number(limit) : DATATABLE.limit;
@@ -17,12 +17,13 @@ export class UserController {
       const findAllUsersData: User[] = await this.user.findAllUser(
         search,
         skip,
-        limit
+        limit,
+        status,
+        startDate,
+        endDate
       );
 
-      res
-        .status(200)
-        .json({ data: findAllUsersData, count, message: "findAll" });
+      res.status(200).json({ data: findAllUsersData, message: "findAll" });
     } catch (error) {
       next(error);
     }
