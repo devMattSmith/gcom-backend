@@ -17,7 +17,7 @@ export class CategoryRoute implements Routes {
   private initializeRoutes() {
     this.router.post(
       `${this.path}`,
-      AuthMiddleware,
+      // AuthMiddleware,
       this.category.getCategories
     );
     this.router.get(
