@@ -3,25 +3,93 @@ import { Service } from "typedi";
 import { HttpException } from "@exceptions/httpException";
 import { User } from "@interfaces/users.interface";
 import { UserModel } from "@models/users.model";
-
+import { Types } from "mongoose";
 @Service()
 export class UserService {
   public async findAllUser(
     search: string,
     skip: number,
-    limit: number
-    // sort: string
+    limit: number,
+    status: string,
+    startDate: string,
+    endDate: string
   ): Promise<User[]> {
-    const users: User[] = await UserModel.find(
-      { name: { $regex: search } },
-      { verification: 0, password: 0 }
-    )
-      .populate("country", "name")
-      .skip(skip)
-      .limit(limit)
-      .sort({ dt_added: -1 })
-      .lean()
-      .exec();
+    var conditions = {};
+    var and_clauses = [];
+    if (status !== "") {
+      and_clauses.push({
+        status: status,
+      });
+    }
+    and_clauses.push({
+      role: 1,
+    });
+    if (startDate && startDate != "" && endDate && endDate != "") {
+      and_clauses.push({
+        createdAt: {
+          $gte: new Date(startDate),
+          $lt: new Date(endDate),
+        },
+      });
+    }
+    if (search && search != "") {
+      and_clauses.push({
+        $or: [
+          {
+            name: {
+              $regex: "^" + search,
+              $options: "i",
+            },
+          },
+          {
+            email: {
+              $regex: "^" + search,
+              $options: "i",
+            },
+          },
+          {
+            phoneNumber: {
+              $regex: "^" + search,
+              $options: "i",
+            },
+          },
+        ],
+      });
+    }
+
+    conditions["$and"] = and_clauses;
+    const users: User[] = await UserModel.aggregate([
+      {
+        $match: conditions,
+      },
+      {
+        $lookup: {
+          from: "Country",
+          localField: "country",
+          foreignField: "_id",
+          as: "country",
+        },
+      },
+      {
+        $unwind: { path: "$country", preserveNullAndEmptyArrays: true },
+      },
+      {
+        $group: {
+          _id: "$_id",
+          name: { $first: "$name" },
+          email: { $first: "$email" },
+          phoneNumber: { $first: "$phoneNumber" },
+          status: { $first: "$status" },
+          city: { $first: "$city" },
+          state: { $first: "$state" },
+          thumbnail: { $first: "$thumbnail" },
+          country: { $first: "$country.name" },
+          createdAt: { $first: "$createdAt" },
+        },
+      },
+      { $skip: skip },
+      { $limit: limit },
+    ]);
 
     return users;
   }
@@ -30,8 +98,64 @@ export class UserService {
     return users;
   }
 
-  public async findUserById(userId: string): Promise<User> {
-    const findUser: User = await UserModel.findOne({ _id: userId });
+  public async findUserById(userId: string): Promise<any> {
+    // const findUser: User = await UserModel.findOne({ _id: userId });
+    const findUser: User[] = await UserModel.aggregate([
+      {
+        $match: { _id: new Types.ObjectId(userId) },
+      },
+      {
+        $lookup: {
+          from: "Courses",
+          localField: "courses",
+          foreignField: "_id",
+          as: "courses",
+        },
+      },
+      {
+        $unwind: { path: "$courses", preserveNullAndEmptyArrays: true },
+      },
+      {
+        $lookup: {
+          from: "Subscriptions",
+          localField: "subscriptions",
+          foreignField: "_id",
+          as: "subscriptions",
+        },
+      },
+      {
+        $unwind: { path: "$subscriptions", preserveNullAndEmptyArrays: true },
+      },
+      {
+        $lookup: {
+          from: "Country",
+          localField: "country",
+          foreignField: "_id",
+          as: "country",
+        },
+      },
+      {
+        $unwind: { path: "$country", preserveNullAndEmptyArrays: true },
+      },
+      {
+        $group: {
+          _id: "$_id",
+          name: { $first: "$name" },
+          email: { $first: "$email" },
+          phoneNumber: { $first: "$phoneNumber" },
+          status: { $first: "$status" },
+          intrest: { $first: "$intrest" },
+          about: { $first: "$about" },
+          city: { $first: "$city" },
+          state: { $first: "$state" },
+          thumbnail: { $first: "$thumbnail" },
+          country: { $first: "$country.name" },
+          createdAt: { $first: "$createdAt" },
+          subscriptions: { $push: "$subscriptions" },
+          courses: { $push: "$courses" },
+        },
+      },
+    ]);
     if (!findUser) throw new HttpException(409, "User doesn't exist");
 
     return findUser;

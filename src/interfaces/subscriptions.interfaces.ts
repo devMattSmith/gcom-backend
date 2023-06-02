@@ -1,7 +1,11 @@
-export interface Country {
+export interface Subscriptions {
   _id?: String;
-  name: String;
-  code: String;
+  title: String;
+  image: String;
+  description: String;
+  planType: Number;
+  amount: Number;
   isDelete: Boolean;
   status: Boolean;
+  planId: String;
 }

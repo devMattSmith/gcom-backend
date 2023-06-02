@@ -12,7 +12,7 @@ const createToken = (user: User): TokenData => {
     _id: user._id,
     role: user.role,
   };
-  const expiresIn: number = 60 * 60;
+  const expiresIn: number = 60 * 60 * 24;
 
   return {
     expiresIn,

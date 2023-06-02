@@ -22,7 +22,7 @@ export class CategoryRoute implements Routes {
     );
     this.router.get(
       `${this.path}/:id`,
-      AuthMiddleware,
+      // AuthMiddleware,
       this.category.getCategoryById
     );
     this.router.post(

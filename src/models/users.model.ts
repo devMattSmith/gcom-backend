@@ -68,7 +68,7 @@ const UserSchema: Schema = new Schema(
     thumbnail: {
       type: String,
     },
-    description: {
+    about: {
       type: String,
     },
     intrest: {
@@ -78,9 +78,21 @@ const UserSchema: Schema = new Schema(
       type: Boolean,
       default: true,
     },
-    registrationDate: {
-      type: String,
-    },
+    // registrationDate: {
+    //   type: String,
+    // },
+    subscriptions: [
+      {
+        type: ObjectId,
+        ref: "Subscriptions",
+      },
+    ],
+    courses: [
+      {
+        type: ObjectId,
+        ref: "Courses",
+      },
+    ],
     role: {
       type: Number,
       enum: USER_ROLES,

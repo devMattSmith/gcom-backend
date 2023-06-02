@@ -13,3 +13,8 @@ export enum USER_ROLES {
   USER = 1,
   ADMIN = 2,
 }
+
+export enum PLAN_TYPE {
+  YEARLY = 1,
+  MONTHLY = 2,
+}
