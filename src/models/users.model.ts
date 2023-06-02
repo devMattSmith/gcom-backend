@@ -78,9 +78,9 @@ const UserSchema: Schema = new Schema(
       type: Boolean,
       default: true,
     },
-    // registrationDate: {
-    //   type: String,
-    // },
+    registrationDate: {
+      type: String,
+    },
     subscriptions: [
       {
         type: ObjectId,

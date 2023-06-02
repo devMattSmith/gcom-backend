@@ -90,7 +90,15 @@ export class UserService {
       { $skip: skip },
       { $limit: limit },
     ]);
-
+    console.log(
+      "test------------>>>",
+      search,
+      skip,
+      limit,
+      status,
+      startDate,
+      endDate
+    );
     return users;
   }
   public async countAllUser(): Promise<number> {
