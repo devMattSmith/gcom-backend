@@ -17,4 +17,34 @@ export interface Course {
   country_id?: number;
   discount_percent?: Number;
   is_disable?: Boolean;
+  general_info?:GeneralInfo;
+  meta?:Meta,
+  module?:CourseModule
+}
+
+
+export interface Chapter {
+  id?:string,
+  name?:string,
+  banner?:string,
+  description?:any,
+  video?:string
+}
+
+export interface CourseModule{
+  id?:string,
+  name?:string,
+  chapter?:Chapter
+}
+
+export interface GeneralInfo {
+  instructor_name?:string,
+  price?:number,
+  discout?:number
+}
+
+export interface Meta {
+  title?:string,
+  keywoards?:string,
+  description?:string
 }

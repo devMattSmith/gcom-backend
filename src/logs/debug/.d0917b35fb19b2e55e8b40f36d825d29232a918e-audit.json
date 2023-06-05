@@ -9,6 +9,11 @@
             "date": 1684398999237,
             "name": "/Users/suryaraj/Documents/workspace/gcom-backend/src/logs/debug/2023-05-18.log",
             "hash": "106d8007a653a796cf4c6c153f66c73eb59fe5b9bdc78b98b7874c5805bde347"
+        },
+        {
+            "date": 1685005645475,
+            "name": "/Users/suryaraj/Documents/workspace/gcom-backend/src/logs/debug/2023-05-25.log",
+            "hash": "81acca4bc9126d4a4adf796a1e8bc90d6613c1ed21ca1cf71fffe8498326230b"
         }
     ],
     "hashType": "sha256"

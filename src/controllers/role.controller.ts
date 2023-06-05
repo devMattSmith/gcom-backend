@@ -1,94 +1,43 @@
-import { NextFunction, Request, Response } from "express";
-import { Container } from "typedi";
-import { RoleSchema } from "@interfaces/role.interfaces";
-import { RoleService } from "@services/role.service";
-import { DATATABLE } from "@config";
+import { NextFunction, Request, Response } from 'express';
+import { Container } from 'typedi';
+import { RoleService } from '@services/role.service';
 export class RoleController {
   public reviews = Container.get(RoleService);
 
   public getRoles = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const count = await this.reviews.countAllRoles();
-      const findAllHelpSupportData: RoleSchema[] =
-        await this.reviews.findAllRoles();
-
-      res
-        .status(200)
-        .json({ data: findAllHelpSupportData, count, message: "findAll" });
+      const getAllRoles = await this.reviews.getAll();
+      res.status(200).json({ data: getAllRoles, message: 'findAll' });
     } catch (error) {
       next(error);
     }
   };
 
-  public getRoleById = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) => {
+  public createRole = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const helpSupportId: string = req.params.id;
-      const findOneHelpSupportData: RoleSchema =
-        await this.reviews.findRoleById(helpSupportId);
-
-      res
-        .status(200)
-        .json({ data: findOneHelpSupportData, message: "findOne" });
+      const role = await this.reviews.create(req.body);
+      res.status(201).json({ data: role, message: 'created' });
     } catch (error) {
       next(error);
     }
   };
 
-  public createRole = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) => {
+  public updateRole = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const pageData: RoleSchema = req.body;
-
-      const createHelpSupportData: RoleSchema = await this.reviews.createRole(
-        pageData
-      );
-
-      res.status(201).json({ data: createHelpSupportData, message: "created" });
+      console.info(req.body)
+      const role = await this.reviews.update(req.body);
+      res.status(200).json({ data: role, message: 'updated' });
     } catch (error) {
       next(error);
     }
   };
 
-  public updateRole = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) => {
+  public getByRole = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const reviewId: string = req.params.id;
-      const reviewData: RoleSchema = req.body;
-      const updateHelpSupportData: RoleSchema = await this.reviews.updateRole(
-        reviewId,
-        reviewData
-      );
-
-      res.status(200).json({ data: updateHelpSupportData, message: "updated" });
-    } catch (error) {
-      next(error);
-    }
-  };
-
-  public deleteRole = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) => {
-    try {
-      const helpSupportId: string = req.params.id;
-      const deleteHelpSupportData: RoleSchema = await this.reviews.deleteRole(
-        helpSupportId
-      );
-
-      res.status(200).json({ data: deleteHelpSupportData, message: "deleted" });
-    } catch (error) {
-      next(error);
+      const role = await this.reviews.getByRole(req.params.id);
+      res.status(200).json({ data: role, message: 'findOne' });
+    } catch (err) {
+      next(err);
     }
   };
 }

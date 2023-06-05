@@ -19,19 +19,17 @@ export class CourseService {
     return course;
   }
 
-
-  public async createCourse(coursePaylaod:Course): Promise<Course>{
-    try{
-        const newCourse = new CourseModel(coursePaylaod);
-    await newCourse.save()
-    return newCourse
-    }catch(err){
-        throw new Error(err)
+  public async createCourse(coursePaylaod: any): Promise<Course> {
+    try {
+      const newCourse = new CourseModel(coursePaylaod);
+      await newCourse.save();
+      return newCourse;
+    } catch (err) {
+      throw new Error(err);
     }
-    
   }
 
-  public async updateCourse(courseId: string, CourseData: Course): Promise<Course> {
+  public async updateCourse(courseId: string, CourseData: any): Promise<Course> {
     const course = await CourseModel.findById(courseId);
     if (!course) {
       throw new HttpException(400, 'Invalid Course Id');

@@ -1,5 +1,5 @@
-import { model, Schema, Document } from "mongoose";
-import { Course } from "@interfaces/course.interfaces";
+import { Course } from '@interfaces/course.interfaces';
+import { Document, Schema, SchemaTypes, model } from 'mongoose';
 
 const CourseSchema: Schema = new Schema(
   {
@@ -7,65 +7,83 @@ const CourseSchema: Schema = new Schema(
       type: String,
       required: true,
     },
-    category_id:{
-      type: String
-    },
-    watch_sample:{
+    category_id: {
       type: String,
-      default:null
     },
-    course_description:{
+    watch_sample: {
       type: String,
-      default:null
+      default: null,
     },
-    uploader:{
+    course_description: {
+      type: Schema.Types.Mixed,
+      default: null,
+    },
+    uploader: {
       type: String,
-      default:null
+      default: null,
     },
-    videos:{
+    videos: {
+      type: Schema.Types.Mixed,
+      default: null,
+    },
+    sampleVideo: {
       type: String,
-      default:null
     },
-    sampleVideo:{
-      type: String
+    trailerVideo: {
+      type: String,
     },
-    trailerVideo:{
-      type: String
+    price: {
+      type: String,
     },
-    price:{
-      type: String
+    viewCount: {
+      type: String,
     },
-    viewCount:{
-      type: String
+    tunmbnailImg: {
+      type: String,
     },
-    tunmbnailImg:{
-      type: String
+    language_id: {
+      type: String,
     },
-    language_id:{
-      type: String
+    country_id: {
+      type: String,
     },
-    country_id:{
-      type: String
+    discount_percent: {
+      type: String,
     },
-    discount_percent:{
-      type: String
-    },
-    is_disable:{
-      type: String
+    is_disable: {
+      type: String,
     },
     status: {
       type: Boolean,
       default: false,
     },
     image: {
-      type: String,
+      type: Schema.Types.Mixed,
+      default: null,
     },
+    metadata: {
+      type: Schema.Types.Mixed,
+      default: null,
+    },
+    tags: {
+      type: Schema.Types.Mixed,
+      default: null,
+    },
+    generalInfo: {
+      type: Schema.Types.Mixed,
+    },
+    meta: {
+      type: Schema.Types.Mixed,
+      default: null,
+    },
+    module: [
+      {
+        type: SchemaTypes.ObjectId,
+        ref: 'courseModule',
+      },
+    ],
   },
-  { timestamps: true, versionKey: false }
+  { timestamps: true, versionKey: false },
 );
 
-export const CourseModel = model<Course & Document>(
-  "Course",
-  CourseSchema,
-  "Courses"
-);
+export const CourseModel = model<Course & Document>('Course', CourseSchema, 'Courses');

@@ -1,13 +1,25 @@
-import {
-  IsEmail,
-  IsString,
-  IsNotEmpty,
-  MinLength,
-  MaxLength,
-} from "class-validator";
+import { IsArray, IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateRoleDto {
-  @IsString()
   @IsNotEmpty()
-  public name: string;
+  role: string;
+
+  @IsNotEmpty()
+  module: string;
+
+  @IsArray()
+  @IsString({ each: true })
+  features?: string[];
+}
+
+export class UpdateRoleDto {
+  @IsNotEmpty()
+  role: string;
+
+  @IsNotEmpty()
+  module: string;
+
+  @IsArray()
+  @IsString({ each: true })
+  features?: string[];
 }
