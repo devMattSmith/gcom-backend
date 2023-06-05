@@ -1,26 +1,42 @@
-import { CourseModule } from '@/interfaces/course.interfaces';
-import { Document, Schema, SchemaTypes, model } from 'mongoose';
+import { CourseModule } from "@/interfaces/course.interfaces";
+import { Document, Schema, SchemaTypes, model } from "mongoose";
+const ObjectId = Schema.Types.ObjectId;
+const ChapterSchema: Schema = new Schema({
+  title: {
+    type: String,
+    required: true,
+  },
+  banner: {
+    type: String,
+  },
+  description: {
+    type: Schema.Types.Mixed,
+  },
+  video: {
+    type: String,
+  },
+});
 
 const ModuleSchema: Schema = new Schema(
   {
-    name: {
+    title: {
       type: String,
       required: true,
     },
-    isDelete: {
-      type: Boolean,
-      default: false,
+    description: {
+      type: String,
     },
-    status: {
-      type: Boolean,
-      default: false,
+    courseId: {
+      type: ObjectId,
+      ref: "Courses",
     },
-    chapter: {
-      type: SchemaTypes.ObjectId,
-      ref: 'chapter',
-    },
+
+    chapter: [ChapterSchema],
   },
-  { timestamps: true, versionKey: false },
+  { timestamps: true, versionKey: false }
 );
 
-export const CourseModuleModel = model<CourseModule & Document>('courseModule', ModuleSchema);
+export const CourseModuleModel = model<CourseModule & Document>(
+  "courseModule",
+  ModuleSchema
+);
