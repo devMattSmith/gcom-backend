@@ -13,7 +13,7 @@ export class CourseRoute implements Routes {
 
   private initializeRoutes() {
     this.router.get(this.path, this.course.getAllCourse);
-    // this.router.get(`${this.path}/:id`, this.course.getCourse);
+    this.router.get(`${this.path}/:id`, this.course.getCourse);
     this.router.post(`${this.path}/create`, this.course.createCourse);
     this.router.post(`${this.path}/addModule`, this.course.createCourseModule);
     this.router.put(`${this.path}/:id/addChapter`, this.course.addChapter);

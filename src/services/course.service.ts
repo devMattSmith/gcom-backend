@@ -4,11 +4,11 @@ import { Course, CourseModule } from "@/interfaces/course.interfaces";
 import { CourseModel } from "@/models/course.model";
 import { CourseModuleModel } from "@/models/courseModule.model";
 import { Service } from "typedi";
-
+import { Types } from "mongoose";
 @Service()
 export class CourseService {
   public async findAllCourses(): Promise<any[]> {
-    const findReviews: any[] = await CourseModel.aggregate([
+    const course: any[] = await CourseModel.aggregate([
       {
         $lookup: {
           from: "Users",
@@ -33,9 +33,6 @@ export class CourseService {
         $unwind: { path: "$category", preserveNullAndEmptyArrays: true },
       },
 
-      // {
-      //   $match: { "user._id": new Types.ObjectId(userId) },
-      // },
       {
         $project: {
           _id: 1,
@@ -51,8 +48,8 @@ export class CourseService {
         },
       },
     ]);
-    if (!findReviews) throw new HttpException(409, "course doesn't exist");
-    return findReviews;
+    if (!course) throw new HttpException(409, "course doesn't exist");
+    return course;
     // return await CourseModel.find();
   }
 
@@ -60,9 +57,68 @@ export class CourseService {
     return await CourseModel.count();
   }
 
-  public async findCourseById(courseId: string): Promise<Course> {
-    const course = await CourseModel.findById(courseId);
-    if (!course) throw new HttpException(409, "Invalid Course");
+  public async findCourseById(courseId: string): Promise<any> {
+    const course: any[] = await CourseModel.aggregate([
+      {
+        $lookup: {
+          from: "Users",
+          localField: "generalInfo.instructorName",
+          foreignField: "_id",
+          as: "user",
+        },
+      },
+      {
+        $unwind: { path: "$user", preserveNullAndEmptyArrays: true },
+      },
+
+      {
+        $lookup: {
+          from: "Category",
+          localField: "category_id",
+          foreignField: "_id",
+          as: "category",
+        },
+      },
+      {
+        $unwind: { path: "$category", preserveNullAndEmptyArrays: true },
+      },
+      {
+        $lookup: {
+          from: "coursemodules",
+          localField: "_id",
+          foreignField: "courseId",
+          as: "courseModule",
+        },
+      },
+      {
+        $unwind: { path: "$courseModule", preserveNullAndEmptyArrays: true },
+      },
+
+      {
+        $match: { _id: new Types.ObjectId(courseId) },
+      },
+      {
+        $group: {
+          _id: "$_id",
+          modules: { $push: "$courseModule" },
+          course_name: { $first: "$course_name" },
+          category: { $first: "$category.name" },
+          duration: { $first: "$duration" },
+          course_description: { $first: "$course_description" },
+          courseBanner: { $first: "$courseBanner" },
+          previewVideo: { $first: "$previewVideo" },
+          generalInfo: { $first: "$generalInfo" },
+          meta: { $first: "$meta" },
+          status: { $first: "$status" },
+          tags: { $first: "$tags" },
+          author: { $first: "$user.name" },
+          learningToolsText: { $first: "$learningToolsText" },
+          learningToolsDoc: { $first: "$learningToolsDoc" },
+          updatedAt: { $first: "$updatedAt" },
+        },
+      },
+    ]);
+    if (!course) throw new HttpException(409, "course doesn't exist");
     return course;
   }
 
@@ -147,7 +203,7 @@ export class CourseService {
     moduleId: string,
     CourseData: any
   ): Promise<CourseModule> {
-    const updateTicket: CourseModule =
+    const updateCourse: CourseModule =
       await CourseModuleModel.findByIdAndUpdate(
         moduleId,
         {
@@ -155,8 +211,8 @@ export class CourseService {
         },
         { new: true }
       );
-    if (!updateTicket) throw new HttpException(409, "module doesn't exist");
-    return updateTicket;
+    if (!updateCourse) throw new HttpException(409, "module doesn't exist");
+    return updateCourse;
   }
 
   public async deleteCourse(courseId: string) {
