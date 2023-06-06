@@ -2,7 +2,7 @@ import Container from "typedi";
 import { CourseService } from "../services/course.service";
 import { RequestWithUser } from "@/interfaces/auth.interface";
 import { NextFunction, Response } from "express";
-
+import { DATATABLE } from "@config";
 export class CourseController {
   public courserService = Container.get(CourseService);
 
@@ -12,7 +12,16 @@ export class CourseController {
     next: NextFunction
   ) => {
     try {
-      const courses = await this.courserService.findAllCourses();
+      let { skip, limit, search, status } = req.body;
+
+      skip = skip ? Number(skip) : DATATABLE.skip;
+      limit = limit ? Number(limit) : DATATABLE.limit;
+      const courses = await this.courserService.findAllCourses(
+        skip,
+        limit,
+        status,
+        search
+      );
       res.status(200).json({ data: courses, message: "findAll" });
     } catch (err) {
       next(err);

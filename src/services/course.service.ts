@@ -7,8 +7,38 @@ import { Service } from "typedi";
 import { Types } from "mongoose";
 @Service()
 export class CourseService {
-  public async findAllCourses(): Promise<any[]> {
+  public async findAllCourses(
+    skip: number,
+    limit: number,
+    status: number,
+    search: string
+  ): Promise<any[]> {
+    var conditions = {};
+    var and_clauses = [{}];
+    if (status) {
+      and_clauses.push({
+        status: status,
+      });
+    }
+
+    if (search && search != "") {
+      and_clauses.push({
+        $or: [
+          {
+            course_name: {
+              $regex: "^" + search,
+              $options: "i",
+            },
+          },
+        ],
+      });
+    }
+
+    conditions["$and"] = and_clauses;
     const course: any[] = await CourseModel.aggregate([
+      {
+        $match: conditions,
+      },
       {
         $lookup: {
           from: "Users",
@@ -45,6 +75,8 @@ export class CourseService {
           subscriptions: "6",
         },
       },
+      { $skip: skip },
+      { $limit: limit },
     ]);
     if (!course) throw new HttpException(409, "course doesn't exist");
     return course;
@@ -235,7 +267,7 @@ export class CourseService {
       if (!course) {
         throw new HttpException(400, "Invalid Course Id");
       }
-      await CourseModel.findByIdAndDelete(courseId);
+      await CourseModuleModel.findByIdAndDelete(courseId);
       return {
         success: true,
         message: `${course.title} Deleted Successfully`,
