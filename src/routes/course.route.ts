@@ -12,18 +12,21 @@ export class CourseRoute implements Routes {
   }
 
   private initializeRoutes() {
-    this.router.get(this.path, AuthMiddleware, this.course.getAllCourse);
-    this.router.get(`${this.path}/:id`, AuthMiddleware, this.course.getCourse);
-    this.router.post(`${this.path}`, AuthMiddleware, this.course.createCourse);
+    this.router.get(this.path, this.course.getAllCourse);
+    this.router.get(`${this.path}/:id`, this.course.getCourse);
+    this.router.post(`${this.path}/create`, this.course.createCourse);
+    this.router.post(`${this.path}/addModule`, this.course.createCourseModule);
+    this.router.put(`${this.path}/:id/addChapter`, this.course.addChapter);
     this.router.put(
-      `${this.path}/:id`,
-      AuthMiddleware,
-      this.course.updateCourse
+      `${this.path}/:id/removeChapter`,
+      this.course.removeChapter
     );
-    this.router.delete(
-      `${this.path}/:id`,
-      AuthMiddleware,
-      this.course.deleteCourse
+    this.router.put(
+      `${this.path}/:id/updateChapter`,
+      this.course.updateChapter
     );
+    this.router.put(`${this.path}/:id/updateModule`, this.course.updateModule);
+    this.router.delete(`${this.path}/:id`, this.course.deleteCourse);
+    this.router.delete(`${this.path}/:id`, this.course.deleteModule);
   }
 }

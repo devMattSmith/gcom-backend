@@ -1,50 +1,44 @@
 export interface Course {
   _id?: string;
-  image?: String;
-  status?: Boolean;
-  course_name?: string;
-  category_id?: number;
-  watch_sample?: string;
-  course_description?: string;
-  uploader?: string;
-  videos?: string;
-  sampleVideo?: string;
-  trailerVideo?: string;
-  price?: number;
-  viewCount?: number;
-  tunmbnailImg?: string;
-  language_id?: number;
-  country_id?: number;
-  discount_percent?: Number;
-  is_disable?: Boolean;
-  general_info?:GeneralInfo;
-  meta?:Meta,
-  module?:CourseModule
+  status: Boolean;
+  course_name: string;
+  category_id: string;
+  duration: string;
+  course_description: string;
+  courseBanner: string;
+  previewVideo: string;
+  meta: Meta;
+  generalInfo: GeneralInfo;
+  tags: string;
+  learningToolsText: string;
+  learningToolsDoc: string;
+  isDeleted: boolean;
 }
-
 
 export interface Chapter {
-  id?:string,
-  name?:string,
-  banner?:string,
-  description?:any,
-  video?:string
+  id?: string;
+  title?: string;
+  banner?: string;
+  description?: any;
+  video?: string;
 }
 
-export interface CourseModule{
-  id?:string,
-  name?:string,
-  chapter?:Chapter
+export interface CourseModule {
+  id?: string;
+  title?: string;
+  description?: string;
+  chapter?: Chapter;
+  courseId: string;
 }
 
 export interface GeneralInfo {
-  instructor_name?:string,
-  price?:number,
-  discout?:number
+  instructorName?: string;
+  price?: number;
+  discount?: number;
 }
 
 export interface Meta {
-  title?:string,
-  keywoards?:string,
-  description?:string
+  title?: string;
+  keywoards?: string;
+  description?: string;
 }
