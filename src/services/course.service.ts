@@ -36,9 +36,9 @@ export class CourseService {
 
     conditions["$and"] = and_clauses;
     const course: any[] = await CourseModel.aggregate([
-      {
-        $match: conditions,
-      },
+      // {
+      //   $match: conditions,
+      // },
       {
         $lookup: {
           from: "Users",
@@ -75,8 +75,8 @@ export class CourseService {
           subscriptions: "6",
         },
       },
-      { $skip: skip },
-      { $limit: limit },
+      // { $skip: skip },
+      // { $limit: limit },
     ]);
     if (!course) throw new HttpException(409, "course doesn't exist");
     return course;
