@@ -20,7 +20,6 @@ export class CourseService {
       {
         $unwind: { path: "$user", preserveNullAndEmptyArrays: true },
       },
-
       {
         $lookup: {
           from: "Category",
@@ -32,7 +31,6 @@ export class CourseService {
       {
         $unwind: { path: "$category", preserveNullAndEmptyArrays: true },
       },
-
       {
         $project: {
           _id: 1,
@@ -70,7 +68,6 @@ export class CourseService {
       {
         $unwind: { path: "$user", preserveNullAndEmptyArrays: true },
       },
-
       {
         $lookup: {
           from: "Category",
@@ -93,7 +90,6 @@ export class CourseService {
       {
         $unwind: { path: "$courseModule", preserveNullAndEmptyArrays: true },
       },
-
       {
         $match: { _id: new Types.ObjectId(courseId) },
       },
@@ -191,13 +187,16 @@ export class CourseService {
     courseId: string,
     CourseData: any
   ): Promise<Course> {
-    const course = await CourseModel.findById(courseId);
-    if (!course) {
-      throw new HttpException(400, "Invalid Course Id");
-    }
-    return await CourseModel.findByIdAndUpdate(courseId, CourseData, {
-      new: true,
-    });
+    const course: Course = await CourseModel.findByIdAndUpdate(
+      courseId,
+      {
+        ...CourseData,
+      },
+      { new: true }
+    );
+    if (!course) throw new HttpException(409, "course doesn't exist");
+
+    return course;
   }
   public async updateModule(
     moduleId: string,
