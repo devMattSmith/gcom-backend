@@ -12,7 +12,7 @@ export class CourseRoute implements Routes {
   }
 
   private initializeRoutes() {
-    this.router.get(this.path, this.course.getAllCourse);
+    this.router.post(this.path, this.course.getAllCourse);
     this.router.get(`${this.path}/:id`, this.course.getCourse);
     this.router.post(`${this.path}/create`, this.course.createCourse);
     this.router.post(`${this.path}/addModule`, this.course.createCourseModule);
@@ -28,6 +28,9 @@ export class CourseRoute implements Routes {
     this.router.put(`${this.path}/:id/updateModule`, this.course.updateModule);
     this.router.put(`${this.path}/:id`, this.course.updateCourse);
     this.router.delete(`${this.path}/:id`, this.course.deleteCourse);
-    this.router.delete(`${this.path}/:id`, this.course.deleteModule);
+    this.router.delete(
+      `${this.path}/:id/moduleDelete`,
+      this.course.deleteModule
+    );
   }
 }
