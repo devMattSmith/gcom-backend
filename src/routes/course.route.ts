@@ -26,6 +26,7 @@ export class CourseRoute implements Routes {
       this.course.updateChapter
     );
     this.router.put(`${this.path}/:id/updateModule`, this.course.updateModule);
+    this.router.put(`${this.path}/:id`, this.course.updateCourse);
     this.router.delete(`${this.path}/:id`, this.course.deleteCourse);
     this.router.delete(`${this.path}/:id`, this.course.deleteModule);
   }
