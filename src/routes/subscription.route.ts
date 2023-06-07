@@ -31,12 +31,12 @@ export class SubscriptionRoute implements Routes {
       AuthMiddleware,
       this.subscription.createSubscription
     );
-    // this.router.put(
-    //   `${this.path}/:id`,
-    //   ValidationMiddleware(CreateCategoryDto, true),
-    //   AuthMiddleware,
-    //   this.category.updateCategory
-    // );
+    this.router.put(
+      `${this.path}/:id`,
+      //ValidationMiddleware(CreateSubscriptionDto, true),
+      AuthMiddleware,
+      this.subscription.updateSubscription
+    );
     this.router.delete(
       `${this.path}/:id`,
       AuthMiddleware,

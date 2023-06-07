@@ -56,25 +56,23 @@ export class SubscriptionController {
     }
   };
 
-  // public updateCategory = async (
-  //   req: Request,
-  //   res: Response,
-  //   next: NextFunction
-  // ) => {
-  //   try {
-  //     const categoryId: string = req.params.id;
-  //     const categoryData: Category = req.body;
+  public updateSubscription = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const categoryId: string = req.params.id;
+      const categoryData: Subscriptions = req.body;
 
-  //     const updateCategoryData: Category = await this.category.updateCategory(
-  //       categoryId,
-  //       categoryData
-  //     );
+      const updateCategoryData: Subscriptions =
+        await this.subscription.updateSubscription(categoryId, categoryData);
 
-  //     res.status(200).json({ data: updateCategoryData, message: "updated" });
-  //   } catch (error) {
-  //     next(error);
-  //   }
-  // };
+      res.status(200).json({ data: updateCategoryData, message: "updated" });
+    } catch (error) {
+      next(error);
+    }
+  };
 
   public deleteSubscription = async (
     req: Request,

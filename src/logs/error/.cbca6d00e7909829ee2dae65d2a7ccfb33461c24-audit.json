@@ -74,6 +74,11 @@
             "date": 1686025739881,
             "name": "D:\\dev\\gcom-backend\\src\\logs\\error\\2023-06-06.log",
             "hash": "99991c9f6491b71a0e99b737504e443eb7be519ef0c34cafffe8ba4712ac32ff"
+        },
+        {
+            "date": 1686111970294,
+            "name": "D:\\dev\\gcom-backend\\src\\logs\\error\\2023-06-07.log",
+            "hash": "d5be80f2358e70ed47d23ff51ed37784cb25e421b4e1516417b6f143df1f7976"
         }
     ],
     "hashType": "sha256"

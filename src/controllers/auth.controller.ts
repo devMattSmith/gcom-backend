@@ -21,9 +21,11 @@ export class AuthController {
   public logIn = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const userData: User = req.body;
-      const { tokenData, findUser, result } = await this.auth.login(userData);
+      const { tokenData, findUser } = await this.auth.login(userData);
 
-      res.status(200).json({ data: result, message: "login" });
+      res
+        .status(200)
+        .json({ data: findUser, token: tokenData, message: "login" });
     } catch (error) {
       next(error);
     }
