@@ -1,9 +1,9 @@
-import { Router } from "express";
 import { SubscriptionController } from "@controllers/subscription.controller";
 import { CreateSubscriptionDto } from "@dtos/subscription.dto";
 import { Routes } from "@interfaces/routes.interface";
+import { AuthMiddleware } from "@middlewares/auth.middleware";
 import { ValidationMiddleware } from "@middlewares/validation.middleware";
-import { isAdmin, AuthMiddleware } from "@middlewares/auth.middleware";
+import { Router } from "express";
 
 export class SubscriptionRoute implements Routes {
   public path = "/api/v1/subscription";
@@ -31,12 +31,12 @@ export class SubscriptionRoute implements Routes {
       AuthMiddleware,
       this.subscription.createSubscription
     );
-    this.router.put(
-      `${this.path}/:id`,
-      //ValidationMiddleware(CreateSubscriptionDto, true),
-      AuthMiddleware,
-      this.subscription.updateSubscription
-    );
+    // this.router.put(
+    //   `${this.path}/:id`,
+    //   ValidationMiddleware(CreateCategoryDto, true),
+    //   AuthMiddleware,
+    //   this.category.updateCategory
+    // );
     this.router.delete(
       `${this.path}/:id`,
       AuthMiddleware,

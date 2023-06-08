@@ -1,5 +1,7 @@
 import { model, Schema, Document } from "mongoose";
 import { HelpSupport } from "@interfaces/helpSupport.interfaces";
+
+// FIX: Remove the dt_added and upd and use timestampseries
 const HelpSupportSchema: Schema = new Schema(
   {
     title: {
@@ -22,16 +24,9 @@ const HelpSupportSchema: Schema = new Schema(
     },
     status: {
       type: String,
-    },
-    dt_added: {
-      type: Date,
-      default: new Date(),
-    },
-    dt_upd: {
-      type: Date,
-    },
+    }
   },
-  { versionKey: false }
+  { timestamps: true,versionKey: false }
 );
 
 export const HelpSupportModel = model<HelpSupport & Document>(

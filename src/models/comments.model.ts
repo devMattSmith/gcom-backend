@@ -1,6 +1,7 @@
-import { model, Schema, Document } from "mongoose";
 import { Comment } from "@interfaces/comment.interfaces";
+import { Document, Schema, model } from "mongoose";
 const ObjectId = Schema.Types.ObjectId;
+// why schema Model Not created
 const replySchema: Schema = new Schema({
   reply: {
     type: String,

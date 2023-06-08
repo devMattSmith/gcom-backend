@@ -43,8 +43,10 @@ export class WishListController {
     next: NextFunction
   ) => {
     try {
-      const removeCourse: WishList[] = req.body;
+      // TODO: Tempary fix  remove the input array to string
+      const removeCourse: WishList = req.body;
 
+      // FIX: Removecourse Function accept string not Array
       const createWishListData: WishList = await this.wishList.removeCourse(
         removeCourse
       );

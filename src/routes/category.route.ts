@@ -1,9 +1,9 @@
-import { Router } from "express";
 import { CategoryController } from "@controllers/category.controller";
 import { CreateCategoryDto } from "@dtos/category.dto";
 import { Routes } from "@interfaces/routes.interface";
+import { AuthMiddleware } from "@middlewares/auth.middleware";
 import { ValidationMiddleware } from "@middlewares/validation.middleware";
-import { isAdmin, AuthMiddleware } from "@middlewares/auth.middleware";
+import { Router } from "express";
 
 export class CategoryRoute implements Routes {
   public path = "/api/v1/category";

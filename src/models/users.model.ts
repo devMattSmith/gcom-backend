@@ -2,6 +2,7 @@ import { model, Schema, Document } from "mongoose";
 import { User } from "@interfaces/users.interface";
 import { USER_ROLES } from "../utils/constant";
 const ObjectId = Schema.Types.ObjectId;
+// Remove the Verification
 const UserSchema: Schema = new Schema(
   {
     email: {
@@ -9,27 +10,19 @@ const UserSchema: Schema = new Schema(
       required: true,
       unique: true,
     },
-    // verification: {
-    //   token: {
-    //     type: String,
-    //     default: "",
-    //   },
-    //   expireTime: {
-    //     type: Date,
-    //     default: null,
-    //   },
-    //   isVerified: {
-    //     type: Boolean,
-    //     default: false,
-    //   },
-    // },
-    isVerified: {
-      type: Boolean,
-      default: false,
-    },
-    isSubscribed: {
-      type: Boolean,
-      default: false,
+    verification: {
+      token: {
+        type: String,
+        default: "",
+      },
+      expireTime: {
+        type: Date,
+        default: null,
+      },
+      isVerified: {
+        type: Boolean,
+        default: false,
+      },
     },
     name: {
       type: String,

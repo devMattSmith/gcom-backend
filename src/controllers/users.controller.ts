@@ -13,6 +13,7 @@ export class UserController {
       skip = skip ? Number(skip) : DATATABLE.skip;
       limit = limit ? Number(limit) : DATATABLE.limit;
 
+      // FIX: Unecessery Variable decleartion
       const count = await this.user.countAllUser();
       const findAllUsersData: User[] = await this.user.findAllUser(
         search,

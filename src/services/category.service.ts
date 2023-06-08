@@ -5,11 +5,18 @@ import { Category } from "@interfaces/category.interfaces";
 import { CategoryModel } from "@models/category.model";
 
 @Service()
+// FIX: standardize status code 
 export class CategoryService {
   public async findAllCategory(): Promise<Category[]> {
+    // FIX: Why Category Have Status field and Deleted Insted of getting all User need active categories
     const category: Category[] = await CategoryModel.find();
+
+    // SUGGESTION  we can handle both response in one route 
+    // why we need a seprate route
+  //  const response = { category: category, count: await CategoryModel.find().count() }
     return category;
   }
+
   public async countAllCategory(): Promise<number> {
     const category: number = await CategoryModel.count();
     return category;

@@ -1,9 +1,8 @@
-import { NextFunction, Request, Response } from "express";
-import { Container } from "typedi";
 import { RequestWithUser } from "@interfaces/auth.interface";
 import { User } from "@interfaces/users.interface";
 import { AuthService } from "@services/auth.service";
-import { UserService } from "@services/users.service";
+import { NextFunction, Request, Response } from "express";
+import { Container } from "typedi";
 export class AuthController {
   public auth = Container.get(AuthService);
 
@@ -21,11 +20,10 @@ export class AuthController {
   public logIn = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const userData: User = req.body;
-      const { tokenData, findUser } = await this.auth.login(userData);
+      //FIX: unused variables
+      const { tokenData, findUser, result } = await this.auth.login(userData);
 
-      res
-        .status(200)
-        .json({ data: findUser, token: tokenData, message: "login" });
+      res.status(200).json({ data: result, message: "login" });
     } catch (error) {
       next(error);
     }
@@ -40,6 +38,7 @@ export class AuthController {
       const userData: User = req.user;
       const logOutUserData: User = await this.auth.logout(userData);
 
+      // COOKIES not used in AUTH, Why Cookies Handle in Logout
       res.setHeader("Set-Cookie", ["Authorization=; Max-age=0"]);
       res.status(200).json({ data: logOutUserData, message: "logout" });
     } catch (error) {

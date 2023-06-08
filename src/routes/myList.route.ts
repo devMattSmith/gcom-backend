@@ -1,13 +1,13 @@
-import { Router } from "express";
 import { MyListController } from "@controllers/myList.controller";
 import {
   CreateMyListDto,
-  addCourseMyListDto,
   UpdateMyListDto,
+  addCourseMyListDto,
 } from "@dtos/myList.dto";
 import { Routes } from "@interfaces/routes.interface";
+import { AuthMiddleware } from "@middlewares/auth.middleware";
 import { ValidationMiddleware } from "@middlewares/validation.middleware";
-import { isAdmin, AuthMiddleware } from "@middlewares/auth.middleware";
+import { Router } from "express";
 export class MyListRoute implements Routes {
   public path = "/api/v1/mylist";
   public router = Router();
@@ -16,7 +16,7 @@ export class MyListRoute implements Routes {
   constructor() {
     this.initializeRoutes();
   }
-
+// FIX: Have to follow restfull Routes
   private initializeRoutes() {
     this.router.get(`${this.path}/:id`, AuthMiddleware, this.myList.getMyList);
     this.router.post(

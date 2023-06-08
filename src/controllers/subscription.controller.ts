@@ -1,8 +1,7 @@
-import { NextFunction, Request, Response } from "express";
-import { Container } from "typedi";
 import { Subscriptions } from "@interfaces/subscriptions.interfaces";
 import { SubscriptionService } from "@services/subscription.service";
-import { DATATABLE } from "@config";
+import { NextFunction, Request, Response } from "express";
+import { Container } from "typedi";
 export class SubscriptionController {
   public subscription = Container.get(SubscriptionService);
 
@@ -12,6 +11,7 @@ export class SubscriptionController {
     next: NextFunction
   ) => {
     try {
+      // FIX: Why not handle pagination with filter logics
       // const count = await this.subscription.();
       const findAllCategoryData: Subscriptions[] =
         await this.subscription.findAllSubscription();
@@ -56,23 +56,25 @@ export class SubscriptionController {
     }
   };
 
-  public updateSubscription = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) => {
-    try {
-      const categoryId: string = req.params.id;
-      const categoryData: Subscriptions = req.body;
+  // public updateCategory = async (
+  //   req: Request,
+  //   res: Response,
+  //   next: NextFunction
+  // ) => {
+  //   try {
+  //     const categoryId: string = req.params.id;
+  //     const categoryData: Category = req.body;
 
-      const updateCategoryData: Subscriptions =
-        await this.subscription.updateSubscription(categoryId, categoryData);
+  //     const updateCategoryData: Category = await this.category.updateCategory(
+  //       categoryId,
+  //       categoryData
+  //     );
 
-      res.status(200).json({ data: updateCategoryData, message: "updated" });
-    } catch (error) {
-      next(error);
-    }
-  };
+  //     res.status(200).json({ data: updateCategoryData, message: "updated" });
+  //   } catch (error) {
+  //     next(error);
+  //   }
+  // };
 
   public deleteSubscription = async (
     req: Request,

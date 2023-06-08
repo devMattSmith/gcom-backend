@@ -1,10 +1,11 @@
-import { Router } from "express";
-import { PagesController } from "@controllers/pages.controller";
+import { TicketController } from "@/controllers/ticket.controller";
 import { CreateTicketDto } from "@/dtos/ticket.dto";
 import { Routes } from "@interfaces/routes.interface";
+import { AuthMiddleware } from "@middlewares/auth.middleware";
 import { ValidationMiddleware } from "@middlewares/validation.middleware";
-import { TicketController } from "@/controllers/ticket.controller";
-import { isAdmin, AuthMiddleware } from "@middlewares/auth.middleware";
+import { Router } from "express";
+
+// Routes contains lowercase
 export class TicketRoute implements Routes {
   public path = "/api/v1/Ticket";
   public router = Router();

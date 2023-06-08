@@ -1,9 +1,8 @@
-import { Router } from "express";
-import { PagesController } from "@controllers/pages.controller";
+import { HelpSupportController } from "@/controllers/helpSupport.controller";
 import { CreateHelpSupportDto } from "@dtos/helpSupport.dto";
 import { Routes } from "@interfaces/routes.interface";
 import { ValidationMiddleware } from "@middlewares/validation.middleware";
-import { HelpSupportController } from "@/controllers/helpSupport.controller";
+import { Router } from "express";
 
 export class HelpSupportRoute implements Routes {
   public path = "/api/v1/helpSupport";

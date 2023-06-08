@@ -17,6 +17,7 @@ export class CreateUserDto {
   @IsNotEmpty()
   @MinLength(9)
   @MaxLength(32)
+  // FIx: Password Regex Pattern added with @Matches
   public password: string;
 }
 

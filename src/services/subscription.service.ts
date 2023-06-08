@@ -1,8 +1,7 @@
-import { hash } from "bcrypt";
-import { Service } from "typedi";
 import { HttpException } from "@exceptions/httpException";
 import { Subscriptions } from "@interfaces/subscriptions.interfaces";
 import { SubscriptionsModel } from "@models/subscriptions.model";
+import { Service } from "typedi";
 
 @Service()
 export class SubscriptionService {
@@ -30,20 +29,19 @@ export class SubscriptionService {
       });
     return createSubscriptionData;
   }
-  public async updateSubscription(
-    categoryId: string,
-    categoryData: Subscriptions
-  ): Promise<Subscriptions> {
-    const updateCategoryById: Subscriptions =
-      await SubscriptionsModel.findByIdAndUpdate(
-        categoryId,
-        { ...categoryData },
-        { new: true }
-      );
-    if (!updateCategoryById)
-      throw new HttpException(409, "Category doesn't exist");
-    return updateCategoryById;
-  }
+  // public async updateCategory(
+  //   categoryId: string,
+  //   categoryData: Category
+  // ): Promise<Category> {
+  //   const updateCategoryById: Category = await CategoryModel.findByIdAndUpdate(
+  //     categoryId,
+  //     { ...categoryData },
+  //     { new: true }
+  //   );
+  //   if (!updateCategoryById)
+  //     throw new HttpException(409, "Category doesn't exist");
+  //   return updateCategoryById;
+  // }
   public async deleteSubscription(
     subscriptionId: string
   ): Promise<Subscriptions> {

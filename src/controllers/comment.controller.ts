@@ -1,8 +1,7 @@
-import { NextFunction, Request, Response } from "express";
-import { Container } from "typedi";
 import { Comment } from "@interfaces/comment.interfaces";
 import { CommentService } from "@services/comment.service";
-import { DATATABLE } from "@config";
+import { NextFunction, Request, Response } from "express";
+import { Container } from "typedi";
 export class CommentController {
   public comments = Container.get(CommentService);
 

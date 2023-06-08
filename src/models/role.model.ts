@@ -1,5 +1,5 @@
+import { Permission, Roles } from "@/interfaces/role.interfaces";
 import { model, Schema, Document } from "mongoose";
-import { RoleSchema } from "@interfaces/role.interfaces";
 
 const PermissionSchema = new Schema({
   module: {
@@ -43,8 +43,14 @@ const RoleSchema = new Schema(
   { timestamps: true, versionKey: false }
 );
 
-export const RoleModel = model<RoleSchema & Document>(
+export const RoleModel = model<Roles & Document>(
   "Role",
   RoleSchema,
   "Role"
 );
+
+export const PermissionModel = model<Permission & Document>(
+  "Permission",
+  PermissionSchema,
+  "Permission"
+)

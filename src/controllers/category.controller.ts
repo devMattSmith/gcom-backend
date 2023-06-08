@@ -1,8 +1,7 @@
-import { NextFunction, Request, Response } from "express";
-import { Container } from "typedi";
 import { Category } from "@interfaces/category.interfaces";
 import { CategoryService } from "@services/category.service";
-import { DATATABLE } from "@config";
+import { NextFunction, Request, Response } from "express";
+import { Container } from "typedi";
 export class CategoryController {
   public category = Container.get(CategoryService);
 

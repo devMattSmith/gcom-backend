@@ -1,5 +1,5 @@
-import { CourseModule } from "@/interfaces/course.interfaces";
-import { Document, Schema, SchemaTypes, model } from "mongoose";
+import { Chapter, CourseModule } from "@/interfaces/course.interfaces";
+import { Document, Schema, model } from "mongoose";
 const ObjectId = Schema.Types.ObjectId;
 const ChapterSchema: Schema = new Schema({
   title: {
@@ -40,3 +40,5 @@ export const CourseModuleModel = model<CourseModule & Document>(
   "courseModule",
   ModuleSchema
 );
+
+export const ChapterModel = model<Chapter & Document>("chapter",ChapterSchema) 

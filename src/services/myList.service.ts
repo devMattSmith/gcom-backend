@@ -32,6 +32,7 @@ export class MyListService {
     return mylist;
   }
   public async addCourseMyList(myListData: MyList): Promise<MyList> {
+    // MyList => Doesnot have wishListId
     const updateMyListById: MyList = await MyListModel.findByIdAndUpdate(
       { _id: myListData.wishListId },
       { $push: { courseId: { $each: myListData.courseId } } },
@@ -41,6 +42,7 @@ export class MyListService {
     return updateMyListById;
   }
   public async removeCourse(myListData: MyList): Promise<MyList> {
+    // MyList => Doesnot have wishListId
     const createMyListData: MyList = await MyListModel.findByIdAndUpdate(
       { _id: myListData.wishListId },
       {

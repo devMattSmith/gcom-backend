@@ -1,7 +1,12 @@
 import { Course } from "@interfaces/course.interfaces";
-import { Document, Schema, SchemaTypes, model } from "mongoose";
+import { Document, Schema, model } from "mongoose";
 import { CORUSE_STATUS } from "../utils/constant";
 const ObjectId = Schema.Types.ObjectId;
+
+// FIX : Missing Instrutor of the Course
+// Duration WIll be Virtual Fields, it will be sum of all the chapter Duration
+// Course Doesnot have the Module Constrain 
+
 const CourseSchema: Schema = new Schema(
   {
     course_name: {

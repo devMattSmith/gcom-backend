@@ -62,6 +62,7 @@ export class HelpSupportService {
   ): Promise<HelpSupport> {
     const deleteHelpSupportById: HelpSupport =
       await HelpSupportModel.findByIdAndDelete(helpSupportId);
+      // it will be 400 status code
     if (!deleteHelpSupportById)
       throw new HttpException(409, "helpSupport doesn't exist");
 

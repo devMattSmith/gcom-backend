@@ -1,9 +1,6 @@
 import {
-  IsEmail,
-  IsString,
   IsNotEmpty,
-  MinLength,
-  MaxLength,
+  IsString
 } from "class-validator";
 
 export class CreateWishListDto {

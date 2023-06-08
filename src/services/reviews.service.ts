@@ -1,9 +1,8 @@
-import { hash } from "bcrypt";
-import { Service } from "typedi";
 import { HttpException } from "@exceptions/httpException";
 import { Reviews } from "@interfaces/reviews.interfaces";
 import { ReviewsModel } from "@models/reviews.model";
 import { Types } from "mongoose";
+import { Service } from "typedi";
 @Service()
 export class ReviewsService {
   public async findAllReviews(skip: number, limit: number): Promise<Reviews[]> {

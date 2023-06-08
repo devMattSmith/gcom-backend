@@ -1,8 +1,7 @@
+import { Country } from "@interfaces/country.interfaces";
+import { CountryService } from "@services/country.service";
 import { NextFunction, Request, Response } from "express";
 import { Container } from "typedi";
-import { CountryService } from "@services/country.service";
-import { Country } from "@interfaces/country.interfaces";
-import { DATATABLE } from "@config";
 export class CountryController {
   public country = Container.get(CountryService);
 

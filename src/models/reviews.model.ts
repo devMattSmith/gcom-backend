@@ -1,6 +1,8 @@
 import { model, Schema, Document } from "mongoose";
 import { Reviews } from "@interfaces/reviews.interfaces";
 const ObjectId = Schema.Types.ObjectId;
+// same User Can give same rating multiple times 
+// Index the userId,rating,courseId => are Unique 
 const ReviewsSchema: Schema = new Schema(
   {
     comment: {

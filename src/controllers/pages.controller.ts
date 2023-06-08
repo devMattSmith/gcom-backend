@@ -8,6 +8,7 @@ export class PagesController {
 
   public getPages = async (req: Request, res: Response, next: NextFunction) => {
     try {
+      // Suggestion: Why have not handle the paginations
       const findAllPageData: Pages[] = await this.pages.findAllPages();
 
       res.status(200).json({ data: findAllPageData, message: "findAll" });

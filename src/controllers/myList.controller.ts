@@ -1,8 +1,7 @@
-import { NextFunction, Request, Response } from "express";
-import { Container } from "typedi";
 import { MyList } from "@interfaces/myList.interfaces";
 import { MyListService } from "@services/myList.service";
-import { DATATABLE } from "@config";
+import { NextFunction, Request, Response } from "express";
+import { Container } from "typedi";
 export class MyListController {
   public myList = Container.get(MyListService);
 
@@ -62,7 +61,9 @@ export class MyListController {
     next: NextFunction
   ) => {
     try {
-      const removeCourse: MyList[] = req.body;
+      // Temp fix made to remove array to string
+      // FIX: handle the course properly
+      const removeCourse: MyList = req.body;
 
       const removeMyListData: MyList = await this.myList.removeCourse(
         removeCourse

@@ -78,6 +78,7 @@ export class CourseService {
       { $skip: skip },
       { $limit: limit },
     ]);
+    // FIX: RATING &  SUBSCRIPTIONS are Hard Coded
     if (!course) throw new HttpException(409, "course doesn't exist");
     return course;
     // return await CourseModel.find();

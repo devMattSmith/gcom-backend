@@ -19,7 +19,7 @@ const createToken = (user: User): TokenData => {
     token: sign(dataStoredInToken, SECRET_KEY, { expiresIn }),
   };
 };
-
+//FIX: Unused COOKIES 
 const createCookie = (tokenData: TokenData): string => {
   return `Authorization=${tokenData.token}; HttpOnly; Max-Age=${tokenData.expiresIn};`;
 };
@@ -45,7 +45,7 @@ export class AuthService {
 
   public async login(
     userData: User
-  ): Promise<{ tokenData: object; findUser: User }> {
+  ): Promise<{ tokenData: object; findUser: User; result: User }> {
     const findUser: User = await UserModel.findOne({ email: userData.email });
     if (!findUser)
       throw new HttpException(
@@ -61,13 +61,13 @@ export class AuthService {
       throw new HttpException(409, "Password is not matching");
 
     const tokenData = await createToken(findUser);
-    // const result: User = await UserModel.findByIdAndUpdate(
-    //   { _id: findUser._id },
-    //   { verification: tokenData },
-    //   { new: true }
-    // );
+    const result: User = await UserModel.findByIdAndUpdate(
+      { _id: findUser._id },
+      { verification: tokenData },
+      { new: true }
+    );
 
-    return { tokenData, findUser };
+    return { tokenData, findUser, result };
   }
 
   public async logout(userData: User): Promise<User> {

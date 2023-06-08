@@ -1,9 +1,7 @@
-import { hash } from "bcrypt";
-import { Service } from "typedi";
-import { HttpException } from "@exceptions/httpException";
 import { Ticket } from "@/interfaces/ticket.interfaces";
+import { HttpException } from "@exceptions/httpException";
 import { TicketModel } from "@models/ticket.model";
-import moment from "moment";
+import { Service } from "typedi";
 
 @Service()
 export class TicketService {
@@ -51,6 +49,7 @@ export class TicketService {
     startOfPreviewsMonth.setDate(1);
     startOfPreviewsMonth.setMonth(startOfPreviewsMonth.getMonth() - 1);
 
+    // FIX: dt_added is not in Schema
     const prevCount = await TicketModel.find({
       $and: [
         condition,
@@ -68,6 +67,7 @@ export class TicketService {
     const startOfCurrentMonth = new Date();
     startOfCurrentMonth.setDate(1);
 
+    // FIX: dt_added is not in Schema
     const prevCount = await TicketModel.find({
       $and: [
         condition,

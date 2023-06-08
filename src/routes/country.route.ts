@@ -1,9 +1,9 @@
-import { Router } from "express";
 import { CountryController } from "@controllers/country.controller";
 import { CreateCountryDto } from "@dtos/country.dto";
 import { Routes } from "@interfaces/routes.interface";
+import { AuthMiddleware } from "@middlewares/auth.middleware";
 import { ValidationMiddleware } from "@middlewares/validation.middleware";
-import { isAdmin, AuthMiddleware } from "@middlewares/auth.middleware";
+import { Router } from "express";
 
 export class CountryRoute implements Routes {
   public path = "/api/v1/country";
@@ -14,6 +14,7 @@ export class CountryRoute implements Routes {
     this.initializeRoutes();
   }
 
+  // Why Get ALL countries in POST METHOD
   private initializeRoutes() {
     this.router.post(
       `${this.path}`,

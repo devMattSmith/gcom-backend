@@ -1,9 +1,9 @@
-import { Router } from "express";
+import { ReviewsController } from "@/controllers/reviews.controller";
 import { CreateReviewDto } from "@dtos/reviews.dto";
 import { Routes } from "@interfaces/routes.interface";
+import { AuthMiddleware } from "@middlewares/auth.middleware";
 import { ValidationMiddleware } from "@middlewares/validation.middleware";
-import { ReviewsController } from "@/controllers/reviews.controller";
-import { isAdmin, AuthMiddleware } from "@middlewares/auth.middleware";
+import { Router } from "express";
 export class ReviewRoute implements Routes {
   public path = "/api/v1/reviews";
   public router = Router();

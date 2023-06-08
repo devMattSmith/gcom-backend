@@ -1,7 +1,6 @@
 import { CourseController } from "@/controllers/course.controller";
 import { Routes } from "@/interfaces/routes.interface";
 import { Router } from "express";
-import { isAdmin, AuthMiddleware } from "@middlewares/auth.middleware";
 export class CourseRoute implements Routes {
   public path = "/api/v1/courses";
   public router = Router();
@@ -10,6 +9,9 @@ export class CourseRoute implements Routes {
   constructor() {
     this.initializeRoutes();
   }
+// FOLLOW RESTFULL STANDARD
+// For chapter removeal using PUT
+// But Model removeal using DELETE
 
   private initializeRoutes() {
     this.router.post(this.path, this.course.getAllCourse);

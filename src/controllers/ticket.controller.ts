@@ -1,8 +1,7 @@
-import { NextFunction, Request, Response } from "express";
-import { Container } from "typedi";
 import { Ticket, TicketCountAPI } from "@/interfaces/ticket.interfaces";
 import { TicketService } from "@/services/ticket.service";
-import { DATATABLE } from "@config";
+import { NextFunction, Request, Response } from "express";
+import { Container } from "typedi";
 import { STATUS } from "../utils/constant";
 export class TicketController {
   public ticket = Container.get(TicketService);
@@ -13,6 +12,7 @@ export class TicketController {
     next: NextFunction
   ) => {
     try {
+      // FIX: With Respective UI have the pagination 
       const findAllTicketsData: Ticket[] = await this.ticket.findAllTickets();
 
       res.status(200).json({ data: findAllTicketsData, message: "findAll" });

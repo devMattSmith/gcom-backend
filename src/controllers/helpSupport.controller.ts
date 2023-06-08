@@ -1,8 +1,7 @@
-import { NextFunction, Request, Response } from "express";
-import { Container } from "typedi";
 import { HelpSupport } from "@interfaces/helpSupport.interfaces";
 import { HelpSupportService } from "@services/helpSupport.service";
-import { DATATABLE } from "@config";
+import { NextFunction, Request, Response } from "express";
+import { Container } from "typedi";
 export class HelpSupportController {
   public reviews = Container.get(HelpSupportService);
 
