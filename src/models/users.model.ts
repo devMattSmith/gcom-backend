@@ -9,19 +9,27 @@ const UserSchema: Schema = new Schema(
       required: true,
       unique: true,
     },
-    verification: {
-      token: {
-        type: String,
-        default: "",
-      },
-      expireTime: {
-        type: Date,
-        default: null,
-      },
-      isVerified: {
-        type: Boolean,
-        default: false,
-      },
+    // verification: {
+    //   token: {
+    //     type: String,
+    //     default: "",
+    //   },
+    //   expireTime: {
+    //     type: Date,
+    //     default: null,
+    //   },
+    //   isVerified: {
+    //     type: Boolean,
+    //     default: false,
+    //   },
+    // },
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
+    isSubscribed: {
+      type: Boolean,
+      default: false,
     },
     name: {
       type: String,

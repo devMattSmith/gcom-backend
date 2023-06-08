@@ -30,19 +30,20 @@ export class SubscriptionService {
       });
     return createSubscriptionData;
   }
-  // public async updateCategory(
-  //   categoryId: string,
-  //   categoryData: Category
-  // ): Promise<Category> {
-  //   const updateCategoryById: Category = await CategoryModel.findByIdAndUpdate(
-  //     categoryId,
-  //     { ...categoryData },
-  //     { new: true }
-  //   );
-  //   if (!updateCategoryById)
-  //     throw new HttpException(409, "Category doesn't exist");
-  //   return updateCategoryById;
-  // }
+  public async updateSubscription(
+    categoryId: string,
+    categoryData: Subscriptions
+  ): Promise<Subscriptions> {
+    const updateCategoryById: Subscriptions =
+      await SubscriptionsModel.findByIdAndUpdate(
+        categoryId,
+        { ...categoryData },
+        { new: true }
+      );
+    if (!updateCategoryById)
+      throw new HttpException(409, "Category doesn't exist");
+    return updateCategoryById;
+  }
   public async deleteSubscription(
     subscriptionId: string
   ): Promise<Subscriptions> {

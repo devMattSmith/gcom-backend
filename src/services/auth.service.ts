@@ -45,7 +45,7 @@ export class AuthService {
 
   public async login(
     userData: User
-  ): Promise<{ tokenData: object; findUser: User; result: User }> {
+  ): Promise<{ tokenData: object; findUser: User }> {
     const findUser: User = await UserModel.findOne({ email: userData.email });
     if (!findUser)
       throw new HttpException(
@@ -61,13 +61,13 @@ export class AuthService {
       throw new HttpException(409, "Password is not matching");
 
     const tokenData = await createToken(findUser);
-    const result: User = await UserModel.findByIdAndUpdate(
-      { _id: findUser._id },
-      { verification: tokenData },
-      { new: true }
-    );
+    // const result: User = await UserModel.findByIdAndUpdate(
+    //   { _id: findUser._id },
+    //   { verification: tokenData },
+    //   { new: true }
+    // );
 
-    return { tokenData, findUser, result };
+    return { tokenData, findUser };
   }
 
   public async logout(userData: User): Promise<User> {
