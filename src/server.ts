@@ -13,6 +13,7 @@ import { CourseRoute } from "./routes/course.route";
 import { WishListRoute } from "./routes/wishList.route";
 import { MyListRoute } from "./routes/myList.route";
 import { SubscriptionRoute } from "./routes/subscription.route";
+import { NotesRoute } from "./routes/notes.route";
 
 ValidateEnv();
 
@@ -30,6 +31,7 @@ const app = new App([
   new WishListRoute(),
   new MyListRoute(),
   new SubscriptionRoute(),
+  new NotesRoute(),
 ]);
 
 app.listen();
