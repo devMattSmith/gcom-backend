@@ -11,7 +11,8 @@ export class CourseService {
     skip: number,
     limit: number,
     status: number,
-    search: string
+    search: string,
+    category: any
   ): Promise<any[]> {
     var conditions = {};
     var and_clauses = [{}];
@@ -31,6 +32,13 @@ export class CourseService {
             },
           },
         ],
+      });
+    }
+
+    if (category && category.length != 0) {
+      const cateId = category.map((s) => new Types.ObjectId(s));
+      and_clauses.push({
+        category_id: { $in: cateId },
       });
     }
 
@@ -72,6 +80,7 @@ export class CourseService {
           published: "$createdAt",
           status: 1,
           rating: "5.5",
+          courseBanner: 1,
           subscriptions: "6",
         },
       },
@@ -124,6 +133,15 @@ export class CourseService {
       },
       {
         $match: { _id: new Types.ObjectId(courseId) },
+      },
+      {
+        $addFields: {
+          generalInfo: {
+            instructorName: "$user.name",
+            price: "$generalInfo.price",
+            discount: "$generalInfo.discount",
+          },
+        },
       },
       {
         $group: {
