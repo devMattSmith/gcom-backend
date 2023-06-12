@@ -84,8 +84,14 @@ export class CourseService {
           subscriptions: "6",
         },
       },
-      { $skip: skip },
-      { $limit: limit },
+      {
+        $facet: {
+          data: [{ $skip: skip }, { $limit: limit }],
+          total: [{ $count: "total" }],
+        },
+      },
+      // { $skip: skip },
+      // { $limit: limit },
     ]);
     if (!course) throw new HttpException(409, "course doesn't exist");
     return course;

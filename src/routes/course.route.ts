@@ -16,6 +16,7 @@ export class CourseRoute implements Routes {
     this.router.get(`${this.path}/:id`, this.course.getCourse);
     this.router.post(`${this.path}/create`, this.course.createCourse);
     this.router.post(`${this.path}/addModule`, this.course.createCourseModule);
+    this.router.post(`${this.path}/videoToken`, this.course.getVideoToken);
     this.router.put(`${this.path}/:id/addChapter`, this.course.addChapter);
     this.router.put(
       `${this.path}/:id/removeChapter`,
