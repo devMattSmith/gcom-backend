@@ -2,7 +2,9 @@ import Container from "typedi";
 import { CourseService } from "../services/course.service";
 import { RequestWithUser } from "@/interfaces/auth.interface";
 import { NextFunction, Response } from "express";
-import { DATATABLE } from "@config";
+import { DATATABLE, COMMUNICATION_KEY_Id, COMMUNICATION_KEY } from "@config";
+import moment from "moment";
+import { sign } from "jsonwebtoken";
 export class CourseController {
   public courserService = Container.get(CourseService);
 
@@ -63,6 +65,50 @@ export class CourseController {
     try {
       const courses = await this.courserService.createCourseModule(req.body);
       res.status(201).json({ data: courses, message: "created" });
+    } catch (err) {
+      next(err);
+    }
+  };
+  public getVideoToken = async (
+    req: RequestWithUser,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      let now = moment();
+      let validFrom = now.clone().subtract(1, "days");
+      let validTo = now.clone().add(1, "days");
+      const keyData = req.body;
+
+      let communicationKeyAsBuffer = Buffer.from(COMMUNICATION_KEY, "base64");
+      let message = {
+        type: "entitlement_message",
+        version: 2,
+        license: {
+          duration: 3600,
+        },
+        content_keys_source: {
+          inline: [
+            {
+              id: keyData.keyId,
+            },
+          ],
+        },
+      };
+      let envelope = {
+        version: 1,
+        com_key_id: COMMUNICATION_KEY_Id,
+        message: message,
+        begin_date: validFrom.toISOString(),
+        expiration_date: validTo.toISOString(),
+      };
+      let licenseToken = sign(envelope, communicationKeyAsBuffer, {
+        algorithm: "HS256",
+        noTimestamp: true,
+      });
+
+      // const courses = await this.courserService.createCourseModule(req.body);
+      res.status(201).json({ data: licenseToken, message: "created" });
     } catch (err) {
       next(err);
     }
