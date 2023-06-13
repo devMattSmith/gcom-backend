@@ -7,13 +7,15 @@ const ChapterSchema: Schema = new Schema({
     required: true,
   },
   banner: {
-    type: String,
+    url: { type: String },
+    key: { type: String },
   },
   description: {
     type: Schema.Types.Mixed,
   },
   video: {
-    type: String,
+    url: { type: String },
+    key: { type: String },
   },
 });
 
