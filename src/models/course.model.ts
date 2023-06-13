@@ -25,8 +25,14 @@ const CourseSchema: Schema = new Schema(
       default: null,
     },
     previewVideo: {
-      type: String,
-      default: null,
+      url: {
+        type: String,
+        default: null,
+      },
+      key: {
+        type: String,
+        default: null,
+      },
     },
     generalInfo: {
       instructorName: {
