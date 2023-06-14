@@ -126,17 +126,17 @@ export class CourseService {
       {
         $unwind: { path: "$category", preserveNullAndEmptyArrays: true },
       },
-      {
-        $lookup: {
-          from: "coursemodules",
-          localField: "_id",
-          foreignField: "courseId",
-          as: "courseModule",
-        },
-      },
-      {
-        $unwind: { path: "$courseModule", preserveNullAndEmptyArrays: true },
-      },
+      // {
+      //   $lookup: {
+      //     from: "coursemodules",
+      //     localField: "_id",
+      //     foreignField: "courseId",
+      //     as: "courseModule",
+      //   },
+      // },
+      // {
+      //   $unwind: { path: "$courseModule", preserveNullAndEmptyArrays: true },
+      // },
       {
         $match: { _id: new Types.ObjectId(courseId) },
       },
@@ -152,7 +152,7 @@ export class CourseService {
       {
         $group: {
           _id: "$_id",
-          modules: { $push: "$courseModule" },
+          modules: { $push: "$modules" },
           course_name: { $first: "$course_name" },
           category: { $first: "$category.name" },
           duration: { $first: "$duration" },

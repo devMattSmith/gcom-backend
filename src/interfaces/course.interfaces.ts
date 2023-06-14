@@ -1,20 +1,3 @@
-export interface Course {
-  _id?: string;
-  status: Boolean;
-  course_name: string;
-  category_id: string;
-  duration: string;
-  course_description: string;
-  courseBanner: string;
-  previewVideo: string;
-  meta: Meta;
-  generalInfo: GeneralInfo;
-  tags: string;
-  learningToolsText: string;
-  learningToolsDoc: string;
-  isDeleted: boolean;
-}
-
 export interface Chapter {
   id?: string;
   title?: string;
@@ -41,4 +24,21 @@ export interface Meta {
   title?: string;
   keywoards?: string;
   description?: string;
+}
+export interface Course {
+  _id?: string;
+  status: Boolean;
+  course_name: string;
+  category_id: string;
+  duration: string;
+  course_description: string;
+  courseBanner: string;
+  previewVideo: string;
+  meta: Meta;
+  generalInfo: GeneralInfo;
+  tags: string;
+  learningToolsText: string;
+  learningToolsDoc: string;
+  isDeleted: boolean;
+  modules?: CourseModule;
 }
