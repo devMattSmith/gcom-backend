@@ -2,7 +2,7 @@ import Container from "typedi";
 import { CourseService } from "../services/course.service";
 import { RequestWithUser } from "@/interfaces/auth.interface";
 import { NextFunction, Response } from "express";
-import { DATATABLE, COMMUNICATION_KEY_Id, COMMUNICATION_KEY } from "@config";
+import { DATATABLE, COMMUNICATION_KEY_ID, COMMUNICATION_KEY } from "@config";
 import moment from "moment";
 import { sign } from "jsonwebtoken";
 export class CourseController {
@@ -79,7 +79,12 @@ export class CourseController {
       let validFrom = now.clone().subtract(1, "days");
       let validTo = now.clone().add(1, "days");
       const keyData = req.body;
-
+      console.log(
+        "COMMUNICATION_KEY > ",
+        COMMUNICATION_KEY,
+        "|| COMMUNICATION_KEY_Id >",
+        COMMUNICATION_KEY_ID
+      );
       let communicationKeyAsBuffer = Buffer.from(COMMUNICATION_KEY, "base64");
       let message = {
         type: "entitlement_message",
@@ -97,7 +102,7 @@ export class CourseController {
       };
       let envelope = {
         version: 1,
-        com_key_id: COMMUNICATION_KEY_Id,
+        com_key_id: COMMUNICATION_KEY_ID,
         message: message,
         begin_date: validFrom.toISOString(),
         expiration_date: validTo.toISOString(),

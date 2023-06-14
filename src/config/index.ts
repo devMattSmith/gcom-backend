@@ -6,7 +6,7 @@ export const { NODE_ENV, PORT, SECRET_KEY, LOG_FORMAT, LOG_DIR, ORIGIN } =
   process.env;
 export const { DB_URL } = process.env;
 
-export const { COMMUNICATION_KEY, COMMUNICATION_KEY_Id } = process.env;
+export const { COMMUNICATION_KEY, COMMUNICATION_KEY_ID } = process.env;
 export const DATATABLE = { limit: 100, skip: 0 };
 
 export const MODULES = [
