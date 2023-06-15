@@ -2,42 +2,42 @@ import { Course } from "@interfaces/course.interfaces";
 import { Document, Schema, SchemaTypes, model } from "mongoose";
 import { CORUSE_STATUS } from "../utils/constant";
 const ObjectId = Schema.Types.ObjectId;
-const ChapterSchema: Schema = new Schema({
-  title: {
-    type: String,
-    required: true,
-  },
-  banner: {
-    url: { type: String },
-    key: { type: String },
-  },
-  description: {
-    type: Schema.Types.Mixed,
-  },
-  video: {
-    url: { type: String },
-    key: { type: String },
-  },
-});
+// const ChapterSchema: Schema = new Schema({
+//   title: {
+//     type: String,
+//     required: true,
+//   },
+//   banner: {
+//     url: { type: String },
+//     key: { type: String },
+//   },
+//   description: {
+//     type: Schema.Types.Mixed,
+//   },
+//   video: {
+//     url: { type: String },
+//     key: { type: String },
+//   },
+// });
 
-const ModuleSchema: Schema = new Schema(
-  {
-    title: {
-      type: String,
-      required: true,
-    },
-    description: {
-      type: String,
-    },
-    courseId: {
-      type: ObjectId,
-      ref: "Courses",
-    },
+// const ModuleSchema: Schema = new Schema(
+//   {
+//     title: {
+//       type: String,
+//       required: true,
+//     },
+//     description: {
+//       type: String,
+//     },
+//     courseId: {
+//       type: ObjectId,
+//       ref: "Courses",
+//     },
 
-    chapter: [ChapterSchema],
-  },
-  { timestamps: true, versionKey: false }
-);
+//     chapter: [ChapterSchema],
+//   },
+//   { timestamps: true, versionKey: false }
+// );
 const CourseSchema: Schema = new Schema(
   {
     course_name: {
@@ -70,7 +70,6 @@ const CourseSchema: Schema = new Schema(
         default: null,
       },
     },
-    modules: [ModuleSchema],
     generalInfo: {
       instructorName: {
         type: ObjectId,

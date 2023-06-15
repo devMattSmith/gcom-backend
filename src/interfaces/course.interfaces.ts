@@ -40,5 +40,4 @@ export interface Course {
   learningToolsText: string;
   learningToolsDoc: string;
   isDeleted: boolean;
-  modules?: CourseModule;
 }
