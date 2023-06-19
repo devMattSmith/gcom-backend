@@ -3,6 +3,8 @@ import { Course, CourseModule } from "@/interfaces/course.interfaces";
 
 import { CourseModel } from "@/models/course.model";
 import { CourseModuleModel } from "@/models/courseModule.model";
+import { ChapterProgress } from "@/interfaces/courseProgress.interfaces";
+import { CourseProgressModel } from "@/models/courseProgress.model";
 import { Service } from "typedi";
 import { Types } from "mongoose";
 @Service()
@@ -183,6 +185,79 @@ export class CourseService {
       throw new Error(err);
     }
   }
+  public async addCourseProgress(
+    coursePaylaod: ChapterProgress
+  ): Promise<ChapterProgress> {
+    try {
+      const newCourse = new CourseProgressModel(coursePaylaod);
+      await newCourse.save();
+      return newCourse;
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  public async updateCourseProgress(
+    coursePaylaod: any
+  ): Promise<ChapterProgress> {
+    try {
+      console.log(coursePaylaod);
+      const updateCommentById: ChapterProgress =
+        // await CourseProgressModel.findOneAndUpdate(
+        //   {
+        //     userId: coursePaylaod.userId,
+        //     courseId: coursePaylaod.courseId,
+        //     "module_progress.moduleId": coursePaylaod.module_progress.moduleId,
+        //     // "module_progress.chapter_progress": {
+        //     //   $in: {
+        //     //     chapter_id:
+        //     //       coursePaylaod.module_progress.chapter_progress.chapter_id,
+        //     //   },
+        //     // },
+        //     // _id: coursePaylaod._id,
+        //   },
+        //   {
+        //     $push: {
+        //       chapter_progress: coursePaylaod.module_progress.chapter_progress,
+        //     },
+        //   },
+        //   { upsert: true }
+        // );
+        await CourseProgressModel.updateOne(
+          {
+            userId: coursePaylaod.userId,
+            courseId: coursePaylaod.courseId,
+          },
+          {
+            $push: {
+              "module_progress.$[module].chapter_progress": {
+                chapter_id:
+                  coursePaylaod.module_progress.chapter_progress.chapter_id,
+                completed:
+                  coursePaylaod.module_progress.chapter_progress.completed,
+              },
+            },
+          },
+          {
+            arrayFilters: [
+              {
+                "module_progress.moduleId": { $exists: true },
+                "module_progress.chapter_progress.chapter_id":
+                  coursePaylaod.module_progress.chapter_progress.chapter_id,
+              },
+            ],
+            new: true,
+          }
+        ).exec();
+
+      if (!updateCommentById)
+        throw new HttpException(409, "module doesn't exist");
+      return updateCommentById;
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
   public async createCourseModule(coursePaylaod: any): Promise<CourseModule> {
     try {
       const newCourse = new CourseModuleModel(coursePaylaod);
@@ -192,6 +267,21 @@ export class CourseService {
       throw new Error(err);
     }
   }
+
+  public async featuredCourse(): Promise<Course[]> {
+    try {
+      const newCourse: Course[] = await CourseModel.find({});
+      console.log(newCourse);
+      // .sort({
+      //   createdAt: -1,
+      // });
+      // await newCourse.save();
+      return newCourse;
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
   public async addModuleChapter(
     moduleId: string,
     coursePaylaod: any

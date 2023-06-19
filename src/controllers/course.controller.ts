@@ -45,6 +45,19 @@ export class CourseController {
     }
   };
 
+  public featuredCourse = async (
+    req: RequestWithUser,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      // const courseId: string = req.params.id;
+      const courses = await this.courserService.featuredCourse();
+      res.status(200).json({ data: courses, message: "findOne" });
+    } catch (err) {
+      next(err);
+    }
+  };
   public createCourse = async (
     req: RequestWithUser,
     res: Response,
@@ -57,6 +70,32 @@ export class CourseController {
       next(err);
     }
   };
+  public addCourseProgress = async (
+    req: RequestWithUser,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const courses = await this.courserService.addCourseProgress(req.body);
+      res.status(201).json({ data: courses, message: "created" });
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  public updateCourseProgress = async (
+    req: RequestWithUser,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const courses = await this.courserService.updateCourseProgress(req.body);
+      res.status(201).json({ data: courses, message: "created" });
+    } catch (err) {
+      next(err);
+    }
+  };
+
   public createCourseModule = async (
     req: RequestWithUser,
     res: Response,
