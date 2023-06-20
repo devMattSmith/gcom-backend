@@ -185,11 +185,31 @@ export class CourseService {
       throw new Error(err);
     }
   }
-  public async addCourseProgress(
-    coursePaylaod: ChapterProgress
-  ): Promise<ChapterProgress> {
+  public async addCourseProgress(coursePaylaod: any): Promise<any> {
     try {
-      const newCourse = new CourseProgressModel(coursePaylaod);
+      // console.log(coursePaylaod);
+      const course: any = await CourseModuleModel.find({
+        courseId: coursePaylaod.courseId,
+      });
+
+      let moduleArr = [];
+      course.map((item) => {
+        let chapArr = [];
+        item.chapter.map((i) => {
+          chapArr.push({ chapter_id: i._id });
+        });
+        moduleArr.push({
+          moduleId: item._id.toString(),
+          chapter_progress: chapArr,
+        });
+      });
+
+      let progressArr = {
+        userId: coursePaylaod.userId,
+        courseId: coursePaylaod.courseId,
+        module_progress: moduleArr,
+      };
+      const newCourse = new CourseProgressModel(progressArr);
       await newCourse.save();
       return newCourse;
     } catch (err) {
@@ -201,55 +221,26 @@ export class CourseService {
     coursePaylaod: any
   ): Promise<ChapterProgress> {
     try {
-      console.log(coursePaylaod);
-      const updateCommentById: ChapterProgress =
-        // await CourseProgressModel.findOneAndUpdate(
-        //   {
-        //     userId: coursePaylaod.userId,
-        //     courseId: coursePaylaod.courseId,
-        //     "module_progress.moduleId": coursePaylaod.module_progress.moduleId,
-        //     // "module_progress.chapter_progress": {
-        //     //   $in: {
-        //     //     chapter_id:
-        //     //       coursePaylaod.module_progress.chapter_progress.chapter_id,
-        //     //   },
-        //     // },
-        //     // _id: coursePaylaod._id,
-        //   },
-        //   {
-        //     $push: {
-        //       chapter_progress: coursePaylaod.module_progress.chapter_progress,
-        //     },
-        //   },
-        //   { upsert: true }
-        // );
-        await CourseProgressModel.updateOne(
-          {
-            userId: coursePaylaod.userId,
-            courseId: coursePaylaod.courseId,
-          },
-          {
-            $push: {
-              "module_progress.$[module].chapter_progress": {
-                chapter_id:
-                  coursePaylaod.module_progress.chapter_progress.chapter_id,
-                completed:
-                  coursePaylaod.module_progress.chapter_progress.completed,
-              },
-            },
-          },
-          {
-            arrayFilters: [
-              {
-                "module_progress.moduleId": { $exists: true },
-                "module_progress.chapter_progress.chapter_id":
-                  coursePaylaod.module_progress.chapter_progress.chapter_id,
-              },
-            ],
-            new: true,
-          }
-        ).exec();
+      const updateCommentById: any = await CourseProgressModel.findOne({
+        userId: coursePaylaod.userId,
+        courseId: coursePaylaod.courseId,
+      }).exec();
 
+      const updated = updateCommentById?.module_progress.map((item) => {
+        if (item.moduleId == coursePaylaod.module_progress.moduleId) {
+          item?.chapter_progress.map((test) => {
+            if (
+              test.chapter_id ==
+              coursePaylaod.module_progress.chapter_progress.chapter_id
+            ) {
+              test.completed =
+                coursePaylaod.module_progress.chapter_progress.completed;
+            }
+          });
+        }
+        return item;
+      });
+      await updateCommentById.save();
       if (!updateCommentById)
         throw new HttpException(409, "module doesn't exist");
       return updateCommentById;
@@ -270,12 +261,9 @@ export class CourseService {
 
   public async featuredCourse(): Promise<Course[]> {
     try {
-      const newCourse: Course[] = await CourseModel.find({});
-      console.log(newCourse);
-      // .sort({
-      //   createdAt: -1,
-      // });
-      // await newCourse.save();
+      const newCourse: Course[] = await CourseModel.find({})
+        .sort({ createdAt: -1 })
+        .limit(5);
       return newCourse;
     } catch (err) {
       throw new Error(err);

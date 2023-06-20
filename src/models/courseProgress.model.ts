@@ -11,6 +11,7 @@ const moduleProgressSchema: Schema = new Schema({
       chapter_id: { type: String },
       completed: {
         type: Number,
+        default: 0,
       },
     },
   ],
