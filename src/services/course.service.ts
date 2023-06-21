@@ -3,6 +3,8 @@ import { Course, CourseModule } from "@/interfaces/course.interfaces";
 
 import { CourseModel } from "@/models/course.model";
 import { CourseModuleModel } from "@/models/courseModule.model";
+import { ChapterProgress } from "@/interfaces/courseProgress.interfaces";
+import { CourseProgressModel } from "@/models/courseProgress.model";
 import { Service } from "typedi";
 import { Types } from "mongoose";
 @Service()
@@ -183,6 +185,113 @@ export class CourseService {
       throw new Error(err);
     }
   }
+  public async addCourseProgress(coursePaylaod: any): Promise<any> {
+    try {
+      // console.log(coursePaylaod);
+      const course: any = await CourseModuleModel.find({
+        courseId: coursePaylaod.courseId,
+      });
+
+      let moduleArr = [];
+      course.map((item) => {
+        let chapArr = [];
+        item.chapter.map((i) => {
+          chapArr.push({ chapter_id: i._id });
+        });
+        moduleArr.push({
+          moduleId: item._id.toString(),
+          chapter_progress: chapArr,
+        });
+      });
+
+      let progressArr = {
+        userId: coursePaylaod.userId,
+        courseId: coursePaylaod.courseId,
+        module_progress: moduleArr,
+      };
+      const newCourse = new CourseProgressModel(progressArr);
+      await newCourse.save();
+      return newCourse;
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  public async updateCourseProgress(
+    coursePaylaod: any
+  ): Promise<ChapterProgress> {
+    try {
+      const updateCommentById: any = await CourseProgressModel.findOne({
+        userId: coursePaylaod.userId,
+        courseId: coursePaylaod.courseId,
+      }).exec();
+
+      const updated = updateCommentById?.module_progress.map((item) => {
+        if (item.moduleId == coursePaylaod.module_progress.moduleId) {
+          item?.chapter_progress.map((test) => {
+            if (
+              test.chapter_id ==
+              coursePaylaod.module_progress.chapter_progress.chapter_id
+            ) {
+              test.completed =
+                coursePaylaod.module_progress.chapter_progress.completed;
+            }
+          });
+        }
+        return item;
+      });
+      await updateCommentById.save();
+      if (!updateCommentById)
+        throw new HttpException(409, "module doesn't exist");
+      return updateCommentById;
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  public async getCourseProgress(coursePaylaod: any): Promise<any> {
+    try {
+      const getProgress = await CourseProgressModel.find(coursePaylaod);
+      // await newCourse.save();
+      return getProgress;
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+  public async getRecentViewVideos(coursePaylaod: any): Promise<any> {
+    try {
+      const getProgress = await CourseProgressModel.aggregate([
+        { $match: { userId: new Types.ObjectId(coursePaylaod.userId) } },
+        { $unwind: "$module_progress" },
+        { $unwind: "$module_progress.chapter_progress" },
+        {
+          $match: {
+            "module_progress.chapter_progress.completed": { $lt: 100 },
+          },
+        },
+        {
+          $lookup: {
+            from: "Courses",
+            localField: "courseId",
+            foreignField: "_id",
+            as: "courseDetails",
+          },
+        },
+        { $unwind: "$courseDetails" },
+        {
+          $group: {
+            _id: "$courseId",
+            courseDetails: { $first: "$courseDetails" },
+            chapters: { $push: "$module_progress.chapter_progress" },
+          },
+        },
+      ]);
+      // // await newCourse.save();
+      return getProgress;
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
   public async createCourseModule(coursePaylaod: any): Promise<CourseModule> {
     try {
       const newCourse = new CourseModuleModel(coursePaylaod);
@@ -192,6 +301,18 @@ export class CourseService {
       throw new Error(err);
     }
   }
+
+  public async featuredCourse(): Promise<Course[]> {
+    try {
+      const newCourse: Course[] = await CourseModel.find({})
+        .sort({ createdAt: -1 })
+        .limit(5);
+      return newCourse;
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
   public async addModuleChapter(
     moduleId: string,
     coursePaylaod: any
