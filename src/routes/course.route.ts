@@ -26,6 +26,14 @@ export class CourseRoute implements Routes {
       `${this.path}/updateCourseProgress`,
       this.course.updateCourseProgress
     );
+    this.router.post(
+      `${this.path}/getCourseProgress`,
+      this.course.getCourseProgress
+    );
+    this.router.post(
+      `${this.path}/getRecentViewVideos`,
+      this.course.getRecentViewVideos
+    );
     this.router.post(`${this.path}/videoToken`, this.course.getVideoToken);
     this.router.put(`${this.path}/:id/addChapter`, this.course.addChapter);
     this.router.put(

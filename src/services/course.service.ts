@@ -249,6 +249,49 @@ export class CourseService {
     }
   }
 
+  public async getCourseProgress(coursePaylaod: any): Promise<any> {
+    try {
+      const getProgress = await CourseProgressModel.find(coursePaylaod);
+      // await newCourse.save();
+      return getProgress;
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+  public async getRecentViewVideos(coursePaylaod: any): Promise<any> {
+    try {
+      const getProgress = await CourseProgressModel.aggregate([
+        { $match: { userId: new Types.ObjectId(coursePaylaod.userId) } },
+        { $unwind: "$module_progress" },
+        { $unwind: "$module_progress.chapter_progress" },
+        {
+          $match: {
+            "module_progress.chapter_progress.completed": { $lt: 100 },
+          },
+        },
+        {
+          $lookup: {
+            from: "Courses",
+            localField: "courseId",
+            foreignField: "_id",
+            as: "courseDetails",
+          },
+        },
+        { $unwind: "$courseDetails" },
+        {
+          $group: {
+            _id: "$courseId",
+            courseDetails: { $first: "$courseDetails" },
+            chapters: { $push: "$module_progress.chapter_progress" },
+          },
+        },
+      ]);
+      // // await newCourse.save();
+      return getProgress;
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
   public async createCourseModule(coursePaylaod: any): Promise<CourseModule> {
     try {
       const newCourse = new CourseModuleModel(coursePaylaod);

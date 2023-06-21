@@ -95,6 +95,18 @@ export class CourseController {
       next(err);
     }
   };
+  public getCourseProgress = async (
+    req: RequestWithUser,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const courses = await this.courserService.getCourseProgress(req.body);
+      res.status(201).json({ data: courses, message: "get all" });
+    } catch (err) {
+      next(err);
+    }
+  };
 
   public createCourseModule = async (
     req: RequestWithUser,
@@ -103,6 +115,18 @@ export class CourseController {
   ) => {
     try {
       const courses = await this.courserService.createCourseModule(req.body);
+      res.status(201).json({ data: courses, message: "created" });
+    } catch (err) {
+      next(err);
+    }
+  };
+  public getRecentViewVideos = async (
+    req: RequestWithUser,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const courses = await this.courserService.getRecentViewVideos(req.body);
       res.status(201).json({ data: courses, message: "created" });
     } catch (err) {
       next(err);
