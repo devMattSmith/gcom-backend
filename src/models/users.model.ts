@@ -101,6 +101,12 @@ const UserSchema: Schema = new Schema(
         ref: "Courses",
       },
     ],
+    categories: [
+      {
+        type: ObjectId,
+        ref: "Category",
+      },
+    ],
     role: {
       type: Number,
       enum: USER_ROLES,

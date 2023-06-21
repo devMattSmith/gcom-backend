@@ -7,6 +7,7 @@ import { ChapterProgress } from "@/interfaces/courseProgress.interfaces";
 import { CourseProgressModel } from "@/models/courseProgress.model";
 import { Service } from "typedi";
 import { Types } from "mongoose";
+import { UserModel } from "@/models/users.model";
 @Service()
 export class CourseService {
   public async findAllCourses(
@@ -340,6 +341,19 @@ export class CourseService {
       );
     if (!updateCommentById)
       throw new HttpException(409, "module doesn't exist");
+    return updateCommentById;
+  }
+  public async getRecommendedCourse(
+    categoryId: string
+    // coursePaylaod: any
+  ): Promise<any> {
+    const user: any = await UserModel.findOne({ _id: categoryId });
+    console.log(user);
+    const updateCommentById: any = await CourseModel.find({
+      category_id: { $in: user.categories },
+    });
+    if (!updateCommentById)
+      throw new HttpException(409, "category doesn't exist");
     return updateCommentById;
   }
 

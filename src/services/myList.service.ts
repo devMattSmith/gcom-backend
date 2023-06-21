@@ -2,6 +2,7 @@ import { Service } from "typedi";
 import { HttpException } from "@exceptions/httpException";
 import { MyList } from "@interfaces/myList.interfaces";
 import { MyListModel } from "@models/myList.model";
+import { UserModel } from "@models/users.model";
 import { Types } from "mongoose";
 @Service()
 export class MyListService {
@@ -31,13 +32,38 @@ export class MyListService {
     ]);
     return mylist;
   }
-  public async addCourseMyList(myListData: MyList): Promise<MyList> {
+  public async addCourseMyList(myListData: any): Promise<MyList> {
+    const isuser: any = await UserModel.findOne({ _id: myListData.userId });
+
+    if (isuser.categories.length) {
+      isuser.categories = [
+        isuser.categories,
+        ...myListData.categoryId.map((s) => new Types.ObjectId(s)),
+      ];
+    } else {
+      isuser.categories = [
+        ...myListData.categoryId.map((s) => new Types.ObjectId(s)),
+      ];
+    }
+    const updaet: any = await UserModel.findByIdAndUpdate(
+      { _id: isuser._id },
+      {
+        categories: Object.values(
+          isuser.categories.reduce(
+            (acc, cur) => Object.assign(acc, { [cur.toString()]: cur }),
+            {}
+          )
+        ),
+      },
+      { new: true }
+    );
+    //  console.log(isuser.categoryIds);
     const updateMyListById: MyList = await MyListModel.findByIdAndUpdate(
       { _id: myListData.wishListId },
       { $push: { courseId: { $each: myListData.courseId } } },
       { new: true }
     );
-    if (!updateMyListById) throw new HttpException(409, "user doesn't exist");
+    if (!updateMyListById) throw new HttpException(409, "list doesn't exist");
     return updateMyListById;
   }
   public async removeCourse(myListData: MyList): Promise<MyList> {
