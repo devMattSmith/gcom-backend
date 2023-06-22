@@ -96,6 +96,7 @@ export class CourseService {
       // { $skip: skip },
       // { $limit: limit },
     ]);
+    console.log;
     if (!course) throw new HttpException(409, "course doesn't exist");
     return course;
     // return await CourseModel.find();
@@ -301,6 +302,29 @@ export class CourseService {
     } catch (err) {
       throw new Error(err);
     }
+  }
+  public async getTopCourses(): Promise<any> {
+    try {
+      const newCourse: Course[] = await CourseModel.find({})
+        .sort({ purchaseCount: -1 })
+        .limit(10);
+      return newCourse;
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  public async coursePurchase(courseId: string): Promise<Course> {
+    const course: Course = await CourseModel.findByIdAndUpdate(
+      courseId,
+      {
+        $inc: { purchaseCount: 1 },
+      },
+      { new: true }
+    );
+    if (!course) throw new HttpException(409, "course doesn't exist");
+
+    return course;
   }
 
   public async featuredCourse(): Promise<Course[]> {

@@ -241,6 +241,35 @@ export class CourseController {
       next(err);
     }
   };
+  public coursePurchase = async (
+    req: RequestWithUser,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const courseId: string = req.params.id;
+      //const body = req.body;
+      const courses = await this.courserService.coursePurchase(courseId);
+      res.status(201).json({ data: courses, message: "created" });
+    } catch (err) {
+      next(err);
+    }
+  };
+  public getTopCourses = async (
+    req: RequestWithUser,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      // const courseId: string = req.params.id;
+      //const body = req.body;
+      const courses = await this.courserService.getTopCourses();
+      res.status(201).json({ data: courses, message: "get all" });
+    } catch (err) {
+      next(err);
+    }
+  };
+
   public updateModule = async (
     req: RequestWithUser,
     res: Response,

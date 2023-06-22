@@ -56,7 +56,11 @@ const CourseSchema: Schema = new Schema(
       type: String,
       default: null,
     },
-    courseBanner: {
+    thumbnail: {
+      type: String,
+      default: null,
+    },
+    bannerImage: {
       type: String,
       default: null,
     },
@@ -108,6 +112,9 @@ const CourseSchema: Schema = new Schema(
     },
     learningToolsDoc: {
       type: String,
+    },
+    purchaseCount: {
+      type: Number,
     },
     isDeleted: {
       type: Boolean,
