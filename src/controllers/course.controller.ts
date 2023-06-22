@@ -127,7 +127,7 @@ export class CourseController {
   ) => {
     try {
       const courses = await this.courserService.getRecentViewVideos(req.body);
-      res.status(201).json({ data: courses, message: "created" });
+      res.status(201).json({ data: courses, message: "get all" });
     } catch (err) {
       next(err);
     }
@@ -142,12 +142,7 @@ export class CourseController {
       let validFrom = now.clone().subtract(1, "days");
       let validTo = now.clone().add(1, "days");
       const keyData = req.body;
-      console.log(
-        "COMMUNICATION_KEY > ",
-        COMMUNICATION_KEY,
-        "|| COMMUNICATION_KEY_Id >",
-        COMMUNICATION_KEY_ID
-      );
+
       let communicationKeyAsBuffer = Buffer.from(COMMUNICATION_KEY, "base64");
       let message = {
         type: "entitlement_message",
@@ -215,6 +210,20 @@ export class CourseController {
       next(err);
     }
   };
+  public getRecommendedCourse = async (
+    req: RequestWithUser,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const courseId: string = req.params.id;
+      // const body = req.body;
+      const courses = await this.courserService.getRecommendedCourse(courseId);
+      res.status(201).json({ data: courses, message: "get courses" });
+    } catch (err) {
+      next(err);
+    }
+  };
   public updateChapter = async (
     req: RequestWithUser,
     res: Response,
@@ -232,6 +241,35 @@ export class CourseController {
       next(err);
     }
   };
+  public coursePurchase = async (
+    req: RequestWithUser,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const courseId: string = req.params.id;
+      //const body = req.body;
+      const courses = await this.courserService.coursePurchase(courseId);
+      res.status(201).json({ data: courses, message: "created" });
+    } catch (err) {
+      next(err);
+    }
+  };
+  public getTopCourses = async (
+    req: RequestWithUser,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      // const courseId: string = req.params.id;
+      //const body = req.body;
+      const courses = await this.courserService.getTopCourses();
+      res.status(201).json({ data: courses, message: "get all" });
+    } catch (err) {
+      next(err);
+    }
+  };
+
   public updateModule = async (
     req: RequestWithUser,
     res: Response,

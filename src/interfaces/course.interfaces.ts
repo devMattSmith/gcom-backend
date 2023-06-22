@@ -32,7 +32,8 @@ export interface Course {
   category_id: string;
   duration: string;
   course_description: string;
-  courseBanner: string;
+  thumbnail: string;
+  bannerImage: string;
   previewVideo: string;
   meta: Meta;
   generalInfo: GeneralInfo;
@@ -40,4 +41,5 @@ export interface Course {
   learningToolsText: string;
   learningToolsDoc: string;
   isDeleted: boolean;
+  purchaseCount: number;
 }
