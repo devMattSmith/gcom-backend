@@ -24,6 +24,11 @@ export interface User {
   status: Boolean;
   registrationDate: String;
   role: Number;
+  viwedCourses: String;
+  subscriptions: String;
+  courses: String;
+  categories: String;
+  wishlist: String;
 }
 export interface UserList {
   data: [User];
