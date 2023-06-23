@@ -59,6 +59,21 @@ export class UserController {
     }
   };
 
+  public getViwedCourses = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const userId: string = req.params.id;
+      const createUserData: User = await this.user.getViwedCourses(userId);
+
+      res.status(201).json({ data: createUserData, message: "get all" });
+    } catch (error) {
+      next(error);
+    }
+  };
+
   public updateUser = async (
     req: Request,
     res: Response,

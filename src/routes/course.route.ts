@@ -35,7 +35,7 @@ export class CourseRoute implements Routes {
       `${this.path}/getCourseProgress`,
       this.course.getCourseProgress
     );
-    this.router.put(
+    this.router.post(
       `${this.path}/coursePurchase/:id`,
       this.course.coursePurchase
     );
@@ -54,6 +54,7 @@ export class CourseRoute implements Routes {
       `${this.path}/:id/updateChapter`,
       this.course.updateChapter
     );
+    this.router.post(`${this.path}/:id/viewCourse`, this.course.viewCourse);
     this.router.put(`${this.path}/:id/updateModule`, this.course.updateModule);
     this.router.put(`${this.path}/:id`, this.course.updateCourse);
     this.router.delete(`${this.path}/:id`, this.course.deleteCourse);

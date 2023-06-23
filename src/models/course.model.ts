@@ -116,6 +116,9 @@ const CourseSchema: Schema = new Schema(
     purchaseCount: {
       type: Number,
     },
+    viewCount: {
+      type: Number,
+    },
     isDeleted: {
       type: Boolean,
       default: false,
