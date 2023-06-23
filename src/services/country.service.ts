@@ -1,8 +1,7 @@
-import { hash } from "bcrypt";
-import { Service } from "typedi";
-import { HttpException } from "@exceptions/httpException";
 import { Country } from "@interfaces/country.interfaces";
 import { CountryModel } from "@models/country.model";
+import aqp from "api-query-params";
+import { Service } from "typedi";
 
 @Service()
 export class CountryService {
@@ -10,6 +9,7 @@ export class CountryService {
     const country: Country[] = await CountryModel.find();
     return country;
   }
+
 
   public async countAllCountry(): Promise<number> {
     const country: number = await CountryModel.count();
@@ -23,4 +23,22 @@ export class CountryService {
 
     return createCountryData;
   }
+
+  public async find(params: any, page) {
+    const { filter, limit, skip, sort } = <any>aqp(params);
+    const countries = await CountryModel.find(filter)
+    .sort(sort)
+    .skip(skip)
+    .limit(limit);
+    const total_count = await CountryModel.count();
+    return {
+      countries,
+      meta: {
+        page_limit: limit,
+        current_page: page,
+        total_count,
+      },
+    };
+  }
+
 }

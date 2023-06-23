@@ -44,20 +44,6 @@ export class CourseController {
       next(err);
     }
   };
-  public viewCourse = async (
-    req: RequestWithUser,
-    res: Response,
-    next: NextFunction
-  ) => {
-    try {
-      const courseId: string = req.params.id;
-      const { userId } = req.body;
-      const courses = await this.courserService.viewCourse(courseId, userId);
-      res.status(200).json({ data: courses, message: "findOne" });
-    } catch (err) {
-      next(err);
-    }
-  };
 
   public featuredCourse = async (
     req: RequestWithUser,

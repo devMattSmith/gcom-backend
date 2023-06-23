@@ -101,12 +101,6 @@ const UserSchema: Schema = new Schema(
         ref: "Courses",
       },
     ],
-    viwedCourses: [
-      {
-        type: ObjectId,
-        ref: "Courses",
-      },
-    ],
     categories: [
       {
         type: ObjectId,

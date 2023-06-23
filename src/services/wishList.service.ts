@@ -32,6 +32,7 @@ export class WishListService {
   }
 
   public async updateuserWishList(wishListData: WishList): Promise<WishList> {
+    // FIX: why the we have seperate WhishListSchema if we keep all the wishList inside the UserCollection
     const updateCommentById: WishList = await UserModel.findByIdAndUpdate(
       wishListData.userId,
       { $push: { wishlist: { $each: wishListData.courseId } } },

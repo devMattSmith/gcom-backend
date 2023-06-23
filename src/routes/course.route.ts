@@ -1,7 +1,6 @@
 import { CourseController } from "@/controllers/course.controller";
 import { Routes } from "@/interfaces/routes.interface";
 import { Router } from "express";
-import { isAdmin, AuthMiddleware } from "@middlewares/auth.middleware";
 export class CourseRoute implements Routes {
   public path = "/api/v1/courses";
   public router = Router();
@@ -35,7 +34,7 @@ export class CourseRoute implements Routes {
       `${this.path}/getCourseProgress`,
       this.course.getCourseProgress
     );
-    this.router.post(
+    this.router.put(
       `${this.path}/coursePurchase/:id`,
       this.course.coursePurchase
     );
@@ -54,7 +53,6 @@ export class CourseRoute implements Routes {
       `${this.path}/:id/updateChapter`,
       this.course.updateChapter
     );
-    this.router.post(`${this.path}/:id/viewCourse`, this.course.viewCourse);
     this.router.put(`${this.path}/:id/updateModule`, this.course.updateModule);
     this.router.put(`${this.path}/:id`, this.course.updateCourse);
     this.router.delete(`${this.path}/:id`, this.course.deleteCourse);

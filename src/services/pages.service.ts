@@ -3,6 +3,7 @@ import { Service } from "typedi";
 import { HttpException } from "@exceptions/httpException";
 import { Pages } from "@interfaces/pages.interfaces";
 import { PagesModel } from "@models/pages.model";
+import aqp from "api-query-params";
 
 @Service()
 export class PagesService {
@@ -10,6 +11,25 @@ export class PagesService {
     const pages: Pages[] = await PagesModel.find();
     return pages;
   }
+
+  public async find(params: any, page) {
+    const { filter, limit, skip, sort } = <any>aqp(params);
+    const pages = await PagesModel.find(filter)
+    .sort(sort)
+    .skip(skip)
+    .limit(limit);
+    const total_count = await PagesModel.count();
+    return {
+      pages,
+      meta: {
+        page_limit: limit,
+        current_page: page,
+        total_count,
+      },
+    };
+  }
+
+
   public async countAllPages(): Promise<number> {
     const pages: number = await PagesModel.count();
     return pages;

@@ -42,5 +42,4 @@ export interface Course {
   learningToolsDoc: string;
   isDeleted: boolean;
   purchaseCount: number;
-  viewCount: number;
 }

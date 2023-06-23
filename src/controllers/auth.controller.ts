@@ -1,9 +1,9 @@
-import { NextFunction, Request, Response } from "express";
-import { Container } from "typedi";
-import { RequestWithUser } from "@interfaces/auth.interface";
-import { User } from "@interfaces/users.interface";
-import { AuthService } from "@services/auth.service";
-import { UserService } from "@services/users.service";
+import { NextFunction, Request, Response } from 'express';
+import { Container } from 'typedi';
+import { RequestWithUser } from '@interfaces/auth.interface';
+import { User } from '@interfaces/users.interface';
+import { AuthService } from '@services/auth.service';
+import { UserService } from '@services/users.service';
 export class AuthController {
   public auth = Container.get(AuthService);
 
@@ -12,7 +12,7 @@ export class AuthController {
       const userData: User = req.body;
       const signUpUserData: User = await this.auth.signup(userData);
 
-      res.status(201).json({ data: signUpUserData, message: "signup" });
+      res.status(201).json({ data: signUpUserData, message: 'signup' });
     } catch (error) {
       next(error);
     }
@@ -23,27 +23,31 @@ export class AuthController {
       const userData: User = req.body;
       const { tokenData, findUser } = await this.auth.login(userData);
 
-      res
-        .status(200)
-        .json({ data: findUser, token: tokenData, message: "login" });
+      res.status(200).json({ data: findUser, token: tokenData, message: 'login' });
     } catch (error) {
       next(error);
     }
   };
 
-  public logOut = async (
-    req: RequestWithUser,
-    res: Response,
-    next: NextFunction
-  ) => {
+  public logOut = async (req: RequestWithUser, res: Response, next: NextFunction) => {
     try {
       const userData: User = req.user;
       const logOutUserData: User = await this.auth.logout(userData);
 
-      res.setHeader("Set-Cookie", ["Authorization=; Max-age=0"]);
-      res.status(200).json({ data: logOutUserData, message: "logout" });
+      res.setHeader('Set-Cookie', ['Authorization=; Max-age=0']);
+      res.status(200).json({ data: logOutUserData, message: 'logout' });
     } catch (error) {
       next(error);
+    }
+  };
+
+  public socialLogin = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const payload = req.body;
+      const {tokenData, user} = await this.auth.socialLogin(payload);
+      res.status(200).json({ data: user, token: tokenData, message: 'login' });
+    } catch (err) {
+      next(err);
     }
   };
 }

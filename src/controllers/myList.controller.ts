@@ -1,8 +1,8 @@
-import { NextFunction, Request, Response } from "express";
-import { Container } from "typedi";
+import { QUERY_PARAMS } from "@/utils/utils";
 import { MyList } from "@interfaces/myList.interfaces";
 import { MyListService } from "@services/myList.service";
-import { DATATABLE } from "@config";
+import { NextFunction, Request, Response } from "express";
+import { Container } from "typedi";
 export class MyListController {
   public myList = Container.get(MyListService);
 
@@ -22,6 +22,20 @@ export class MyListController {
       next(error);
     }
   };
+
+  public getAllMyList = async( req: Request, res: Response, next: NextFunction) => {
+    try {
+      let query_page: any  = req.query.page
+      let page: any = 1
+
+      if(query_page){
+        page = parseInt(query_page)
+      } 
+      res.status(200).json(await this.myList.find(QUERY_PARAMS(req.query), page));
+    } catch (error) {
+      next(error);
+    }
+  }
 
   public createMyList = async (
     req: Request,

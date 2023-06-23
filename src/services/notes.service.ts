@@ -4,6 +4,7 @@ import { HttpException } from "@exceptions/httpException";
 import { Notes } from "@interfaces/notes.interfaces";
 import { NotesModel } from "@models/notes.model";
 import { Types } from "mongoose";
+import aqp from "api-query-params";
 @Service()
 export class NotesService {
   public async findAllCategory(
@@ -57,6 +58,25 @@ export class NotesService {
     });
     return createNoteData;
   }
+
+  public async findAllNotes(params: any, page) {
+    const { filter, limit, skip, sort } = <any>aqp(params);
+    const notes = await NotesModel.find(filter)
+    .populate(['coursemodules','courses','user'])
+    .sort(sort)
+    .skip(skip)
+    .limit(limit);
+    const total_count = await NotesModel.count();
+    return {
+      notes,
+      meta: {
+        page_limit: limit,
+        current_page: page,
+        total_count,
+      },
+    };
+  }
+
   public async updateNote(
     categoryId: string,
     categoryData: Notes
