@@ -219,4 +219,33 @@ export class UserService {
 
     return deleteUserById;
   }
+
+  public async getViwedCourses(userId: string): Promise<any> {
+    const findUser: User[] = await UserModel.aggregate([
+      {
+        $match: { _id: new Types.ObjectId(userId) },
+      },
+      {
+        $lookup: {
+          from: "Courses",
+          localField: "viwedCourses",
+          foreignField: "_id",
+          as: "courses",
+        },
+      },
+      {
+        $unwind: { path: "$courses", preserveNullAndEmptyArrays: true },
+      },
+
+      {
+        $group: {
+          _id: "$_id",
+          courses: { $push: "$courses" },
+        },
+      },
+    ]);
+    if (!findUser) throw new HttpException(409, "User doesn't exist");
+
+    return findUser;
+  }
 }
