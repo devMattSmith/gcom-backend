@@ -17,6 +17,7 @@ const ChapterSchema: Schema = new Schema({
     url: { type: String },
     key: { type: String },
   },
+  duration: { type: Number },
 });
 
 const ModuleSchema: Schema = new Schema(

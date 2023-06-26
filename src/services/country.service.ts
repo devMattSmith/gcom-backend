@@ -10,7 +10,6 @@ export class CountryService {
     return country;
   }
 
-
   public async countAllCountry(): Promise<number> {
     const country: number = await CountryModel.count();
     return country;
@@ -27,9 +26,9 @@ export class CountryService {
   public async find(params: any, page) {
     const { filter, limit, skip, sort } = <any>aqp(params);
     const countries = await CountryModel.find(filter)
-    .sort(sort)
-    .skip(skip)
-    .limit(limit);
+      .sort(sort)
+      .skip(skip)
+      .limit(limit);
     const total_count = await CountryModel.count();
     return {
       countries,
@@ -40,5 +39,4 @@ export class CountryService {
       },
     };
   }
-
 }

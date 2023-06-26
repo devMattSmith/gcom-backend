@@ -16,7 +16,7 @@ export class WishListRoute implements Routes {
   private initializeRoutes() {
     this.router.get(
       `${this.path}/:id`,
-      AuthMiddleware,
+      //AuthMiddleware,
       this.wishList.getWishList
     );
     this.router.post(

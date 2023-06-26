@@ -1,4 +1,4 @@
-import { hash } from "bcrypt";
+import { hash, compare } from "bcrypt";
 import { Service } from "typedi";
 import { HttpException } from "@exceptions/httpException";
 import { User } from "@interfaces/users.interface";
@@ -219,8 +219,31 @@ export class UserService {
 
     return deleteUserById;
   }
+  public async updatePassword(userId: string, userData: any): Promise<any> {
+    const userDetails: any = await UserModel.findOne({
+      _id: userId,
+    });
+    if (!userDetails) throw new HttpException(409, "User doesn't exist");
+    console.log(userDetails.password);
+    const isPasswordMatching: boolean = await compare(
+      userData.currentPassword,
+      userDetails.password
+    );
+    if (!isPasswordMatching)
+      throw new HttpException(409, "Password is not matching");
+    const hashedPassword = await hash(userData.newPassword, 10);
+    const updateUserById: User = await UserModel.findByIdAndUpdate(
+      { _id: userId },
+      {
+        password: hashedPassword,
+      },
+      { new: true }
+    );
+    return updateUserById;
+  }
 
   public async getViwedCourses(userId: string): Promise<any> {
+    console.log("getViwedCourses);", userId);
     const findUser: User[] = await UserModel.aggregate([
       {
         $match: { _id: new Types.ObjectId(userId) },

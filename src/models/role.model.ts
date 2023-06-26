@@ -1,5 +1,5 @@
-import { model, Schema, Document } from 'mongoose';
-import { IRoles } from '@interfaces/role.interfaces';
+import { model, Schema, Document } from "mongoose";
+import { IRoles } from "@interfaces/role.interfaces";
 
 const PermissionSchema = new Schema({
   module: {
@@ -29,7 +29,7 @@ const RoleSchema = new Schema(
     name: {
       type: String,
       required: true,
-      default: '',
+      default: "",
     },
     type: {
       type: Number,
@@ -40,7 +40,7 @@ const RoleSchema = new Schema(
       required: true,
     },
   },
-  { timestamps: true, versionKey: false },
+  { timestamps: true, versionKey: false }
 );
 
-export const RoleModel = model<IRoles & Document>('Role', RoleSchema, 'Role');
+export const RoleModel = model<IRoles & Document>("Role", RoleSchema, "Role");

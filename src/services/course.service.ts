@@ -96,7 +96,7 @@ export class CourseService {
       // { $skip: skip },
       // { $limit: limit },
     ]);
-    console.log;
+
     if (!course) throw new HttpException(409, "course doesn't exist");
     return course;
     // return await CourseModel.find();
@@ -260,6 +260,7 @@ export class CourseService {
       throw new Error(err);
     }
   }
+
   public async getRecentViewVideos(coursePaylaod: any): Promise<any> {
     try {
       const getProgress = await CourseProgressModel.aggregate([
@@ -396,6 +397,45 @@ export class CourseService {
       throw new HttpException(400, "Invalid Course Id");
     }
     return course;
+  }
+  public async viewCourse(courseId: string, userId: string): Promise<any> {
+    try {
+      const course: Course = await CourseModel.findByIdAndUpdate(
+        courseId,
+        {
+          $inc: { viewCount: 1 },
+        },
+        { new: true }
+      );
+      const isuser: any = await UserModel.findOne({ _id: userId });
+
+      if (isuser.viwedCourses.length) {
+        isuser.viwedCourses = [
+          isuser.viwedCourses,
+          new Types.ObjectId(courseId),
+        ];
+      } else {
+        isuser.viwedCourses = [new Types.ObjectId(courseId)];
+      }
+      const updaet: any = await UserModel.findByIdAndUpdate(
+        { _id: isuser._id },
+        {
+          viwedCourses: Object.values(
+            isuser.viwedCourses.reduce(
+              (acc, cur) => Object.assign(acc, { [cur.toString()]: cur }),
+              {}
+            )
+          ),
+        },
+        { new: true }
+      );
+      if (!course) throw new HttpException(409, "course doesn't exist");
+
+      return course;
+      // await newCourse.save();
+    } catch (err) {
+      throw new Error(err);
+    }
   }
 
   public async updateCourse(
