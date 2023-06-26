@@ -16,7 +16,7 @@ export class UserRoute implements Routes {
   private initializeRoutes() {
     this.router.post(
       `${this.path}/updatePassword/:id`,
-      // AuthMiddleware,
+      AuthMiddleware,
       // ValidationMiddleware(CreateUserDto, true),
       this.user.updatePassword
     );

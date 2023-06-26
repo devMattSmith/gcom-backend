@@ -112,6 +112,12 @@ const UserSchema: Schema = new Schema(
       enum: USER_ROLES,
       default: 1,
     },
+    viwedCourses: [
+      {
+        type: ObjectId,
+        ref: "Courses",
+      },
+    ],
     wishlist: [
       {
         type: ObjectId,

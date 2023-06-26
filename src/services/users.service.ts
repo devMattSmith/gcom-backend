@@ -243,6 +243,7 @@ export class UserService {
   }
 
   public async getViwedCourses(userId: string): Promise<any> {
+    console.log("getViwedCourses);", userId);
     const findUser: User[] = await UserModel.aggregate([
       {
         $match: { _id: new Types.ObjectId(userId) },
