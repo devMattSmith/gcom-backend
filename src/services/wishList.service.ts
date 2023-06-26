@@ -22,6 +22,23 @@ export class WishListService {
         $unwind: { path: "$course", preserveNullAndEmptyArrays: true },
       },
       {
+        $lookup: {
+          from: "Category",
+          localField: "course.category_id",
+          foreignField: "_id",
+          as: "category",
+        },
+      },
+      {
+        $unwind: { path: "$category", preserveNullAndEmptyArrays: true },
+      },
+      {
+        $addFields: {
+          "course.categoryName": "$category.name",
+        },
+      },
+
+      {
         $group: {
           _id: "$_id",
           courses: { $push: "$course" },

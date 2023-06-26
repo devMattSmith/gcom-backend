@@ -96,7 +96,7 @@ export class CourseService {
       // { $skip: skip },
       // { $limit: limit },
     ]);
-    console.log;
+
     if (!course) throw new HttpException(409, "course doesn't exist");
     return course;
     // return await CourseModel.find();

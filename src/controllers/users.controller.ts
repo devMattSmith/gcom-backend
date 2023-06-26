@@ -58,6 +58,24 @@ export class UserController {
       next(error);
     }
   };
+  public updatePassword = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const userId: string = req.params.id;
+      const userData: User = req.body;
+      const createUserData: User = await this.user.updatePassword(
+        userId,
+        userData
+      );
+
+      res.status(201).json({ data: createUserData, message: "updated" });
+    } catch (error) {
+      next(error);
+    }
+  };
 
   public getViwedCourses = async (
     req: Request,
