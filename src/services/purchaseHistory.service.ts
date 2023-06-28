@@ -4,6 +4,7 @@ import { HttpException } from "@exceptions/httpException";
 import { PurchaseHistory } from "@interfaces/purchaseHistory.interfaces";
 import { CategoryModel } from "@models/category.model";
 import { PurchaseHistoryModel } from "@/models/purchaseHistory.model";
+import { CourseModel } from "@/models/course.model";
 
 @Service()
 export class PurchaseHistorys {
@@ -57,6 +58,13 @@ export class PurchaseHistorys {
       await PurchaseHistoryModel.create({
         ...categoryData,
       });
+    await CourseModel.findByIdAndUpdate(
+      { _id: categoryData.courseId },
+      {
+        $inc: { purchaseCount: 1 },
+      },
+      { new: true }
+    );
     return createCategoryData;
   }
 }

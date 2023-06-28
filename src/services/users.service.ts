@@ -4,6 +4,8 @@ import { HttpException } from "@exceptions/httpException";
 import { User } from "@interfaces/users.interface";
 import { UserModel } from "@models/users.model";
 import { Types } from "mongoose";
+import { CourseViewHistoryModel } from "@/models/courseViewHistory.model";
+import { CourseViewHistory } from "@/interfaces/courseViewHistory.interfaces";
 @Service()
 export class UserService {
   public async findAllUser(
@@ -243,15 +245,14 @@ export class UserService {
   }
 
   public async getViwedCourses(userId: string): Promise<any> {
-    console.log("getViwedCourses);", userId);
-    const findUser: User[] = await UserModel.aggregate([
+    const findUser: any[] = await CourseViewHistoryModel.aggregate([
       {
-        $match: { _id: new Types.ObjectId(userId) },
+        $match: { userId: new Types.ObjectId(userId) },
       },
       {
         $lookup: {
           from: "Courses",
-          localField: "viwedCourses",
+          localField: "courseId",
           foreignField: "_id",
           as: "courses",
         },
@@ -262,7 +263,7 @@ export class UserService {
 
       {
         $group: {
-          _id: "$_id",
+          _id: "$userId",
           courses: { $push: "$courses" },
         },
       },
