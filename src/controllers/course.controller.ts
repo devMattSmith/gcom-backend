@@ -120,6 +120,18 @@ export class CourseController {
       next(err);
     }
   };
+  public addCourseRating = async (
+    req: RequestWithUser,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const courses = await this.courserService.addCourseRating(req.body);
+      res.status(201).json({ data: courses, message: "created" });
+    } catch (err) {
+      next(err);
+    }
+  };
   public getRecentViewVideos = async (
     req: RequestWithUser,
     res: Response,
@@ -132,6 +144,99 @@ export class CourseController {
       next(err);
     }
   };
+  public mostViewedCourse = async (
+    req: RequestWithUser,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const courses = await this.courserService.mostViewedCourse();
+      res.status(201).json({ data: courses, message: "get all" });
+    } catch (err) {
+      next(err);
+    }
+  };
+  public sellingCourse = async (
+    req: RequestWithUser,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const filterData = req.body;
+      const courses = await this.courserService.sellingCourse(
+        filterData.startDate,
+        filterData.endDate
+      );
+      const middleIndex = Math.ceil(courses.length / 2);
+      const best = courses.splice(0, middleIndex);
+      const least = courses.splice(-middleIndex);
+      res.status(201).json({
+        data: [{ bestSellingCourse: best }, { leastSellingCourse: least }],
+        message: "get all",
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  public dashViewedCourse = async (
+    req: RequestWithUser,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const filterData = req.body;
+      const courses = await this.courserService.dashViewedCourse(
+        filterData.startDate,
+        filterData.endDate
+      );
+      const middleIndex = Math.ceil(courses.length / 2);
+      const best = courses.splice(0, middleIndex);
+      const least = courses.splice(-middleIndex);
+      res.status(201).json({
+        data: [{ mostViewedCourse: best }, { leastViewedCourse: least }],
+        message: "get all",
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
+  public dashRatingCourse = async (
+    req: RequestWithUser,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const filterData = req.body;
+      const courses = await this.courserService.dashRatingCourse(
+        filterData.startDate,
+        filterData.endDate
+      );
+      const middleIndex = Math.ceil(courses.length / 2);
+      const best = courses.splice(0, middleIndex);
+      const least = courses.splice(-middleIndex);
+      res.status(201).json({
+        data: [{ mostRatedCourse: best }, { leastRatedCourse: least }],
+        message: "get all",
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  public leastViewedCourse = async (
+    req: RequestWithUser,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const courses = await this.courserService.leastViewedCourse();
+      res.status(201).json({ data: courses, message: "get all" });
+    } catch (err) {
+      next(err);
+    }
+  };
+
   public getVideoToken = async (
     req: RequestWithUser,
     res: Response,
@@ -257,20 +362,20 @@ export class CourseController {
       next(err);
     }
   };
-  public coursePurchase = async (
-    req: RequestWithUser,
-    res: Response,
-    next: NextFunction
-  ) => {
-    try {
-      const courseId: string = req.params.id;
-      //const body = req.body;
-      const courses = await this.courserService.coursePurchase(courseId);
-      res.status(201).json({ data: courses, message: "created" });
-    } catch (err) {
-      next(err);
-    }
-  };
+  // public coursePurchase = async (
+  //   req: RequestWithUser,
+  //   res: Response,
+  //   next: NextFunction
+  // ) => {
+  //   try {
+  //     const courseId: string = req.params.id;
+  //     //const body = req.body;
+  //     const courses = await this.courserService.coursePurchase(courseId);
+  //     res.status(201).json({ data: courses, message: "created" });
+  //   } catch (err) {
+  //     next(err);
+  //   }
+  // };
   public getTopCourses = async (
     req: RequestWithUser,
     res: Response,

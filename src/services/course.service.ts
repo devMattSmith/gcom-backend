@@ -1,8 +1,12 @@
 import { HttpException } from "@/exceptions/httpException";
 import { Course, CourseModule } from "@/interfaces/course.interfaces";
-
+import { PurchaseHistoryModel } from "@/models/purchaseHistory.model";
 import { CourseModel } from "@/models/course.model";
 import { CourseModuleModel } from "@/models/courseModule.model";
+import { CourseViewHistoryModel } from "@/models/courseViewHistory.model";
+import { CourseRatingModel } from "@/models/courseRating.model";
+import { CourseRating } from "@/interfaces/courseRating.interfaces";
+import { CourseViewHistory } from "@/interfaces/courseViewHistory.interfaces";
 import { ChapterProgress } from "@/interfaces/courseProgress.interfaces";
 import { CourseProgressModel } from "@/models/courseProgress.model";
 import { Service } from "typedi";
@@ -304,6 +308,16 @@ export class CourseService {
       throw new Error(err);
     }
   }
+  public async addCourseRating(coursePaylaod: any): Promise<CourseRating> {
+    try {
+      const newCourse = new CourseRatingModel(coursePaylaod);
+      await newCourse.save();
+      return newCourse;
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
   public async getTopCourses(): Promise<any> {
     try {
       const newCourse: Course[] = await CourseModel.find({})
@@ -315,17 +329,189 @@ export class CourseService {
     }
   }
 
-  public async coursePurchase(courseId: string): Promise<Course> {
-    const course: Course = await CourseModel.findByIdAndUpdate(
-      courseId,
-      {
-        $inc: { purchaseCount: 1 },
-      },
-      { new: true }
-    );
-    if (!course) throw new HttpException(409, "course doesn't exist");
+  // public async coursePurchase(courseId: string): Promise<Course> {
+  //   const course: Course = await CourseModel.findByIdAndUpdate(
+  //     courseId,
+  //     {
+  //       $inc: { purchaseCount: 1 },
+  //     },
+  //     { new: true }
+  //   );
+  //   if (!course) throw new HttpException(409, "course doesn't exist");
 
-    return course;
+  //   return course;
+  // }
+
+  public async mostViewedCourse(): Promise<Course[]> {
+    try {
+      const newCourse: Course[] = await CourseModel.find(
+        {},
+        { thumbnail: 1, course_name: 1, viewCount: 1 }
+      )
+        .sort({ viewCount: -1 })
+        .limit(25);
+      return newCourse;
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+  public async sellingCourse(
+    startDate: string,
+    endDate: string
+  ): Promise<Course[]> {
+    try {
+      var conditions = {};
+      var and_clauses = [];
+
+      if (startDate && startDate != "" && endDate && endDate != "") {
+        and_clauses.push({
+          createdAt: {
+            $gte: new Date(startDate),
+            $lt: new Date(`${endDate}T23:59:59.999Z`),
+          },
+        });
+      }
+      conditions["$and"] = and_clauses;
+      const getProgress = await PurchaseHistoryModel.aggregate([
+        {
+          $match: conditions,
+        },
+        {
+          $lookup: {
+            from: "Courses",
+            localField: "courseId",
+            foreignField: "_id",
+            as: "courseDetails",
+          },
+        },
+        { $unwind: "$courseDetails" },
+
+        {
+          $group: {
+            _id: "$courseId",
+            courseName: { $first: "$courseDetails.course_name" },
+            thumbnail: { $first: "$courseDetails.thumbnail" },
+            count: { $sum: 1 },
+          },
+        },
+        {
+          $sort: { count: -1 },
+        },
+      ]);
+      return getProgress;
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  public async dashRatingCourse(
+    startDate: string,
+    endDate: string
+  ): Promise<Course[]> {
+    try {
+      var conditions = {};
+      var and_clauses = [];
+
+      if (startDate && startDate != "" && endDate && endDate != "") {
+        and_clauses.push({
+          createdAt: {
+            $gte: new Date(startDate),
+            $lt: new Date(`${endDate}T23:59:59.999Z`),
+          },
+        });
+      }
+      conditions["$and"] = and_clauses;
+      const getProgress = await CourseRatingModel.aggregate([
+        {
+          $match: conditions,
+        },
+        {
+          $lookup: {
+            from: "Courses",
+            localField: "courseId",
+            foreignField: "_id",
+            as: "courseDetails",
+          },
+        },
+        { $unwind: "$courseDetails" },
+
+        {
+          $group: {
+            _id: "$courseId",
+            courseName: { $first: "$courseDetails.course_name" },
+            thumbnail: { $first: "$courseDetails.thumbnail" },
+            count: { $sum: 1 },
+          },
+        },
+        {
+          $sort: { count: -1 },
+        },
+      ]);
+      return getProgress;
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+  public async dashViewedCourse(
+    startDate: string,
+    endDate: string
+  ): Promise<Course[]> {
+    try {
+      var conditions = {};
+      var and_clauses = [];
+
+      if (startDate && startDate != "" && endDate && endDate != "") {
+        and_clauses.push({
+          createdAt: {
+            $gte: new Date(startDate),
+            $lt: new Date(`${endDate}T23:59:59.999Z`),
+          },
+        });
+      }
+      conditions["$and"] = and_clauses;
+      const getProgress = await CourseViewHistoryModel.aggregate([
+        {
+          $match: conditions,
+        },
+        {
+          $lookup: {
+            from: "Courses",
+            localField: "courseId",
+            foreignField: "_id",
+            as: "courseDetails",
+          },
+        },
+        { $unwind: "$courseDetails" },
+
+        {
+          $group: {
+            _id: "$courseId",
+            courseName: { $first: "$courseDetails.course_name" },
+            thumbnail: { $first: "$courseDetails.thumbnail" },
+            count: { $sum: 1 },
+          },
+        },
+        {
+          $sort: { count: -1 },
+        },
+      ]);
+      return getProgress;
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+  public async leastViewedCourse(): Promise<Course[]> {
+    try {
+      const newCourse: Course[] = await CourseModel.find(
+        {},
+        { thumbnail: 1, course_name: 1, viewCount: 1 }
+      )
+        .sort({ viewCount: 1 })
+        .limit(25);
+      return newCourse;
+    } catch (err) {
+      throw new Error(err);
+    }
   }
 
   public async featuredCourse(): Promise<Course[]> {
@@ -400,39 +586,9 @@ export class CourseService {
   }
   public async viewCourse(courseId: string, userId: string): Promise<any> {
     try {
-      const course: Course = await CourseModel.findByIdAndUpdate(
-        courseId,
-        {
-          $inc: { viewCount: 1 },
-        },
-        { new: true }
-      );
-      const isuser: any = await UserModel.findOne({ _id: userId });
-
-      if (isuser.viwedCourses.length) {
-        isuser.viwedCourses = [
-          isuser.viwedCourses,
-          new Types.ObjectId(courseId),
-        ];
-      } else {
-        isuser.viwedCourses = [new Types.ObjectId(courseId)];
-      }
-      const updaet: any = await UserModel.findByIdAndUpdate(
-        { _id: isuser._id },
-        {
-          viwedCourses: Object.values(
-            isuser.viwedCourses.reduce(
-              (acc, cur) => Object.assign(acc, { [cur.toString()]: cur }),
-              {}
-            )
-          ),
-        },
-        { new: true }
-      );
-      if (!course) throw new HttpException(409, "course doesn't exist");
-
-      return course;
-      // await newCourse.save();
+      const newCourse = new CourseViewHistoryModel({ courseId, userId });
+      await newCourse.save();
+      return newCourse;
     } catch (err) {
       throw new Error(err);
     }

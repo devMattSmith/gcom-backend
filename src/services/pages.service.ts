@@ -15,9 +15,9 @@ export class PagesService {
   public async find(params: any, page) {
     const { filter, limit, skip, sort } = <any>aqp(params);
     const pages = await PagesModel.find(filter)
-    .sort(sort)
-    .skip(skip)
-    .limit(limit);
+      .sort(sort)
+      .skip(skip)
+      .limit(limit);
     const total_count = await PagesModel.count();
     return {
       pages,
@@ -28,7 +28,6 @@ export class PagesService {
       },
     };
   }
-
 
   public async countAllPages(): Promise<number> {
     const pages: number = await PagesModel.count();
