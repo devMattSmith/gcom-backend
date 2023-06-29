@@ -322,10 +322,61 @@ export class CourseService {
 
   public async getTopCourses(): Promise<any> {
     try {
-      const newCourse: Course[] = await CourseModel.find({})
-        .sort({ purchaseCount: -1 })
-        .limit(10);
-      return newCourse;
+      // const newCourse: Course[] = await CourseModel.find({})
+      //   .sort({ purchaseCount: -1 })
+      //   .limit(10);
+      const course: any[] = await PurchaseHistoryModel.aggregate([
+        // {
+        //   $match: { category_id: { $in: user.categories } },
+        // },
+        {
+          $lookup: {
+            from: "Courses",
+            localField: "courseId",
+            foreignField: "_id",
+            as: "courseDetails",
+          },
+        },
+        {
+          $unwind: { path: "$courseDetails", preserveNullAndEmptyArrays: true },
+        },
+        {
+          $lookup: {
+            from: "Category",
+            localField: "courseDetails.category_id",
+            foreignField: "_id",
+            as: "category",
+          },
+        },
+        {
+          $unwind: { path: "$category", preserveNullAndEmptyArrays: true },
+        },
+        {
+          $lookup: {
+            from: "Users",
+            localField: "courseDetails.generalInfo.instructorName",
+            foreignField: "_id",
+            as: "user",
+          },
+        },
+        {
+          $unwind: { path: "$user", preserveNullAndEmptyArrays: true },
+        },
+        {
+          $project: {
+            _id: 1,
+            course_name: "$courseDetails.course_name",
+            author: "$user.name",
+            category: "$category.name",
+            published: "$createdAt",
+            bannerImage: 1,
+            thumbnail: 1,
+          },
+        },
+        { $sort: { published: -1 } },
+        { $limit: 10 },
+      ]);
+      return course;
     } catch (err) {
       throw new Error(err);
     }
@@ -576,10 +627,50 @@ export class CourseService {
 
   public async featuredCourse(): Promise<Course[]> {
     try {
-      const newCourse: Course[] = await CourseModel.find({})
-        .sort({ createdAt: -1 })
-        .limit(5);
-      return newCourse;
+      // const newCourse: Course[] = await CourseModel.find({})
+      //   .sort({ createdAt: -1 })
+      //   .limit(5);
+      const course: any[] = await CourseModel.aggregate([
+        // {
+        //   $match: { category_id: { $in: user.categories } },
+        // },
+        {
+          $lookup: {
+            from: "Category",
+            localField: "category_id",
+            foreignField: "_id",
+            as: "category",
+          },
+        },
+        {
+          $unwind: { path: "$category", preserveNullAndEmptyArrays: true },
+        },
+        {
+          $lookup: {
+            from: "Users",
+            localField: "generalInfo.instructorName",
+            foreignField: "_id",
+            as: "user",
+          },
+        },
+        {
+          $unwind: { path: "$user", preserveNullAndEmptyArrays: true },
+        },
+        {
+          $project: {
+            _id: 1,
+            course_name: 1,
+            author: "$user.name",
+            category: "$category.name",
+            published: "$createdAt",
+            bannerImage: 1,
+            thumbnail: 1,
+          },
+        },
+        { $sort: { published: -1 } },
+        { $limit: 10 },
+      ]);
+      return course;
     } catch (err) {
       throw new Error(err);
     }
@@ -614,18 +705,48 @@ export class CourseService {
       throw new HttpException(409, "module doesn't exist");
     return updateCommentById;
   }
-  public async getRecommendedCourse(
-    categoryId: string
-    // coursePaylaod: any
-  ): Promise<any> {
+  public async getRecommendedCourse(categoryId: string): Promise<any> {
     const user: any = await UserModel.findOne({ _id: categoryId });
-    console.log(user);
-    const updateCommentById: any = await CourseModel.find({
-      category_id: { $in: user.categories },
-    });
-    if (!updateCommentById)
-      throw new HttpException(409, "category doesn't exist");
-    return updateCommentById;
+    const course: any[] = await CourseModel.aggregate([
+      {
+        $match: { category_id: { $in: user.categories } },
+      },
+      {
+        $lookup: {
+          from: "Category",
+          localField: "category_id",
+          foreignField: "_id",
+          as: "category",
+        },
+      },
+      {
+        $unwind: { path: "$category", preserveNullAndEmptyArrays: true },
+      },
+      {
+        $lookup: {
+          from: "Users",
+          localField: "generalInfo.instructorName",
+          foreignField: "_id",
+          as: "user",
+        },
+      },
+      {
+        $unwind: { path: "$user", preserveNullAndEmptyArrays: true },
+      },
+      {
+        $project: {
+          _id: 1,
+          course_name: 1,
+          author: "$user.name",
+          category: "$category.name",
+          published: "$createdAt",
+          bannerImage: 1,
+          thumbnail: 1,
+        },
+      },
+    ]);
+    if (!course) throw new HttpException(409, "category doesn't exist");
+    return course;
   }
 
   public async updateModuleChapter(

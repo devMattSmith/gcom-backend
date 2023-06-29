@@ -249,22 +249,66 @@ export class UserService {
       {
         $match: { userId: new Types.ObjectId(userId) },
       },
+      // {
+      //   $lookup: {
+      //     from: "Courses",
+      //     localField: "courseId",
+      //     foreignField: "_id",
+      //     as: "courses",
+      //   },
+      // },
+      // {
+      //   $unwind: { path: "$courses", preserveNullAndEmptyArrays: true },
+      // },
+
+      // {
+      //   $group: {
+      //     _id: "$userId",
+      //     courses: { $push: "$courses" },
+      //   },
+      // },
       {
         $lookup: {
           from: "Courses",
           localField: "courseId",
           foreignField: "_id",
-          as: "courses",
+          as: "courseDetails",
         },
       },
       {
-        $unwind: { path: "$courses", preserveNullAndEmptyArrays: true },
+        $unwind: { path: "$courseDetails", preserveNullAndEmptyArrays: true },
       },
-
       {
-        $group: {
-          _id: "$userId",
-          courses: { $push: "$courses" },
+        $lookup: {
+          from: "Category",
+          localField: "courseDetails.category_id",
+          foreignField: "_id",
+          as: "category",
+        },
+      },
+      {
+        $unwind: { path: "$category", preserveNullAndEmptyArrays: true },
+      },
+      {
+        $lookup: {
+          from: "Users",
+          localField: "courseDetails.generalInfo.instructorName",
+          foreignField: "_id",
+          as: "user",
+        },
+      },
+      {
+        $unwind: { path: "$user", preserveNullAndEmptyArrays: true },
+      },
+      {
+        $project: {
+          _id: 1,
+          course_name: "$courseDetails.course_name",
+          author: "$user.name",
+          category: "$category.name",
+          published: "$createdAt",
+          bannerImage: "$courseDetails.bannerImage",
+          thumbnail: "$courseDetails.thumbnail",
         },
       },
     ]);
