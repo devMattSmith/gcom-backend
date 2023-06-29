@@ -99,6 +99,16 @@
             "date": 1687753815377,
             "name": "D:\\dev\\gcom-backend\\src\\logs\\debug\\2023-06-26.log",
             "hash": "3c5d7aa3e0fd636b1caa918b5ba50e7e65426a85b4060ff91512017711ae2cb4"
+        },
+        {
+            "date": 1687839926271,
+            "name": "D:\\dev\\gcom-backend\\src\\logs\\debug\\2023-06-27.log",
+            "hash": "3f00cc1626668fdae9ae0a40b30b6d265407d64c684f0cd6dedeedd959f6fb77"
+        },
+        {
+            "date": 1687926821687,
+            "name": "D:\\dev\\gcom-backend\\src\\logs\\debug\\2023-06-28.log",
+            "hash": "74df8f239bdf6d4ce46f621edd572976ecc64ad7864c0031f4faf84a3c5ee5ab"
         }
     ],
     "hashType": "sha256"
