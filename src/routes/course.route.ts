@@ -11,6 +11,19 @@ export class CourseRoute implements Routes {
   }
 
   private initializeRoutes() {
+    this.router.post(`${this.path}/sellingCourse`, this.course.sellingCourse);
+    this.router.post(
+      `${this.path}/addCourseRating`,
+      this.course.addCourseRating
+    );
+    this.router.post(
+      `${this.path}/dashRatingCourse`,
+      this.course.dashRatingCourse
+    );
+    this.router.post(
+      `${this.path}/dashViewedCourse`,
+      this.course.dashViewedCourse
+    );
     this.router.get(`${this.path}/featuredCourse`, this.course.featuredCourse);
     this.router.get(`${this.path}/getTopCourses`, this.course.getTopCourses);
     this.router.post(this.path, this.course.getAllCourse);
@@ -34,10 +47,10 @@ export class CourseRoute implements Routes {
       `${this.path}/getCourseProgress`,
       this.course.getCourseProgress
     );
-    this.router.put(
-      `${this.path}/coursePurchase/:id`,
-      this.course.coursePurchase
-    );
+    // this.router.put(
+    //   `${this.path}/coursePurchase/:id`,
+    //   this.course.coursePurchase
+    // );
 
     this.router.post(
       `${this.path}/getRecentViewVideos`,

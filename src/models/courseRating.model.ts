@@ -1,29 +1,25 @@
 import { model, Schema, Document } from "mongoose";
-import { Category } from "@interfaces/category.interfaces";
-
+import { CourseRating } from "@interfaces/courseRating.interfaces";
+const ObjectId = Schema.Types.ObjectId;
 const CourseRatingSchema: Schema = new Schema(
   {
     rate: {
-      type: String,
-      required: true,
-    },
-    courseId: {
-      type: String,
+      type: Number,
       required: true,
     },
     userId: {
-      type: String,
-      required: true,
+      type: ObjectId,
+      ref: "User",
     },
-    isDelete: {
-      type: Boolean,
-      default: false,
+    courseId: {
+      type: ObjectId,
+      ref: "Course",
     },
   },
   { timestamps: true, versionKey: false }
 );
 
-export const CourseRatingModel = model<Category & Document>(
+export const CourseRatingModel = model<CourseRating & Document>(
   "CourseRating",
   CourseRatingSchema,
   "CourseRating"
