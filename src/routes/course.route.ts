@@ -20,6 +20,7 @@ export class CourseRoute implements Routes {
       `${this.path}/dashRatingCourse`,
       this.course.dashRatingCourse
     );
+    this.router.post(`${this.path}/courseCount`, this.course.courseCount);
     this.router.post(
       `${this.path}/dashViewedCourse`,
       this.course.dashViewedCourse

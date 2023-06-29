@@ -223,6 +223,41 @@ export class CourseController {
       next(err);
     }
   };
+  public courseCount = async (
+    req: RequestWithUser,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const filterData = req.body;
+      const totalCoursesCount = await this.courserService.totalCoursesCount();
+      const newCoursCount = await this.courserService.newCoursCount(
+        filterData.startDate,
+        filterData.endDate
+      );
+      const ratingCount = await this.courserService.ratingCount(
+        filterData.startDate,
+        filterData.endDate
+      );
+      const purchaseCount = await this.courserService.purchaseCount(
+        filterData.startDate,
+        filterData.endDate
+      );
+      let coutObject = {
+        totalCoursesCount,
+        newCoursCount,
+        ratingCount,
+        purchaseCount,
+      };
+
+      res.status(201).json({
+        data: coutObject,
+        message: "get count",
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
 
   public leastViewedCourse = async (
     req: RequestWithUser,
