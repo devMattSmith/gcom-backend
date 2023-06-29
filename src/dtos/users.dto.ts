@@ -18,6 +18,8 @@ export class CreateUserDto {
   @MinLength(9)
   @MaxLength(32)
   public password: string;
+
+  public deviceInfo: any;
 }
 
 export class UpdateUserDto {

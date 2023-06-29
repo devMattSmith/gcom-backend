@@ -1,9 +1,8 @@
-import { NextFunction, Request, Response } from 'express';
-import { Container } from 'typedi';
+import { QUERY_PARAMS } from '@/utils/utils';
 import { Notes } from '@interfaces/notes.interfaces';
 import { NotesService } from '@services/notes.service';
-import { DATATABLE } from '@config';
-import { QUERY_PARAMS } from '@/utils/utils';
+import { NextFunction, Request, Response } from 'express';
+import { Container } from 'typedi';
 export class NotesController {
   public notes = Container.get(NotesService);
 
