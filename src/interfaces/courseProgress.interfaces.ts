@@ -14,4 +14,5 @@ export interface CrourseProgress {
   userId: String;
   courseId: String;
   module_progress: [ModuleProgress];
+  is_completed:boolean
 }

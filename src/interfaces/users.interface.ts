@@ -29,6 +29,7 @@ export interface User {
   courses: String;
   categories: String;
   wishlist: String;
+  deviceInfo?: any;
 }
 export interface UserList {
   data: [User];

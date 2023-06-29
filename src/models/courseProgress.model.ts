@@ -1,10 +1,10 @@
-import { model, Schema, Document } from "mongoose";
-import { ChapterProgress } from "@interfaces/courseProgress.interfaces";
+import { model, Schema, Document } from 'mongoose';
+import { ChapterProgress } from '@interfaces/courseProgress.interfaces';
 const ObjectId = Schema.Types.ObjectId;
 const moduleProgressSchema: Schema = new Schema({
   moduleId: {
     type: ObjectId,
-    ref: "courseModule",
+    ref: 'courseModule',
   },
   chapter_progress: [
     {
@@ -20,19 +20,20 @@ const CourseProgressSchema: Schema = new Schema(
   {
     userId: {
       type: ObjectId,
-      ref: "User",
+      ref: 'User',
     },
     courseId: {
       type: ObjectId,
-      ref: "Courses",
+      ref: 'Courses',
     },
     module_progress: [moduleProgressSchema],
+
+    is_completed: {
+      type: Boolean,
+      default: false,
+    },
   },
-  { timestamps: true, versionKey: false }
+  { timestamps: true, versionKey: false },
 );
 
-export const CourseProgressModel = model<ChapterProgress & Document>(
-  "CourseProgress",
-  CourseProgressSchema,
-  "CourseProgress"
-);
+export const CourseProgressModel = model<ChapterProgress & Document>('CourseProgress', CourseProgressSchema, 'CourseProgress');

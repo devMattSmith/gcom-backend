@@ -1,19 +1,23 @@
 import { HttpException } from "@/exceptions/httpException";
 import { Course, CourseModule } from "@/interfaces/course.interfaces";
-import { PurchaseHistoryModel } from "@/models/purchaseHistory.model";
+
+import { CourseActivityEnum } from "@/enum/enum";
+import { ChapterProgress } from "@/interfaces/courseProgress.interfaces";
 import { CourseModel } from "@/models/course.model";
 import { CourseModuleModel } from "@/models/courseModule.model";
+import { CourseProgressModel } from "@/models/courseProgress.model";
+import { UserModel } from "@/models/users.model";
+import { Types } from "mongoose";
+import Container, { Service } from "typedi";
+import { UserActivityService } from "./userActivity.service";
 import { CourseViewHistoryModel } from "@/models/courseViewHistory.model";
+import { PurchaseHistoryModel } from "@/models/purchaseHistory.model";
 import { CourseRatingModel } from "@/models/courseRating.model";
 import { CourseRating } from "@/interfaces/courseRating.interfaces";
-import { CourseViewHistory } from "@/interfaces/courseViewHistory.interfaces";
-import { ChapterProgress } from "@/interfaces/courseProgress.interfaces";
-import { CourseProgressModel } from "@/models/courseProgress.model";
-import { Service } from "typedi";
-import { Types } from "mongoose";
-import { UserModel } from "@/models/users.model";
 @Service()
 export class CourseService {
+  public userActivity = Container.get(UserActivityService);
+
   public async findAllCourses(
     skip: number,
     limit: number,
@@ -21,8 +25,8 @@ export class CourseService {
     search: string,
     category: any
   ): Promise<any[]> {
-    var conditions = {};
-    var and_clauses = [{}];
+    const conditions = {};
+    const and_clauses = [{}];
     if (status) {
       and_clauses.push({
         status: status,
@@ -87,8 +91,7 @@ export class CourseService {
           published: "$createdAt",
           status: 1,
           rating: "5.5",
-          bannerImage: 1,
-          thumbnail: 1,
+          courseBanner: 1,
           subscriptions: "6",
         },
       },
@@ -166,8 +169,7 @@ export class CourseService {
           category: { $first: "$category.name" },
           duration: { $first: "$duration" },
           course_description: { $first: "$course_description" },
-          bannerImage: { $first: "$bannerImage" },
-          thumbnail: { $first: "$thumbnail" },
+          courseBanner: { $first: "$courseBanner" },
           previewVideo: { $first: "$previewVideo" },
           generalInfo: { $first: "$generalInfo" },
           meta: { $first: "$meta" },
@@ -200,9 +202,9 @@ export class CourseService {
         courseId: coursePaylaod.courseId,
       });
 
-      let moduleArr = [];
+      const moduleArr = [];
       course.map((item) => {
-        let chapArr = [];
+        const chapArr = [];
         item.chapter.map((i) => {
           chapArr.push({ chapter_id: i._id });
         });
@@ -212,14 +214,44 @@ export class CourseService {
         });
       });
 
-      let progressArr = {
+      const progressArr = {
         userId: coursePaylaod.userId,
         courseId: coursePaylaod.courseId,
         module_progress: moduleArr,
       };
       const newCourse = new CourseProgressModel(progressArr);
       await newCourse.save();
+
+      await this.userActivity.create({
+        user: coursePaylaod.userId,
+        course: coursePaylaod.courseId,
+        type: CourseActivityEnum.COURSE_STARTED,
+      });
+
       return newCourse;
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  public async completeCourseProgress(coursePaylaod: any) {
+    try {
+      const courseprogress = await CourseProgressModel.updateOne(
+        {
+          userId: coursePaylaod.userId,
+          courseId: coursePaylaod.courseId,
+        },
+        { $set: { is_completed: true } },
+        { new: true }
+      );
+
+      await this.userActivity.create({
+        user: coursePaylaod.userId,
+        course: coursePaylaod.courseId,
+        type: CourseActivityEnum.COURSE_COMPLETED,
+      });
+
+      return courseprogress;
     } catch (err) {
       throw new Error(err);
     }
@@ -413,8 +445,8 @@ export class CourseService {
     endDate: string
   ): Promise<Course[]> {
     try {
-      var conditions = {};
-      var and_clauses = [];
+      const conditions = {};
+      const and_clauses = [];
 
       if (startDate && startDate != "" && endDate && endDate != "") {
         and_clauses.push({
@@ -462,8 +494,8 @@ export class CourseService {
     endDate: string
   ): Promise<Course[]> {
     try {
-      var conditions = {};
-      var and_clauses = [];
+      const conditions = {};
+      const and_clauses = [];
 
       if (startDate && startDate != "" && endDate && endDate != "") {
         and_clauses.push({
@@ -563,13 +595,14 @@ export class CourseService {
       throw new Error(err);
     }
   }
+
   public async dashViewedCourse(
     startDate: string,
     endDate: string
   ): Promise<Course[]> {
     try {
-      var conditions = {};
-      var and_clauses = [];
+      const conditions = {};
+      const and_clauses = [];
 
       if (startDate && startDate != "" && endDate && endDate != "") {
         and_clauses.push({
@@ -767,9 +800,39 @@ export class CourseService {
   }
   public async viewCourse(courseId: string, userId: string): Promise<any> {
     try {
-      const newCourse = new CourseViewHistoryModel({ courseId, userId });
-      await newCourse.save();
-      return newCourse;
+      const course: Course = await CourseModel.findByIdAndUpdate(
+        courseId,
+        {
+          $inc: { viewCount: 1 },
+        },
+        { new: true }
+      );
+      const isuser: any = await UserModel.findOne({ _id: userId });
+
+      if (isuser.viwedCourses.length) {
+        isuser.viwedCourses = [
+          isuser.viwedCourses,
+          new Types.ObjectId(courseId),
+        ];
+      } else {
+        isuser.viwedCourses = [new Types.ObjectId(courseId)];
+      }
+      const updaet: any = await UserModel.findByIdAndUpdate(
+        { _id: isuser._id },
+        {
+          viwedCourses: Object.values(
+            isuser.viwedCourses.reduce(
+              (acc, cur) => Object.assign(acc, { [cur.toString()]: cur }),
+              {}
+            )
+          ),
+        },
+        { new: true }
+      );
+      if (!course) throw new HttpException(409, "course doesn't exist");
+
+      return course;
+      // await newCourse.save();
     } catch (err) {
       throw new Error(err);
     }
