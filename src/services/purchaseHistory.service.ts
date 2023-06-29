@@ -5,6 +5,7 @@ import { PurchaseHistory } from "@interfaces/purchaseHistory.interfaces";
 import { CategoryModel } from "@models/category.model";
 import { PurchaseHistoryModel } from "@/models/purchaseHistory.model";
 import { CourseModel } from "@/models/course.model";
+import { MyListModel } from "@/models/myList.model";
 
 @Service()
 export class PurchaseHistorys {
@@ -52,17 +53,22 @@ export class PurchaseHistorys {
   }
 
   public async createPurchaseHistroy(
-    categoryData: PurchaseHistory
+    categoryData: any
   ): Promise<PurchaseHistory> {
     const createCategoryData: PurchaseHistory =
       await PurchaseHistoryModel.create({
         ...categoryData,
       });
-    await CourseModel.findByIdAndUpdate(
-      { _id: categoryData.courseId },
-      {
-        $inc: { purchaseCount: 1 },
-      },
+    // await CourseModel.findByIdAndUpdate(
+    //   { _id: categoryData.courseId },
+    //   {
+    //     $inc: { purchaseCount: 1 },
+    //   },
+    //   { new: true }
+    // );
+    const updateMyListById = await MyListModel.findByIdAndUpdate(
+      { _id: categoryData.mylistId },
+      { $push: { courseId: { $each: [categoryData.courseId] } } },
       { new: true }
     );
     return createCategoryData;

@@ -87,7 +87,8 @@ export class CourseService {
           published: "$createdAt",
           status: 1,
           rating: "5.5",
-          courseBanner: 1,
+          bannerImage: 1,
+          thumbnail: 1,
           subscriptions: "6",
         },
       },
@@ -165,7 +166,8 @@ export class CourseService {
           category: { $first: "$category.name" },
           duration: { $first: "$duration" },
           course_description: { $first: "$course_description" },
-          courseBanner: { $first: "$courseBanner" },
+          bannerImage: { $first: "$bannerImage" },
+          thumbnail: { $first: "$thumbnail" },
           previewVideo: { $first: "$previewVideo" },
           generalInfo: { $first: "$generalInfo" },
           meta: { $first: "$meta" },
@@ -447,6 +449,64 @@ export class CourseService {
           $sort: { count: -1 },
         },
       ]);
+      return getProgress;
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  public async totalCoursesCount() {
+    try {
+      const total_count = await CourseModel.count();
+      return total_count;
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+  public async newCoursCount(
+    startDate: string,
+    endDate: string
+  ): Promise<number> {
+    try {
+      const getProgress = await CourseModel.find({
+        createdAt: {
+          $gte: new Date(startDate),
+          $lt: new Date(`${endDate}T23:59:59.999Z`),
+        },
+      }).count();
+      return getProgress;
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  public async ratingCount(
+    startDate: string,
+    endDate: string
+  ): Promise<number> {
+    try {
+      const getProgress = await CourseRatingModel.find({
+        createdAt: {
+          $gte: new Date(startDate),
+          $lt: new Date(`${endDate}T23:59:59.999Z`),
+        },
+      }).count();
+      return getProgress;
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+  public async purchaseCount(
+    startDate: string,
+    endDate: string
+  ): Promise<number> {
+    try {
+      const getProgress = await PurchaseHistoryModel.find({
+        createdAt: {
+          $gte: new Date(startDate),
+          $lt: new Date(`${endDate}T23:59:59.999Z`),
+        },
+      }).count();
       return getProgress;
     } catch (err) {
       throw new Error(err);

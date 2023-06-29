@@ -59,7 +59,7 @@ export class MyListService {
     );
     //  console.log(isuser.categoryIds);
     const updateMyListById: MyList = await MyListModel.findByIdAndUpdate(
-      { _id: myListData.wishListId },
+      { _id: myListData.mylistId },
       { $push: { courseId: { $each: myListData.courseId } } },
       { new: true }
     );
@@ -68,7 +68,7 @@ export class MyListService {
   }
   public async removeCourse(myListData: MyList): Promise<MyList> {
     const createMyListData: MyList = await MyListModel.findByIdAndUpdate(
-      { _id: myListData.wishListId },
+      { _id: myListData.mylistId },
       {
         $pull: { courseId: myListData.courseId },
       },
