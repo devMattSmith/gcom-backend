@@ -62,16 +62,15 @@ export class AuthService {
     //   { new: true }
     // );
 
-    if (userData?.deviceInfo) {
-      await this.loginActivity.create({
-        device_id: userData?.deviceInfo?.device_id,
-        device_name: userData?.deviceInfo?.device_name,
-        city: userData?.deviceInfo?.city,
-        country: userData?.deviceInfo?.country,
-        user: findUser._id,
-        type: 'LOGIN',
-      });
-    }
+    await this.loginActivity.create({
+      device_id: userData?.deviceInfo?.device_id,
+      device_name: userData?.deviceInfo?.device_name,
+      city: userData?.deviceInfo?.city,
+      country: userData?.deviceInfo?.country,
+      user: findUser._id,
+      type: 'LOGIN',
+    });
+  
     await this.userActivity.create({
       type: CourseActivityEnum.LOGIN,
       user: findUser._id,
