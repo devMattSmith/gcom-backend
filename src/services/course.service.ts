@@ -27,6 +27,9 @@ export class CourseService {
   ): Promise<any[]> {
     const conditions = {};
     const and_clauses = [{}];
+    and_clauses.push({
+      isDeleted: false,
+    });
     if (status) {
       and_clauses.push({
         status: status,
@@ -317,6 +320,7 @@ export class CourseService {
             from: "Courses",
             localField: "courseId",
             foreignField: "_id",
+            pipeline: [{ $match: { isDeleted: false } }],
             as: "courseDetails",
           },
         },
@@ -368,11 +372,15 @@ export class CourseService {
             from: "Courses",
             localField: "courseId",
             foreignField: "_id",
+            pipeline: [{ $match: { isDeleted: false } }],
             as: "courseDetails",
           },
         },
         {
-          $unwind: { path: "$courseDetails", preserveNullAndEmptyArrays: true },
+          $unwind: {
+            path: "$courseDetails",
+            preserveNullAndEmptyArrays: true,
+          },
         },
         {
           $lookup: {
@@ -399,6 +407,7 @@ export class CourseService {
         {
           $project: {
             _id: 1,
+            courseId: "courseDetails._id",
             course_name: "$courseDetails.course_name",
             author: "$user.name",
             category: "$category.name",
@@ -468,6 +477,7 @@ export class CourseService {
             from: "Courses",
             localField: "courseId",
             foreignField: "_id",
+            pipeline: [{ $match: { isDeleted: false } }],
             as: "courseDetails",
           },
         },
@@ -517,6 +527,7 @@ export class CourseService {
             from: "Courses",
             localField: "courseId",
             foreignField: "_id",
+            pipeline: [{ $match: { isDeleted: false } }],
             as: "courseDetails",
           },
         },
@@ -624,6 +635,7 @@ export class CourseService {
             from: "Courses",
             localField: "courseId",
             foreignField: "_id",
+            pipeline: [{ $match: { isDeleted: false } }],
             as: "courseDetails",
           },
         },
@@ -882,7 +894,14 @@ export class CourseService {
       if (!course) {
         throw new HttpException(400, "Invalid Course Id");
       }
-      await CourseModel.findByIdAndDelete(courseId);
+      await CourseModel.findByIdAndUpdate(
+        courseId,
+        {
+          isDeleted: true,
+        },
+        { new: true }
+      );
+      // await CourseModel.findByIdAndDelete(courseId);
       return {
         success: true,
         message: `${course.course_name} Deleted Successfully`,

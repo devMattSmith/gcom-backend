@@ -15,6 +15,7 @@ export class WishListService {
           from: "Courses",
           localField: "wishlist",
           foreignField: "_id",
+          pipeline: [{ $match: { isDeleted: false } }],
           as: "course",
         },
       },
