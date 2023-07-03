@@ -802,38 +802,43 @@ export class CourseService {
   }
   public async viewCourse(courseId: string, userId: string): Promise<any> {
     try {
-      const course: Course = await CourseModel.findByIdAndUpdate(
-        courseId,
-        {
-          $inc: { viewCount: 1 },
-        },
-        { new: true }
-      );
-      const isuser: any = await UserModel.findOne({ _id: userId });
+      // const course: Course = await CourseModel.findByIdAndUpdate(
+      //   courseId,
+      //   {
+      //     $inc: { viewCount: 1 },
+      //   },
+      //   { new: true }
+      // );
+      // const isuser: any = await UserModel.findOne({ _id: userId });
 
-      if (isuser.viwedCourses.length) {
-        isuser.viwedCourses = [
-          isuser.viwedCourses,
-          new Types.ObjectId(courseId),
-        ];
-      } else {
-        isuser.viwedCourses = [new Types.ObjectId(courseId)];
+      // if (isuser.viwedCourses.length) {
+      //   isuser.viwedCourses = [
+      //     isuser.viwedCourses,
+      //     new Types.ObjectId(courseId),
+      //   ];
+      // } else {
+      //   isuser.viwedCourses = [new Types.ObjectId(courseId)];
+      // }
+      // const updaet: any = await UserModel.findByIdAndUpdate(
+      //   { _id: isuser._id },
+      //   {
+      //     viwedCourses: Object.values(
+      //       isuser.viwedCourses.reduce(
+      //         (acc, cur) => Object.assign(acc, { [cur.toString()]: cur }),
+      //         {}
+      //       )
+      //     ),
+      //   },
+      //   { new: true }
+      // );
+      try {
+        const newCourse = new CourseViewHistoryModel({ courseId, userId });
+        await newCourse.save();
+        return newCourse;
+      } catch (err) {
+        throw new Error(err);
       }
-      const updaet: any = await UserModel.findByIdAndUpdate(
-        { _id: isuser._id },
-        {
-          viwedCourses: Object.values(
-            isuser.viwedCourses.reduce(
-              (acc, cur) => Object.assign(acc, { [cur.toString()]: cur }),
-              {}
-            )
-          ),
-        },
-        { new: true }
-      );
-      if (!course) throw new HttpException(409, "course doesn't exist");
 
-      return course;
       // await newCourse.save();
     } catch (err) {
       throw new Error(err);
