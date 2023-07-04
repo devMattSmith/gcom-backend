@@ -27,8 +27,12 @@ export class PaymentHistoryController {
     next: NextFunction
   ) => {
     try {
+      const filterData = req.body;
       const findAllCategoryData: PurchaseHistory[] =
-        await this.purchaseHistory.findAllRecentPurchaseCourse();
+        await this.purchaseHistory.findAllRecentPurchaseCourse(
+          filterData.startDate,
+          filterData.endDate
+        );
 
       res.status(200).json({ data: findAllCategoryData, message: "findAll" });
     } catch (error) {

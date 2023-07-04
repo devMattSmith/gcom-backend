@@ -20,7 +20,7 @@ export class PurchaseHistory implements Routes {
       // AuthMiddleware,
       this.category.getPurchaseHistory
     );
-    this.router.get(
+    this.router.post(
       `${this.path}/getRecentPurchaseCourse`,
       // AuthMiddleware,
       this.category.getRecentPurchase

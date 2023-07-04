@@ -13,8 +13,26 @@ export class PurchaseHistorys {
     const category: PurchaseHistory[] = await PurchaseHistoryModel.find();
     return category;
   }
-  public async findAllRecentPurchaseCourse(): Promise<PurchaseHistory[]> {
+  public async findAllRecentPurchaseCourse(
+    startDate,
+    endDate
+  ): Promise<PurchaseHistory[]> {
+    const conditions = {};
+    const and_clauses = [{}];
+
+    if (startDate && startDate != "" && endDate && endDate != "") {
+      and_clauses.push({
+        createdAt: {
+          $gte: new Date(startDate),
+          $lt: new Date(`${endDate}T23:59:59.999Z`),
+        },
+      });
+    }
+    conditions["$and"] = and_clauses;
     const category: PurchaseHistory[] = await PurchaseHistoryModel.aggregate([
+      {
+        $match: conditions,
+      },
       {
         $lookup: {
           from: "Courses",
