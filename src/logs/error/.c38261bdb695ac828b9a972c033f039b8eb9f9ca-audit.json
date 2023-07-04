@@ -29,6 +29,11 @@
             "date": 1688019878082,
             "name": "/Users/suryaraj/Documents/workspace/edutech/src/logs/error/2023-06-29.log",
             "hash": "36334a7694c9023aabf2ac4b48c371342a4ff05eff4fa2851459b6221a49e3d0"
+        },
+        {
+            "date": 1688403924120,
+            "name": "/Users/suryaraj/Documents/workspace/edutech/src/logs/error/2023-07-03.log",
+            "hash": "28750a54b7cda6c6074332305c73575584bdd8334304f7d4588ff7edb6fc2eaa"
         }
     ],
     "hashType": "sha256"

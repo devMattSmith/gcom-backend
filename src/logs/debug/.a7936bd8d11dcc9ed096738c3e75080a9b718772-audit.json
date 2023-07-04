@@ -1,135 +1,120 @@
 {
-    "keep": {
-        "days": false,
-        "amount": 30
+  "keep": {
+    "days": false,
+    "amount": 30
+  },
+  "auditLog": "D:\\dev\\gcom-backend\\src\\logs\\debug\\.a7936bd8d11dcc9ed096738c3e75080a9b718772-audit.json",
+  "files": [
+    {
+      "date": 1684400653266,
+      "name": "D:\\dev\\gcom-backend\\src\\logs\\debug\\2023-05-18.log",
+      "hash": "43de927c86d4d2aef17eb56e73048b650aff0da8e1aca557bdd4ff693c2d9ada"
     },
-    "auditLog": "D:\\dev\\gcom-backend\\src\\logs\\debug\\.a7936bd8d11dcc9ed096738c3e75080a9b718772-audit.json",
-    "files": [
-        {
-            "date": 1684400653266,
-            "name": "D:\\dev\\gcom-backend\\src\\logs\\debug\\2023-05-18.log",
-            "hash": "43de927c86d4d2aef17eb56e73048b650aff0da8e1aca557bdd4ff693c2d9ada"
-        },
-        {
-            "date": 1684471284906,
-            "name": "D:\\dev\\gcom-backend\\src\\logs\\debug\\2023-05-19.log",
-            "hash": "f327f282e032488def8efb820e3bb7845583e9ab7cfa6232131f19ae5f8768f0"
-        },
-        {
-            "date": 1684730383924,
-            "name": "D:\\dev\\gcom-backend\\src\\logs\\debug\\2023-05-22.log",
-            "hash": "0b64f72402c357c8746a85da2743c4b56f3b5de24d6091710e78b92f1ee137a8"
-        },
-        {
-            "date": 1684816098407,
-            "name": "D:\\dev\\gcom-backend\\src\\logs\\debug\\2023-05-23.log",
-            "hash": "d73aa67e04df902c61117e01d5e1e7e576d7382cbff921b5362de5a5acc24fb5"
-        },
-        {
-            "date": 1684903357186,
-            "name": "D:\\dev\\gcom-backend\\src\\logs\\debug\\2023-05-24.log",
-            "hash": "90f1900ca4406e3b568d4b5a6ae6e86e85031f6bf39d366dc38c58fc0afd1763"
-        },
-        {
-            "date": 1684989756792,
-            "name": "D:\\dev\\gcom-backend\\src\\logs\\debug\\2023-05-25.log",
-            "hash": "5ec39fa47baf6013343234aad26eba15b8117f9f69c795ae4f70d5463814b038"
-        },
-        {
-            "date": 1685075170300,
-            "name": "D:\\dev\\gcom-backend\\src\\logs\\debug\\2023-05-26.log",
-            "hash": "fc3b08d8e9cebdf19517569c4c3f9dd8520723906b4738903dbfbffa144f052a"
-        },
-        {
-            "date": 1685335346491,
-            "name": "D:\\dev\\gcom-backend\\src\\logs\\debug\\2023-05-29.log",
-            "hash": "3b4a1283daa2ad190ead79a775d9209eab1260f0ffcbc61ade440f77b04f136d"
-        },
-        {
-            "date": 1685421003597,
-            "name": "D:\\dev\\gcom-backend\\src\\logs\\debug\\2023-05-30.log",
-            "hash": "d399a88e9c130201e71cef9a66dafdefbaabd9400e404f1936cb9d0e129faaae"
-        },
-        {
-            "date": 1685507213217,
-            "name": "D:\\dev\\gcom-backend\\src\\logs\\debug\\2023-05-31.log",
-            "hash": "d9ccce227e2fa7aa9e37b82a27fb154e8e7430c7df09081ad044ec6a8700b770"
-        },
-        {
-            "date": 1685593705742,
-            "name": "D:\\dev\\gcom-backend\\src\\logs\\debug\\2023-06-01.log",
-            "hash": "e76088e0a6341966fa9240ff82b99edb26ffc148ebafdfb04933e3f0fedbee2c"
-        },
-        {
-            "date": 1685679899320,
-            "name": "D:\\dev\\gcom-backend\\src\\logs\\debug\\2023-06-02.log",
-            "hash": "e9bfefbf65455d9cdd74be55d4c98fa1b3b3081144b3f9e286ee42bed080036b"
-        },
-        {
-            "date": 1685939764486,
-            "name": "D:\\dev\\gcom-backend\\src\\logs\\debug\\2023-06-05.log",
-            "hash": "d3ad2eddbdd9f5ff80c02dff99d0d9144964673f5b546c3a9729ecb8f934dca6"
-        },
-        {
-            "date": 1686025739879,
-            "name": "D:\\dev\\gcom-backend\\src\\logs\\debug\\2023-06-06.log",
-            "hash": "9371f0345b481a90d312dade9991bc129f76f8d6ce08779e485449435ae519fa"
-        },
-        {
-            "date": 1686111970287,
-            "name": "D:\\dev\\gcom-backend\\src\\logs\\debug\\2023-06-07.log",
-            "hash": "89665c9da08e776610fde8419d19f528a08952736e5e8a6ef5021226d86fe738"
-        },
-        {
-            "date": 1686199729541,
-            "name": "D:\\dev\\gcom-backend\\src\\logs\\debug\\2023-06-08.log",
-            "hash": "ef59b1b91fb4c98388e19505359301af99ec6aa4b23e620d8d52fe4bd266ff06"
-        },
-        {
-            "date": 1686284655637,
-            "name": "D:\\dev\\gcom-backend\\src\\logs\\debug\\2023-06-09.log",
-            "hash": "7d38d6b067c70984e38294c8659fb35b4b9065d3dd8ef388d63e0dda96689161"
-        },
-        {
-            "date": 1687516885871,
-            "name": "D:\\dev\\gcom-backend\\src\\logs\\debug\\2023-06-23.log",
-            "hash": "2793212679deb66fecd84f66cc3875b47e6e405b1367cd3721f3e338f3f5b071"
-        },
-        {
-            "date": 1687753815377,
-            "name": "D:\\dev\\gcom-backend\\src\\logs\\debug\\2023-06-26.log",
-            "hash": "3c5d7aa3e0fd636b1caa918b5ba50e7e65426a85b4060ff91512017711ae2cb4"
-        },
-        {
-            "date": 1687839926271,
-            "name": "D:\\dev\\gcom-backend\\src\\logs\\debug\\2023-06-27.log",
-            "hash": "3f00cc1626668fdae9ae0a40b30b6d265407d64c684f0cd6dedeedd959f6fb77"
-        },
-        {
-            "date": 1687926821687,
-            "name": "D:\\dev\\gcom-backend\\src\\logs\\debug\\2023-06-28.log",
-            "hash": "74df8f239bdf6d4ce46f621edd572976ecc64ad7864c0031f4faf84a3c5ee5ab"
-        },
-        {
-            "date": 1688020862215,
-            "name": "D:\\dev\\gcom-backend\\src\\logs\\debug\\2023-06-29.log",
-            "hash": "6b0f9c15406e482acc296b89f81bb964c05ae2e15d1542a28fdfd179777d7170"
-        },
-        {
-            "date": 1688110882867,
-            "name": "D:\\dev\\gcom-backend\\src\\logs\\debug\\2023-06-30.log",
-            "hash": "b53557fe0cbe458e2806d8425b8485015e5dc1368b7b4df30ae191792596f787"
-        },
-        {
-            "date": 1688358335635,
-            "name": "D:\\dev\\gcom-backend\\src\\logs\\debug\\2023-07-03.log",
-            "hash": "067666b3cca61ead3399c34a663db4f6ad6b937093d30f166f47c3968ceb0e72"
-        },
-        {
-            "date": 1688445157104,
-            "name": "D:\\dev\\gcom-backend\\src\\logs\\debug\\2023-07-04.log",
-            "hash": "9109cad0fba7c4ac10c8402d5f3a3ddf77a6127d7966dcfb23ea3f8429d9c8b6"
-        }
-    ],
-    "hashType": "sha256"
+    {
+      "date": 1684471284906,
+      "name": "D:\\dev\\gcom-backend\\src\\logs\\debug\\2023-05-19.log",
+      "hash": "f327f282e032488def8efb820e3bb7845583e9ab7cfa6232131f19ae5f8768f0"
+    },
+    {
+      "date": 1684730383924,
+      "name": "D:\\dev\\gcom-backend\\src\\logs\\debug\\2023-05-22.log",
+      "hash": "0b64f72402c357c8746a85da2743c4b56f3b5de24d6091710e78b92f1ee137a8"
+    },
+    {
+      "date": 1684816098407,
+      "name": "D:\\dev\\gcom-backend\\src\\logs\\debug\\2023-05-23.log",
+      "hash": "d73aa67e04df902c61117e01d5e1e7e576d7382cbff921b5362de5a5acc24fb5"
+    },
+    {
+      "date": 1684903357186,
+      "name": "D:\\dev\\gcom-backend\\src\\logs\\debug\\2023-05-24.log",
+      "hash": "90f1900ca4406e3b568d4b5a6ae6e86e85031f6bf39d366dc38c58fc0afd1763"
+    },
+    {
+      "date": 1684989756792,
+      "name": "D:\\dev\\gcom-backend\\src\\logs\\debug\\2023-05-25.log",
+      "hash": "5ec39fa47baf6013343234aad26eba15b8117f9f69c795ae4f70d5463814b038"
+    },
+    {
+      "date": 1685075170300,
+      "name": "D:\\dev\\gcom-backend\\src\\logs\\debug\\2023-05-26.log",
+      "hash": "fc3b08d8e9cebdf19517569c4c3f9dd8520723906b4738903dbfbffa144f052a"
+    },
+    {
+      "date": 1685335346491,
+      "name": "D:\\dev\\gcom-backend\\src\\logs\\debug\\2023-05-29.log",
+      "hash": "3b4a1283daa2ad190ead79a775d9209eab1260f0ffcbc61ade440f77b04f136d"
+    },
+    {
+      "date": 1685421003597,
+      "name": "D:\\dev\\gcom-backend\\src\\logs\\debug\\2023-05-30.log",
+      "hash": "d399a88e9c130201e71cef9a66dafdefbaabd9400e404f1936cb9d0e129faaae"
+    },
+    {
+      "date": 1685507213217,
+      "name": "D:\\dev\\gcom-backend\\src\\logs\\debug\\2023-05-31.log",
+      "hash": "d9ccce227e2fa7aa9e37b82a27fb154e8e7430c7df09081ad044ec6a8700b770"
+    },
+    {
+      "date": 1685593705742,
+      "name": "D:\\dev\\gcom-backend\\src\\logs\\debug\\2023-06-01.log",
+      "hash": "e76088e0a6341966fa9240ff82b99edb26ffc148ebafdfb04933e3f0fedbee2c"
+    },
+    {
+      "date": 1685679899320,
+      "name": "D:\\dev\\gcom-backend\\src\\logs\\debug\\2023-06-02.log",
+      "hash": "e9bfefbf65455d9cdd74be55d4c98fa1b3b3081144b3f9e286ee42bed080036b"
+    },
+    {
+      "date": 1685939764486,
+      "name": "D:\\dev\\gcom-backend\\src\\logs\\debug\\2023-06-05.log",
+      "hash": "d3ad2eddbdd9f5ff80c02dff99d0d9144964673f5b546c3a9729ecb8f934dca6"
+    },
+    {
+      "date": 1686025739879,
+      "name": "D:\\dev\\gcom-backend\\src\\logs\\debug\\2023-06-06.log",
+      "hash": "9371f0345b481a90d312dade9991bc129f76f8d6ce08779e485449435ae519fa"
+    },
+    {
+      "date": 1686111970287,
+      "name": "D:\\dev\\gcom-backend\\src\\logs\\debug\\2023-06-07.log",
+      "hash": "89665c9da08e776610fde8419d19f528a08952736e5e8a6ef5021226d86fe738"
+    },
+    {
+      "date": 1686199729541,
+      "name": "D:\\dev\\gcom-backend\\src\\logs\\debug\\2023-06-08.log",
+      "hash": "ef59b1b91fb4c98388e19505359301af99ec6aa4b23e620d8d52fe4bd266ff06"
+    },
+    {
+      "date": 1686284655637,
+      "name": "D:\\dev\\gcom-backend\\src\\logs\\debug\\2023-06-09.log",
+      "hash": "7d38d6b067c70984e38294c8659fb35b4b9065d3dd8ef388d63e0dda96689161"
+    },
+    {
+      "date": 1687516885871,
+      "name": "D:\\dev\\gcom-backend\\src\\logs\\debug\\2023-06-23.log",
+      "hash": "2793212679deb66fecd84f66cc3875b47e6e405b1367cd3721f3e338f3f5b071"
+    },
+    {
+      "date": 1687753815377,
+      "name": "D:\\dev\\gcom-backend\\src\\logs\\debug\\2023-06-26.log",
+      "hash": "3c5d7aa3e0fd636b1caa918b5ba50e7e65426a85b4060ff91512017711ae2cb4"
+    },
+    {
+      "date": 1687839926271,
+      "name": "D:\\dev\\gcom-backend\\src\\logs\\debug\\2023-06-27.log",
+      "hash": "3f00cc1626668fdae9ae0a40b30b6d265407d64c684f0cd6dedeedd959f6fb77"
+    },
+    {
+      "date": 1687926821687,
+      "name": "D:\\dev\\gcom-backend\\src\\logs\\debug\\2023-06-28.log",
+      "hash": "74df8f239bdf6d4ce46f621edd572976ecc64ad7864c0031f4faf84a3c5ee5ab"
+    },
+    {
+      "date": 1688020862215,
+      "name": "D:\\dev\\gcom-backend\\src\\logs\\debug\\2023-06-29.log",
+      "hash": "6b0f9c15406e482acc296b89f81bb964c05ae2e15d1542a28fdfd179777d7170"
+    }
+  ],
+  "hashType": "sha256"
 }

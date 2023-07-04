@@ -22,7 +22,7 @@ export class LoginActivity {
       .limit(limit)
       .skip(skip);
     const total_count = await LoginActiviyModel.find({
-      userId: userid,
+      user: userid,
       ...filter,
     }).count();
 
