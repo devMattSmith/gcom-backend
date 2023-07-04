@@ -18,6 +18,7 @@ import { MemberStories } from './routes/memberStories.route';
 import { PurchaseHistory } from './routes/purchaseHistory.route';
 import { UserActivityRoute } from './routes/userActivity.route';
 import { LoginActivityRoute } from './routes/loginActivity.route';
+import { UserSubscriptionRoute } from './routes/userSubscription.route';
 
 ValidateEnv();
 
@@ -40,6 +41,7 @@ const app = new App([
   new PurchaseHistory(),
   new UserActivityRoute(),
   new LoginActivityRoute(),
+  new UserSubscriptionRoute()
 ]);
 
 app.listen();

@@ -1,8 +1,8 @@
-import { hash } from "bcrypt";
-import { Service } from "typedi";
-import { HttpException } from "@exceptions/httpException";
-import { Subscriptions } from "@interfaces/subscriptions.interfaces";
-import { SubscriptionsModel } from "@models/subscriptions.model";
+import { hash } from 'bcrypt';
+import { Service } from 'typedi';
+import { HttpException } from '@exceptions/httpException';
+import { Subscriptions } from '@interfaces/subscriptions.interfaces';
+import { SubscriptionsModel } from '@models/subscriptions.model';
 
 @Service()
 export class SubscriptionService {
@@ -10,6 +10,11 @@ export class SubscriptionService {
     const subscription: Subscriptions[] = await SubscriptionsModel.find();
     return subscription;
   }
+
+  public async findById(id: string) {
+    return await SubscriptionsModel.findById(id);
+  }
+
   // public async countAllCategory(): Promise<number> {
   //   const category: number = await CategoryModel.count();
   //   return category;
@@ -21,36 +26,20 @@ export class SubscriptionService {
   //   if (!findCategory) throw new HttpException(409, "Category doesn't exist");
   //   return findCategory;
   // }
-  public async createSubscription(
-    subscriptionData: Subscriptions
-  ): Promise<Subscriptions> {
-    const createSubscriptionData: Subscriptions =
-      await SubscriptionsModel.create({
-        ...subscriptionData,
-      });
+  public async createSubscription(subscriptionData: Subscriptions): Promise<Subscriptions> {
+    const createSubscriptionData: Subscriptions = await SubscriptionsModel.create({
+      ...subscriptionData,
+    });
     return createSubscriptionData;
   }
-  public async updateSubscription(
-    categoryId: string,
-    categoryData: Subscriptions
-  ): Promise<Subscriptions> {
-    const updateCategoryById: Subscriptions =
-      await SubscriptionsModel.findByIdAndUpdate(
-        categoryId,
-        { ...categoryData },
-        { new: true }
-      );
-    if (!updateCategoryById)
-      throw new HttpException(409, "Category doesn't exist");
+  public async updateSubscription(categoryId: string, categoryData: Subscriptions): Promise<Subscriptions> {
+    const updateCategoryById: Subscriptions = await SubscriptionsModel.findByIdAndUpdate(categoryId, { ...categoryData }, { new: true });
+    if (!updateCategoryById) throw new HttpException(409, "Category doesn't exist");
     return updateCategoryById;
   }
-  public async deleteSubscription(
-    subscriptionId: string
-  ): Promise<Subscriptions> {
-    const deleteCategoryById: Subscriptions =
-      await SubscriptionsModel.findByIdAndDelete(subscriptionId);
-    if (!deleteCategoryById)
-      throw new HttpException(409, "Subscription doesn't exist");
+  public async deleteSubscription(subscriptionId: string): Promise<Subscriptions> {
+    const deleteCategoryById: Subscriptions = await SubscriptionsModel.findByIdAndDelete(subscriptionId);
+    if (!deleteCategoryById) throw new HttpException(409, "Subscription doesn't exist");
     return deleteCategoryById;
   }
 }
