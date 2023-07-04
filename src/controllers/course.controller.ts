@@ -20,7 +20,7 @@ export class CourseController {
     next: NextFunction
   ) => {
     try {
-      let { skip, limit, search, status, category } = req.body;
+      let { skip, limit, search, status, category, sort } = req.body;
 
       skip = skip ? Number(skip) : DATATABLE.skip;
       limit = limit ? Number(limit) : DATATABLE.limit;
@@ -29,7 +29,8 @@ export class CourseController {
         limit,
         status,
         search,
-        category
+        category,
+        sort
       );
       res.status(200).json({ data: courses, message: "findAll" });
     } catch (err) {

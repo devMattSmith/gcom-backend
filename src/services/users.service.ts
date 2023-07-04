@@ -89,18 +89,16 @@ export class UserService {
           createdAt: { $first: "$createdAt" },
         },
       },
-      { $skip: skip },
-      { $limit: limit },
+      // { $skip: skip },
+      // { $limit: limit },
+      {
+        $facet: {
+          data: [{ $skip: skip }, { $limit: limit }],
+          total: [{ $count: "total" }],
+        },
+      },
     ]);
-    // console.log(
-    //   "test------------>>>",
-    //   search,
-    //   skip,
-    //   limit,
-    //   status,
-    //   startDate,
-    //   endDate
-    // );
+
     return users;
   }
   public async countAllUser(): Promise<number> {

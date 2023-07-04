@@ -23,7 +23,8 @@ export class CourseService {
     limit: number,
     status: number,
     search: string,
-    category: any
+    category: any,
+    sort: string
   ): Promise<any[]> {
     const conditions = {};
     const and_clauses = [{}];
@@ -99,6 +100,7 @@ export class CourseService {
           subscriptions: "6",
         },
       },
+      { $sort: { published: sort === "desc" ? -1 : 1 } },
       {
         $facet: {
           data: [{ $skip: skip }, { $limit: limit }],
