@@ -75,6 +75,7 @@ export class ReviewsService {
           from: "Course",
           localField: "courseId",
           foreignField: "_id",
+          pipeline: [{ $match: { isDeleted: false } }],
           as: "course",
         },
       },

@@ -20,6 +20,7 @@ export class PurchaseHistorys {
           from: "Courses",
           localField: "courseId",
           foreignField: "_id",
+          pipeline: [{ $match: { isDeleted: false } }],
           as: "course",
         },
       },
