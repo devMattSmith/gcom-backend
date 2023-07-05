@@ -168,6 +168,40 @@ export class CourseController {
       next(err);
     }
   };
+  public mostPopular = async (
+    req: RequestWithUser,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const filterData = req.body;
+      const courses = await this.courserService.mostPopular(
+        filterData.startDate,
+        filterData.endDate,
+        filterData.sort
+      );
+      res.status(201).json({ data: courses, message: "get all" });
+    } catch (err) {
+      next(err);
+    }
+  };
+  public mostRevewed = async (
+    req: RequestWithUser,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const filterData = req.body;
+      const courses = await this.courserService.mostRevewed(
+        filterData.startDate,
+        filterData.endDate
+      );
+      res.status(201).json({ data: courses, message: "get all" });
+    } catch (err) {
+      next(err);
+    }
+  };
+
   public mostViewedCourse = async (
     req: RequestWithUser,
     res: Response,

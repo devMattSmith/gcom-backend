@@ -14,6 +14,8 @@ import { CourseViewHistoryModel } from "@/models/courseViewHistory.model";
 import { PurchaseHistoryModel } from "@/models/purchaseHistory.model";
 import { CourseRatingModel } from "@/models/courseRating.model";
 import { CourseRating } from "@/interfaces/courseRating.interfaces";
+import { ReviewsModel } from "@/models/reviews.model";
+import { Reviews } from "@/interfaces/reviews.interfaces";
 @Service()
 export class CourseService {
   public userActivity = Container.get(UserActivityService);
@@ -306,6 +308,186 @@ export class CourseService {
     }
   }
 
+  public async mostRevewed(startDate: string, endDate: string): Promise<any> {
+    try {
+      const conditions = {};
+      const and_clauses = [];
+
+      if (startDate && startDate != "" && endDate && endDate != "") {
+        and_clauses.push({
+          "children.createdAt": {
+            $gte: new Date(startDate),
+            $lt: new Date(`${endDate}T23:59:59.999Z`),
+          },
+        });
+      }
+
+      conditions["$and"] = and_clauses;
+      const getProgress = await ReviewsModel.aggregate([
+        {
+          $lookup: {
+            from: "Courses",
+            localField: "courseId",
+            foreignField: "_id",
+            pipeline: [{ $match: { isDeleted: false } }],
+            as: "courseDetails",
+          },
+        },
+        {
+          $unwind: {
+            path: "$courseDetails",
+            preserveNullAndEmptyArrays: true,
+          },
+        },
+        {
+          $lookup: {
+            from: "Users",
+            localField: "courseDetails.generalInfo.instructorName",
+            foreignField: "_id",
+            as: "user",
+          },
+        },
+        {
+          $unwind: { path: "$user", preserveNullAndEmptyArrays: true },
+        },
+        {
+          $lookup: {
+            from: "PurchaseHistory",
+            localField: "courseId",
+            foreignField: "courseId",
+            as: "purchaseHistory",
+          },
+        },
+        {
+          $unwind: {
+            path: "$purchaseHistory",
+            preserveNullAndEmptyArrays: true,
+          },
+        },
+        {
+          $lookup: {
+            from: "Category",
+            localField: "courseDetails.category_id",
+            foreignField: "_id",
+            as: "category",
+          },
+        },
+        {
+          $unwind: { path: "$category", preserveNullAndEmptyArrays: true },
+        },
+
+        {
+          $group: {
+            _id: "$courseId",
+            courseName: { $first: "$courseDetails.course_name" },
+            price: { $first: "$courseDetails.generalInfo.price" },
+            author: { $first: "$user.name" },
+            sold: { $sum: "$purchaseHistory.totalPrice" },
+            rating: { $avg: "$rating" },
+            reviewCount: { $sum: 1 },
+            category: { $first: "$category.name" },
+            published: { $first: "$courseDetails.createdAt" },
+          },
+        },
+        { $sort: { reviewCount: -1 } },
+      ]);
+
+      return getProgress;
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  public async mostPopular(
+    startDate: string,
+    endDate: string,
+    sort: string
+  ): Promise<any> {
+    try {
+      const conditions = {};
+      const and_clauses = [];
+
+      if (startDate && startDate != "" && endDate && endDate != "") {
+        and_clauses.push({
+          "children.createdAt": {
+            $gte: new Date(startDate),
+            $lt: new Date(`${endDate}T23:59:59.999Z`),
+          },
+        });
+      }
+
+      conditions["$and"] = and_clauses;
+      const getProgress = await PurchaseHistoryModel.aggregate([
+        {
+          $lookup: {
+            from: "Courses",
+            localField: "courseId",
+            foreignField: "_id",
+            pipeline: [{ $match: { isDeleted: false } }],
+            as: "courseDetails",
+          },
+        },
+        {
+          $unwind: {
+            path: "$courseDetails",
+            preserveNullAndEmptyArrays: true,
+          },
+        },
+        {
+          $lookup: {
+            from: "Users",
+            localField: "courseDetails.generalInfo.instructorName",
+            foreignField: "_id",
+            as: "user",
+          },
+        },
+        {
+          $unwind: { path: "$user", preserveNullAndEmptyArrays: true },
+        },
+        {
+          $lookup: {
+            from: "Reviews",
+            localField: "courseId",
+            foreignField: "courseId",
+            as: "reviews",
+          },
+        },
+        {
+          $unwind: { path: "$reviews", preserveNullAndEmptyArrays: true },
+        },
+        {
+          $lookup: {
+            from: "Category",
+            localField: "courseDetails.category_id",
+            foreignField: "_id",
+            as: "category",
+          },
+        },
+        {
+          $unwind: { path: "$category", preserveNullAndEmptyArrays: true },
+        },
+
+        {
+          $group: {
+            _id: "$courseId",
+            courseName: { $first: "$courseDetails.course_name" },
+            price: { $first: "$courseDetails.generalInfo.price" },
+            author: { $first: "$user.name" },
+            sold: { $sum: "$totalPrice" },
+            rating: { $avg: "$reviews.rating" },
+            purchaseCount: { $sum: 1 },
+            category: { $first: "$category.name" },
+            published: { $first: "$courseDetails.createdAt" },
+          },
+        },
+        { $sort: { sold: sort === "desc" ? -1 : 1 } },
+      ]);
+
+      return getProgress;
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
   public async getRecentViewVideos(coursePaylaod: any): Promise<any> {
     try {
       const getProgress = await CourseProgressModel.aggregate([
@@ -381,7 +563,7 @@ export class CourseService {
         {
           $unwind: {
             path: "$courseDetails",
-            preserveNullAndEmptyArrays: true,
+            preserveNullAndEmptyArrays: false,
           },
         },
         {
@@ -520,7 +702,7 @@ export class CourseService {
         });
       }
       conditions["$and"] = and_clauses;
-      const getProgress = await CourseRatingModel.aggregate([
+      const getProgress = await ReviewsModel.aggregate([
         {
           $match: conditions,
         },
