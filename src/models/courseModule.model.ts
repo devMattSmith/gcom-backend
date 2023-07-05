@@ -9,6 +9,9 @@ const ChapterSchema: Schema = new Schema({
   banner: {
     url: { type: String },
     key: { type: String },
+    jobId: {
+      type: String,
+    },
   },
   description: {
     type: Schema.Types.Mixed,
@@ -16,6 +19,9 @@ const ChapterSchema: Schema = new Schema({
   video: {
     url: { type: String },
     key: { type: String },
+    jobId: {
+      type: String,
+    },
   },
   duration: { type: Number },
 });
