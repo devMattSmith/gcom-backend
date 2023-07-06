@@ -89,7 +89,7 @@ export class UserService {
           createdAt: { $first: "$createdAt" },
         },
       },
-      // { $skip: skip },
+      { $sort: { createdAt: -1 } },
       // { $limit: limit },
       {
         $facet: {
