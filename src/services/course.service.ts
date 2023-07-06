@@ -547,9 +547,66 @@ export class CourseService {
       // const newCourse: Course[] = await CourseModel.find({})
       //   .sort({ purchaseCount: -1 })
       //   .limit(10);
-      const course: any[] = await PurchaseHistoryModel.aggregate([
+      // const course: any[] = await PurchaseHistoryModel.aggregate([
+      //   // {
+      //   //   $match: { category_id: { $in: user.categories } },
+      //   // },
+      //   {
+      //     $lookup: {
+      //       from: "Courses",
+      //       localField: "courseId",
+      //       foreignField: "_id",
+      //       pipeline: [{ $match: { isDeleted: false } }],
+      //       as: "courseDetails",
+      //     },
+      //   },
+      //   {
+      //     $unwind: {
+      //       path: "$courseDetails",
+      //       preserveNullAndEmptyArrays: false,
+      //     },
+      //   },
+      //   {
+      //     $lookup: {
+      //       from: "Category",
+      //       localField: "courseDetails.category_id",
+      //       foreignField: "_id",
+      //       as: "category",
+      //     },
+      //   },
+      //   {
+      //     $unwind: { path: "$category", preserveNullAndEmptyArrays: true },
+      //   },
+      //   {
+      //     $lookup: {
+      //       from: "Users",
+      //       localField: "courseDetails.generalInfo.instructorName",
+      //       foreignField: "_id",
+      //       as: "user",
+      //     },
+      //   },
+      //   {
+      //     $unwind: { path: "$user", preserveNullAndEmptyArrays: true },
+      //   },
+      //   {
+      //     $project: {
+      //       _id: 1,
+      //       courseId: "courseDetails._id",
+      //       course_name: "$courseDetails.course_name",
+      //       author: "$user.name",
+      //       category: "$category.name",
+      //       published: "$createdAt",
+      //       count: { $sum: 1 },
+      //       bannerImage: "$courseDetails.bannerImage",
+      //       thumbnail: "$courseDetails.thumbnail",
+      //     },
+      //   },
+      //   { $sort: { published: -1 } },
+      //   { $limit: 10 },
+      // ]);
+      const course = await PurchaseHistoryModel.aggregate([
         // {
-        //   $match: { category_id: { $in: user.categories } },
+        //   $match: conditions,
         // },
         {
           $lookup: {
@@ -560,12 +617,7 @@ export class CourseService {
             as: "courseDetails",
           },
         },
-        {
-          $unwind: {
-            path: "$courseDetails",
-            preserveNullAndEmptyArrays: false,
-          },
-        },
+        { $unwind: "$courseDetails" },
         {
           $lookup: {
             from: "Category",
@@ -589,19 +641,20 @@ export class CourseService {
           $unwind: { path: "$user", preserveNullAndEmptyArrays: true },
         },
         {
-          $project: {
-            _id: 1,
-            courseId: "courseDetails._id",
-            course_name: "$courseDetails.course_name",
-            author: "$user.name",
-            category: "$category.name",
-            published: "$createdAt",
-            bannerImage: "$courseDetails.bannerImage",
-            thumbnail: "$courseDetails.thumbnail",
+          $group: {
+            _id: "$courseId",
+            courseName: { $first: "$courseDetails.course_name" },
+            thumbnail: { $first: "$courseDetails.thumbnail" },
+            author: { $first: "$user.name" },
+            countcourse: { $sum: 1 },
+            category: { $first: "$category.name" },
+            published: { $first: "$createdAt" },
+            bannerImage: { $first: "$courseDetails.bannerImage" },
           },
         },
-        { $sort: { published: -1 } },
-        { $limit: 10 },
+        {
+          $sort: { countcourse: -1 },
+        },
       ]);
       return course;
     } catch (err) {
