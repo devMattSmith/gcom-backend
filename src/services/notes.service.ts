@@ -40,8 +40,8 @@ export class NotesService {
       {
         $group: {
           _id: "$_id",
-          durationTime: { $first: "$durationTime" },
-          text: { $first: "$text" },
+          durationTime: { $first: "$duringTime" },
+          description: { $first: "$description" },
           moduleName: { $first: "$coursemodules.title" },
           chapterName: {
             $first: { $arrayElemAt: ["$coursemodules.chapter.title", 0] },
@@ -62,10 +62,10 @@ export class NotesService {
   public async findAllNotes(params: any, page) {
     const { filter, limit, skip, sort } = <any>aqp(params);
     const notes = await NotesModel.find(filter)
-    .populate(['coursemodules','courses','user'])
-    .sort(sort)
-    .skip(skip)
-    .limit(limit);
+      .populate(["coursemodules", "courses", "user"])
+      .sort(sort)
+      .skip(skip)
+      .limit(limit);
     const total_count = await NotesModel.count();
     return {
       notes,

@@ -66,7 +66,7 @@ export class CourseRoute implements Routes {
       this.course.mostPopular
     );
     this.router.post(
-      `${this.path}/report/mostRevewed`,
+      `${this.path}/report/mostReviewed`,
       this.course.mostRevewed
     );
 

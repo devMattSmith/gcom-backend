@@ -1,6 +1,6 @@
 export interface Notes {
   _id?: string;
-  text: String;
+  description: String;
   duringTime: String;
   courseId: String;
   moduleId: String;
