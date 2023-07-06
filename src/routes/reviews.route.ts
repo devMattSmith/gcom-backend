@@ -33,7 +33,7 @@ export class ReviewRoute implements Routes {
     this.router.post(
       `${this.path}/create`,
       ValidationMiddleware(CreateReviewDto, true),
-      AuthMiddleware,
+      // AuthMiddleware,
       this.reviews.createReview
     );
     this.router.put(

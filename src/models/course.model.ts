@@ -73,6 +73,10 @@ const CourseSchema: Schema = new Schema(
         type: String,
         default: null,
       },
+      jobId: {
+        type: String,
+        default: null,
+      },
     },
     generalInfo: {
       instructorName: {
