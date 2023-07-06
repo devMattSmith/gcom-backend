@@ -3,13 +3,13 @@ import { Notes } from "@interfaces/notes.interfaces";
 const ObjectId = Schema.Types.ObjectId;
 const NotesSchema: Schema = new Schema(
   {
-    text: {
+    description: {
       type: String,
       required: true,
     },
     courseId: {
       type: ObjectId,
-      ref: "Courses",
+      ref: "Course",
     },
     moduleId: {
       type: ObjectId,
