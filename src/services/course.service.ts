@@ -1032,19 +1032,13 @@ export class CourseService {
     ]);
     const userMyList: any = await MyListModel.find({ userId });
     const filtData = userMyList.flatMap((records) => records.courseId);
-    const topfilter = course.filter(
-      (couresData) =>
-        !filtData.some((couresData) => couresData.equals(couresData._id))
-    );
-    // console.log(filtData, "filtData");
-    console.log(
-      !filtData.some((course) => course.equals("648c2a91c26d0212829df3a1")),
-      "result"
-    );
-    // console.log(userMyList, "userMyList");
-    // console.log(topfilter, "topfilter");
+    let removedNull = filtData.filter(function (el) {
+      return el != null;
+    });
 
-    if (!course) throw new HttpException(409, "category doesn't exist");
+    const topfilter = course.filter(couresData => !removedNull.some((c) => c.equals(couresData._id)));
+    
+    if (!topfilter) throw new HttpException(409, "category doesn't exist");
     return topfilter;
   }
 
