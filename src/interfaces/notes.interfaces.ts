@@ -1,7 +1,7 @@
 export interface Notes {
   _id?: string;
   description: String;
-  duringTime: String;
+  durationTime: String;
   courseId: String;
   moduleId: String;
   chapterId: String;
