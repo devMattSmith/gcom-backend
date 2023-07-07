@@ -16,6 +16,7 @@ import { CourseRatingModel } from "@/models/courseRating.model";
 import { CourseRating } from "@/interfaces/courseRating.interfaces";
 import { ReviewsModel } from "@/models/reviews.model";
 import { Reviews } from "@/interfaces/reviews.interfaces";
+import { MyListModel } from "@/models/myList.model";
 @Service()
 export class CourseService {
   public userActivity = Container.get(UserActivityService);
@@ -989,8 +990,8 @@ export class CourseService {
       throw new HttpException(409, "module doesn't exist");
     return updateCommentById;
   }
-  public async getRecommendedCourse(categoryId: string): Promise<any> {
-    const user: any = await UserModel.findOne({ _id: categoryId });
+  public async getRecommendedCourse(userId: string): Promise<any> {
+    const user: any = await UserModel.findOne({ _id: userId });
     const course: any[] = await CourseModel.aggregate([
       {
         $match: { category_id: { $in: user.categories } },
@@ -1029,8 +1030,22 @@ export class CourseService {
         },
       },
     ]);
+    const userMyList: any = await MyListModel.find({ userId });
+    const filtData = userMyList.flatMap((records) => records.courseId);
+    const topfilter = course.filter(
+      (couresData) =>
+        !filtData.some((couresData) => couresData.equals(couresData._id))
+    );
+    // console.log(filtData, "filtData");
+    console.log(
+      !filtData.some((course) => course.equals("648c2a91c26d0212829df3a1")),
+      "result"
+    );
+    // console.log(userMyList, "userMyList");
+    // console.log(topfilter, "topfilter");
+
     if (!course) throw new HttpException(409, "category doesn't exist");
-    return course;
+    return topfilter;
   }
 
   public async updateModuleChapter(
