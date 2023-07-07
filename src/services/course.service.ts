@@ -480,7 +480,7 @@ export class CourseService {
             published: { $first: "$courseDetails.createdAt" },
           },
         },
-        { $sort: { sold: sort === "desc" ? -1 : 1 } },
+        { $sort: { purchaseCount: sort === "desc" ? -1 : 1 } },
       ]);
 
       return getProgress;
@@ -818,7 +818,7 @@ export class CourseService {
     endDate: string
   ): Promise<number> {
     try {
-      const getProgress = await CourseRatingModel.find({
+      const getProgress = await ReviewsModel.find({
         createdAt: {
           $gte: new Date(startDate),
           $lt: new Date(`${endDate}T23:59:59.999Z`),

@@ -23,7 +23,7 @@ const NotesSchema: Schema = new Schema(
       ref: "User",
     },
 
-    duringTime: {
+    durationTime: {
       type: String,
       // required: true,
     },
