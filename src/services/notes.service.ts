@@ -40,7 +40,7 @@ export class NotesService {
       {
         $group: {
           _id: "$_id",
-          durationTime: { $first: "$duringTime" },
+          durationTime: { $first: "$durationTime" },
           description: { $first: "$description" },
           moduleName: { $first: "$coursemodules.title" },
           chapterName: {

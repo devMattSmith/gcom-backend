@@ -17,6 +17,10 @@ export class CourseRoute implements Routes {
       `${this.path}/addCourseRating`,
       this.course.addCourseRating
     );
+    this.router.get(
+      `${this.path}/getPurchasableCourse/:id`,
+      this.course.getPurchasableCourse
+    );
     this.router.post(
       `${this.path}/dashRatingCourse`,
       this.course.dashRatingCourse

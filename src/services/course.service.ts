@@ -676,6 +676,65 @@ export class CourseService {
   //   return course;
   // }
 
+  public async getPurchasableCourse(userId: string): Promise<any> {
+    const course = await PurchaseHistoryModel.aggregate([
+      {
+        $match: { userId: new Types.ObjectId(userId) },
+      },
+      {
+        $lookup: {
+          from: "Courses",
+          localField: "courseId",
+          foreignField: "_id",
+          pipeline: [{ $match: { isDeleted: false } }],
+          as: "courseDetails",
+        },
+      },
+      { $unwind: "$courseDetails" },
+      {
+        $lookup: {
+          from: "Category",
+          localField: "courseDetails.category_id",
+          foreignField: "_id",
+          as: "category",
+        },
+      },
+      {
+        $unwind: { path: "$category", preserveNullAndEmptyArrays: true },
+      },
+      {
+        $lookup: {
+          from: "Users",
+          localField: "courseDetails.generalInfo.instructorName",
+          foreignField: "_id",
+          as: "user",
+        },
+      },
+      {
+        $unwind: { path: "$user", preserveNullAndEmptyArrays: true },
+      },
+      {
+        $group: {
+          _id: "$_id",
+          courseName: { $first: "$courseDetails.course_name" },
+          thumbnail: { $first: "$courseDetails.thumbnail" },
+          author: { $first: "$user.name" },
+          // countcourse: { $sum: 1 },
+          category: { $first: "$category.name" },
+          published: { $first: "$createdAt" },
+          bannerImage: { $first: "$courseDetails.bannerImage" },
+        },
+      },
+      {
+        $sort: { published: -1 },
+      },
+    ]);
+    return course;
+  }
+  catch(err) {
+    throw new Error(err);
+  }
+
   public async mostViewedCourse(): Promise<Course[]> {
     try {
       const newCourse: Course[] = await CourseModel.find(
@@ -1036,8 +1095,10 @@ export class CourseService {
       return el != null;
     });
 
-    const topfilter = course.filter(couresData => !removedNull.some((c) => c.equals(couresData._id)));
-    
+    const topfilter = course.filter(
+      (couresData) => !removedNull.some((c) => c.equals(couresData._id))
+    );
+
     if (!topfilter) throw new HttpException(409, "category doesn't exist");
     return topfilter;
   }
