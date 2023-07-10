@@ -156,6 +156,20 @@ export class CourseController {
       next(err);
     }
   };
+  public getPurchasableCourse = async (
+    req: RequestWithUser,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const userId: string = req.params.id;
+      const courses = await this.courserService.getPurchasableCourse(userId);
+      res.status(201).json({ data: courses, message: "get all" });
+    } catch (err) {
+      next(err);
+    }
+  };
+
   public getRecentViewVideos = async (
     req: RequestWithUser,
     res: Response,

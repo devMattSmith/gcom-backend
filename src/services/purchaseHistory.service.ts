@@ -13,6 +13,15 @@ export class PurchaseHistorys {
     const category: PurchaseHistory[] = await PurchaseHistoryModel.find();
     return category;
   }
+
+  public async getPurchaseHistoryByuserId(
+    userId: string
+  ): Promise<PurchaseHistory[]> {
+    const category: PurchaseHistory[] = await PurchaseHistoryModel.find({
+      userId,
+    });
+    return category;
+  }
   public async findAllRecentPurchaseCourse(
     startDate,
     endDate

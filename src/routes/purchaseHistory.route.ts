@@ -20,6 +20,11 @@ export class PurchaseHistory implements Routes {
       // AuthMiddleware,
       this.category.getPurchaseHistory
     );
+    this.router.get(
+      `${this.path}/getPurchaseHistoryByuserId/:id`,
+      // AuthMiddleware,
+      this.category.getPurchaseHistoryByuserId
+    );
     this.router.post(
       `${this.path}/getRecentPurchaseCourse`,
       // AuthMiddleware,

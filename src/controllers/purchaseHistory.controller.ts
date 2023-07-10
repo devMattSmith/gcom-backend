@@ -21,6 +21,22 @@ export class PaymentHistoryController {
       next(error);
     }
   };
+  public getPurchaseHistoryByuserId = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const userId: string = req.params.id;
+      const findAllCategoryData: PurchaseHistory[] =
+        await this.purchaseHistory.getPurchaseHistoryByuserId(userId);
+
+      res.status(200).json({ data: findAllCategoryData, message: "findAll" });
+    } catch (error) {
+      next(error);
+    }
+  };
+
   public getRecentPurchase = async (
     req: Request,
     res: Response,
