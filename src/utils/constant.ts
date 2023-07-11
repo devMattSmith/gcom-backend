@@ -32,3 +32,7 @@ export enum CORUSE_STATUS {
   PUBLISHED = 2,
   SCHEDULED = 3,
 }
+export enum COUSE_PURCHASE_TYPE {
+  ONE_TIME_PURCHASE = 1,
+  SUBSCRIPTION = 2,
+}

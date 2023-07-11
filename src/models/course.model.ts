@@ -1,6 +1,6 @@
 import { Course } from "@interfaces/course.interfaces";
 import { Document, Schema, SchemaTypes, model } from "mongoose";
-import { CORUSE_STATUS } from "../utils/constant";
+import { CORUSE_STATUS, COUSE_PURCHASE_TYPE } from "../utils/constant";
 const ObjectId = Schema.Types.ObjectId;
 // const ChapterSchema: Schema = new Schema({
 //   title: {
@@ -126,6 +126,7 @@ const CourseSchema: Schema = new Schema(
     ratedCount: {
       type: Number,
     },
+    purchaseType: { type: Number, enum: COUSE_PURCHASE_TYPE },
     isDeleted: {
       type: Boolean,
       default: false,
