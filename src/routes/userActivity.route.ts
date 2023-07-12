@@ -13,6 +13,6 @@ export class UserActivityRoute implements Routes {
   }
 
   private initializeRoutes() {
-    this.router.get(this.path, AuthMiddleware, this.userActivity.getUserActivity);
+    this.router.get(`${this.path}/:userId`, AuthMiddleware, this.userActivity.getUserActivity);
   }
 }

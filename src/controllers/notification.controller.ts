@@ -1,5 +1,6 @@
 import { RequestWithUser } from '@/interfaces/auth.interface';
 import { NotificationService } from '@/services/notification.service';
+import { logger } from '@/utils/logger';
 import { QUERY_PARAMS } from '@/utils/utils';
 import { NextFunction, Request, Response } from 'express';
 import Container from 'typedi';
@@ -20,6 +21,25 @@ export class NotificationController {
       next(err);
     }
   };
+
+  public getUserNotification = async (req: RequestWithUser, res: Response, next: NextFunction) => { 
+
+    try {
+      let query_page: any = req.query.page;
+      let page: any = 1;
+
+      if (query_page) {
+        page = parseInt(query_page);
+      }
+
+      res.status(200).json({ success: true, ...(await this.notification.getAll(QUERY_PARAMS(req.query), page,req.params.id)) });
+
+    } catch (err) {
+      logger.error(err)
+      next(err)
+    }
+    
+  }
 
   public getNotificationById = async (req: Request, res: Response, next: NextFunction) => {
     try {

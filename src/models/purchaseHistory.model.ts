@@ -15,17 +15,21 @@ const PurchaseHostorySchema: Schema = new Schema(
     },
     userId: {
       type: ObjectId,
-      ref: "User",
+      ref: 'User',
     },
     courseId: {
       type: ObjectId,
-      ref: "Course",
+      ref: 'Course',
+    },
+    planId: {
+      type: ObjectId,
+      ref: 'Subscriptions',
     },
     orderId: {
       type: String,
     },
   },
-  { timestamps: true, versionKey: false }
+  { timestamps: true, versionKey: false },
 );
 
 export const PurchaseHistoryModel = model<PurchaseHistory & Document>(

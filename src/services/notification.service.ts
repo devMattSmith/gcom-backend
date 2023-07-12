@@ -6,8 +6,12 @@ import { Service } from 'typedi';
 
 @Service()
 export class NotificationService {
-  public async getAll(params: any, page) {
+  public async getAll(params: any, page, userId = null) {
     const { filter, limit, skip, sort } = <any>aqp(params);
+
+    if (userId) {
+      filter['userId'] = userId
+    }
 
     const notifications = await NotificationModel.find(filter).populate(['userId', 'courseId']).sort(sort).skip(skip).limit(limit);
     const total_count = await NotificationModel.count();

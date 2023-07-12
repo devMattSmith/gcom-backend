@@ -15,6 +15,7 @@ export class NotificationRoutes implements Routes {
 
   private initializeRoutes() {
     this.router.get(this.path, this.notification.getAllNotification);
+    this.router.get(`${this.path}/user/:id`, AuthMiddleware, this.notification.getUserNotification);
     this.router.post(this.path, ValidationMiddleware(NotificationDto, true), this.notification.createNotification);
     this.router.get(`${this.path}/:id`, this.notification.getNotificationById);
     this.router.put(`${this.path}/:id`, ValidationMiddleware(UpdateNotification, true), this.notification.updateNotification);

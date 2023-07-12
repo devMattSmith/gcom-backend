@@ -15,7 +15,8 @@ export class UserActivityController {
       if (query_page) {
         page = parseInt(query_page);
       }
-      const userLoginActivity = await this.userActivity.getUserActivity(req.user._id, QUERY_PARAMS(req.query), page);
+      
+      const userLoginActivity = await this.userActivity.getUserActivity(req.params.userId, QUERY_PARAMS(req.query), page);
       res.status(200).json(userLoginActivity);
     } catch (err) {
       next(err);

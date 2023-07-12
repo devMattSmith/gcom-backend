@@ -1,3 +1,5 @@
+import moment from "moment";
+
 export const QUERY_PARAMS = (params: object) => {
   const LIMIT = params["limit"] || 20;
   const SORT = params["sort"] || "-createdAt";
@@ -23,3 +25,4 @@ export const generatePassword = () => {
   }
   return retVal;
 };
+

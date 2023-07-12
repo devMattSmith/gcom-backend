@@ -4,5 +4,6 @@ export interface PurchaseHistory {
   totalPrice: String;
   payamentType: String;
   userId: String;
-  courseId: String;
+  courseId?: String;
+  planId?:String
 }

@@ -2,15 +2,16 @@ import { UserSubscriptionDto } from '@/dtos/usersubscription.dto';
 import { HttpException } from '@/exceptions/httpException';
 import { IUserSubscription } from '@/interfaces/usersubscription.interface';
 import { UserSubscriptionModel } from '@/models/userSubscription.model';
+import aqp from 'api-query-params';
 import moment from 'moment';
 import { Service } from 'typedi';
+import { PurchaseHistorys } from './purchaseHistory.service';
 import { SubscriptionService } from './subscription.service';
-import aqp from 'api-query-params';
 import { UserService } from './users.service';
 
 @Service()
 export class UserSubscriptionService {
-  constructor(public subscriptionService: SubscriptionService, public userService: UserService) {}
+  constructor(public subscriptionService: SubscriptionService, public userService: UserService, public purchasehistory: PurchaseHistorys) {}
 
   public async create(body: UserSubscriptionDto): Promise<IUserSubscription> {
     const plan = await this.subscriptionService.findById(body.plan);
@@ -31,7 +32,7 @@ export class UserSubscriptionService {
       //   if user have already active plan we need to expire it
       await this.update(body);
     }
-    
+
     const payload = {
       plan: body.plan,
       user: body.user,
@@ -39,6 +40,14 @@ export class UserSubscriptionService {
       endDate: moment().add(planType, 'months').toDate(),
       status: true,
     };
+
+    await this.purchasehistory.createPurchaseHistroy({
+      title: plan.title,
+      totalPrice: plan.amount,
+      userId: body.user,
+      paymentType: plan.planType === 1 ? 'MONTHLT' : 'ONETIME',
+      planId: plan.id
+    },false);
     return await UserSubscriptionModel.create(payload);
   }
 
@@ -48,6 +57,10 @@ export class UserSubscriptionService {
 
   public async findById(id: string) {
     return await UserSubscriptionModel.findById(id).populate(['user', 'plan']);
+  }
+
+  public async getAggregate(aggregation) {
+    return await UserSubscriptionModel.aggregate(aggregation)
   }
 
   public async update(body: UserSubscriptionDto) {

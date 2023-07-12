@@ -20,6 +20,7 @@ import { UserActivityRoute } from './routes/userActivity.route';
 import { LoginActivityRoute } from './routes/loginActivity.route';
 import { UserSubscriptionRoute } from './routes/userSubscription.route';
 import { NotificationRoutes } from './routes/notification.route';
+import { DashboardRoute } from './routes/dashboard.route';
 ValidateEnv();
 
 const app = new App([
@@ -42,7 +43,8 @@ const app = new App([
   new UserActivityRoute(),
   new LoginActivityRoute(),
   new UserSubscriptionRoute(),
-  new NotificationRoutes()
+  new NotificationRoutes(),
+  new DashboardRoute()
 ]);
 
 app.listen();
