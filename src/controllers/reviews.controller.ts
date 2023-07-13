@@ -54,12 +54,16 @@ export class ReviewsController {
     next: NextFunction
   ) => {
     try {
-      const pageId: string = req.params.id;
-      const findOneReviewData: Reviews = await this.reviews.getReviewByCourseId(
-        pageId
-      );
+      const courseId: string = req.params.id;
+      const data: Reviews = await this.reviews.getReviewByCourseId(courseId);
+      const ratingAverage: Reviews =
+        await this.reviews.getReviewByCourseIdAverage(courseId);
 
-      res.status(200).json({ data: findOneReviewData, message: "findOne" });
+      res.status(200).json({
+        data: data,
+        rating: ratingAverage[0]?.avg_val ? ratingAverage[0]?.avg_val : 0,
+        message: "get all reviews",
+      });
     } catch (error) {
       next(error);
     }

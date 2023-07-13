@@ -57,6 +57,19 @@ export class ReviewsService {
     return findReviews;
   }
 
+  public async getReviewByCourseIdAverage(courseId: string): Promise<any> {
+    const ratingAverage: Reviews[] = await ReviewsModel.aggregate([
+      {
+        $match: { courseId: new Types.ObjectId(courseId) },
+      },
+
+      {
+        $group: { _id: null, avg_val: { $avg: "$rating" } },
+      },
+    ]);
+    if (!ratingAverage) throw new HttpException(409, "review doesn't exist");
+    return ratingAverage;
+  }
   public async getReviewByCourseId(courseId: string): Promise<any> {
     const findReviews: Reviews[] = await ReviewsModel.aggregate([
       {
@@ -74,30 +87,14 @@ export class ReviewsService {
         $unwind: { path: "$user", preserveNullAndEmptyArrays: true },
       },
 
-      // {
-      //   $lookup: {
-      //     from: "Courses",
-      //     localField: "courseId",
-      //     foreignField: "_id",
-      //     pipeline: [{ $match: { isDeleted: false } }],
-      //     as: "course",
-      //   },
-      // },
-      // {
-      //   $unwind: { path: "$course", preserveNullAndEmptyArrays: true },
-      // },
-
       {
         $group: {
           _id: "$_id",
           comment: { $first: "$comment" },
           rating: { $first: "$rating" },
-          status: { $first: "$status" },
-          username: { $first: "$user.name" },
-          coursename: { $first: "$course.course_name" },
-          courseDescription: { $first: "$course.course_description" },
-          courseThumbnail: { $first: "$course.thumbnail" },
-          description: { $first: "$description" },
+          userName: { $first: "$user.name" },
+          //  description: { $first: "$description" },
+          userImage: { $first: "$user.thumbnail" },
           reviewDate: { $first: "$createdAt" },
         },
       },
