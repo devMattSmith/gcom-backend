@@ -31,7 +31,7 @@ export class ReviewRoute implements Routes {
       this.reviews.getReviewByUserId
     );
     this.router.get(
-      `${this.path}/:id`,
+      `${this.path}/reviewByCourseId/:id`,
       // AuthMiddleware,
       this.reviews.getReviewByCourseId
     );
