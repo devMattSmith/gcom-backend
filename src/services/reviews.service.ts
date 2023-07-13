@@ -72,7 +72,7 @@ export class ReviewsService {
 
       {
         $lookup: {
-          from: "Course",
+          from: "Courses",
           localField: "courseId",
           foreignField: "_id",
           pipeline: [{ $match: { isDeleted: false } }],
@@ -85,16 +85,19 @@ export class ReviewsService {
       {
         $match: { "user._id": new Types.ObjectId(userId) },
       },
+
       {
-        $project: {
-          _id: 1,
-          comment: 1,
-          rating: 1,
-          status: 1,
-          username: "$user.name",
-          coursename: "$course.name",
-          description: 1,
-          reviewDate: "$createdAt",
+        $group: {
+          _id: "$_id",
+          comment: { $first: "$comment" },
+          rating: { $first: "$rating" },
+          status: { $first: "$status" },
+          username: { $first: "$user.name" },
+          coursename: { $first: "$course.course_name" },
+          courseDescription: { $first: "$course.course_description" },
+          courseThumbnail: { $first: "$course.thumbnail" },
+          description: { $first: "$description" },
+          reviewDate: { $first: "$createdAt" },
         },
       },
     ]);

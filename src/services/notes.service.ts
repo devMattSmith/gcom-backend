@@ -10,19 +10,30 @@ export class NotesService {
   public async findAllCategory(
     courseId: any,
     moduleId: any,
-    chapterId: any
+    userId: any,
+    chapterId: any,
+    sort: any
   ): Promise<Notes[]> {
+    const conditions = {};
+    const and_clauses = [];
+    and_clauses.push({
+      courseId: new Types.ObjectId(courseId),
+      userId: new Types.ObjectId(userId),
+    });
+    if (moduleId && moduleId != "") {
+      and_clauses.push({
+        moduleId: new Types.ObjectId(moduleId),
+      });
+    }
+    if (chapterId && chapterId != "") {
+      and_clauses.push({
+        chapterId: new Types.ObjectId(chapterId),
+      });
+    }
+    conditions["$and"] = and_clauses;
     const notes: Notes[] = await NotesModel.aggregate([
       {
-        $match: {
-          $and: [
-            {
-              courseId: new Types.ObjectId(courseId),
-              moduleId: new Types.ObjectId(moduleId),
-              chapterId: chapterId,
-            },
-          ],
-        },
+        $match: conditions,
       },
 
       {
@@ -36,7 +47,7 @@ export class NotesService {
       {
         $unwind: { path: "$coursemodules", preserveNullAndEmptyArrays: true },
       },
-
+      { $sort: { createdAt: sort === "desc" ? -1 : 1 } },
       {
         $group: {
           _id: "$_id",
