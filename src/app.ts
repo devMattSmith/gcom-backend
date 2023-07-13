@@ -56,7 +56,7 @@ export class App {
 
   private initializeMiddlewares() {
     this.app.use(morgan(LOG_FORMAT, { stream }));
-    this.app.use(cors({ origin: '*', credentials: true }));
+    this.app.use(cors({ origin: "*", credentials: true }));
     this.app.use(hpp());
     this.app.use(compression());
     this.app.use(express.json());

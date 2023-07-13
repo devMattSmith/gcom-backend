@@ -30,6 +30,7 @@ export interface User {
   categories: String;
   wishlist: String;
   deviceInfo?: any;
+  isVerified: Boolean;
 }
 export interface UserList {
   data: [User];

@@ -56,6 +56,55 @@ export class ReviewsService {
     if (!findReviews) throw new HttpException(409, "review doesn't exist");
     return findReviews;
   }
+
+  public async getReviewByCourseId(courseId: string): Promise<any> {
+    const findReviews: Reviews[] = await ReviewsModel.aggregate([
+      {
+        $match: { courseId: new Types.ObjectId(courseId) },
+      },
+      {
+        $lookup: {
+          from: "Users",
+          localField: "userId",
+          foreignField: "_id",
+          as: "user",
+        },
+      },
+      {
+        $unwind: { path: "$user", preserveNullAndEmptyArrays: true },
+      },
+
+      // {
+      //   $lookup: {
+      //     from: "Courses",
+      //     localField: "courseId",
+      //     foreignField: "_id",
+      //     pipeline: [{ $match: { isDeleted: false } }],
+      //     as: "course",
+      //   },
+      // },
+      // {
+      //   $unwind: { path: "$course", preserveNullAndEmptyArrays: true },
+      // },
+
+      {
+        $group: {
+          _id: "$_id",
+          comment: { $first: "$comment" },
+          rating: { $first: "$rating" },
+          status: { $first: "$status" },
+          username: { $first: "$user.name" },
+          coursename: { $first: "$course.course_name" },
+          courseDescription: { $first: "$course.course_description" },
+          courseThumbnail: { $first: "$course.thumbnail" },
+          description: { $first: "$description" },
+          reviewDate: { $first: "$createdAt" },
+        },
+      },
+    ]);
+    if (!findReviews) throw new HttpException(409, "review doesn't exist");
+    return findReviews;
+  }
   public async findReviewByUserId(userId: string): Promise<any> {
     const findReviews: Reviews[] = await ReviewsModel.aggregate([
       {

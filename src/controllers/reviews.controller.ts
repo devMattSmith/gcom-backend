@@ -47,6 +47,23 @@ export class ReviewsController {
       next(error);
     }
   };
+
+  public getReviewByCourseId = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const pageId: string = req.params.id;
+      const findOneReviewData: Reviews = await this.reviews.getReviewByCourseId(
+        pageId
+      );
+
+      res.status(200).json({ data: findOneReviewData, message: "findOne" });
+    } catch (error) {
+      next(error);
+    }
+  };
   public getReviewByUserId = async (
     req: Request,
     res: Response,

@@ -9,16 +9,17 @@ export class NotesController {
   public getNotes = async (req: Request, res: Response, next: NextFunction) => {
     try {
       // const count = await this.notes.countAllCategory();
-      const categoryData: any = req.body;
-      const findAllCategoryData: Notes[] = await this.notes.findAllCategory(
-        categoryData.courseId,
-        categoryData.moduleId,
-        categoryData.userId,
-        categoryData.chapterId,
-        categoryData.sort
+      const noteDate: any = req.body;
+      const noteDateRes: Notes[] = await this.notes.findAllCategory(
+        noteDate.courseId,
+        noteDate.moduleId,
+        noteDate.userId,
+        noteDate.chapterId,
+        noteDate.sort,
+        noteDate.search
       );
 
-      res.status(200).json({ data: findAllCategoryData, message: "findAll" });
+      res.status(200).json({ data: noteDateRes, message: "findAll" });
     } catch (error) {
       next(error);
     }
