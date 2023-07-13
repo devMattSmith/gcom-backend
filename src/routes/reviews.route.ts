@@ -30,6 +30,11 @@ export class ReviewRoute implements Routes {
       // AuthMiddleware,
       this.reviews.getReviewByUserId
     );
+    this.router.get(
+      `${this.path}/:id`,
+      // AuthMiddleware,
+      this.reviews.getReviewByCourseId
+    );
     this.router.post(
       `${this.path}/create`,
       ValidationMiddleware(CreateReviewDto, true),

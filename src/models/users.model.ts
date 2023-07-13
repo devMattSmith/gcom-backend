@@ -27,6 +27,14 @@ const UserSchema: Schema = new Schema(
       type: Boolean,
       default: false,
     },
+    verifyTokenExpiry: {
+      type: String,
+      default: null,
+    },
+    verifyToken: {
+      type: String,
+      default: null,
+    },
     isSubscribed: {
       type: Boolean,
       default: false,

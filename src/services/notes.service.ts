@@ -12,7 +12,8 @@ export class NotesService {
     moduleId: any,
     userId: any,
     chapterId: any,
-    sort: any
+    sort: any,
+    search: any
   ): Promise<Notes[]> {
     const conditions = {};
     const and_clauses = [];
@@ -20,6 +21,18 @@ export class NotesService {
       courseId: new Types.ObjectId(courseId),
       userId: new Types.ObjectId(userId),
     });
+    if (search && search != "") {
+      and_clauses.push({
+        $or: [
+          {
+            description: {
+              $regex: "^" + search,
+              $options: "i",
+            },
+          },
+        ],
+      });
+    }
     if (moduleId && moduleId != "") {
       and_clauses.push({
         moduleId: new Types.ObjectId(moduleId),
@@ -54,6 +67,7 @@ export class NotesService {
           durationTime: { $first: "$durationTime" },
           description: { $first: "$description" },
           moduleName: { $first: "$coursemodules.title" },
+          chapterId: { $first: "$chapterId" },
           chapterName: {
             $first: { $arrayElemAt: ["$coursemodules.chapter.title", 0] },
           },

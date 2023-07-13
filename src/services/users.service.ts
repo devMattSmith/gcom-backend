@@ -106,6 +106,12 @@ export class UserService {
     return users;
   }
 
+  // public async userExists(email: any): Promise<any> {
+  //   const users: any = await UserModel.findOne({ email });
+  //   if (!users) throw new HttpException(409, "email doesn't exist");
+
+  //   return users;
+  // }
   public async findUserById(userId: string): Promise<any> {
     // const findUser: User = await UserModel.findOne({ _id: userId });
     const findUser: User[] = await UserModel.aggregate([
@@ -187,7 +193,7 @@ export class UserService {
     return createUserData;
   }
 
-  public async updateUser(userId: string, userData: User): Promise<User> {
+  public async updateUser(userId: string, userData: any): Promise<User> {
     if (userData.email) {
       const findUser: User = await UserModel.findOne({ email: userData.email });
       if (findUser && findUser._id != userId)
@@ -225,7 +231,7 @@ export class UserService {
       _id: userId,
     });
     if (!userDetails) throw new HttpException(409, "User doesn't exist");
-    console.log(userDetails.password);
+
     const isPasswordMatching: boolean = await compare(
       userData.currentPassword,
       userDetails.password

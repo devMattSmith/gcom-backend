@@ -25,4 +25,9 @@ export const generatePassword = () => {
   }
   return retVal;
 };
-
+export const getCurrentDateTime = () => {
+  return moment().toISOString();
+};
+export const isDatePast = (date, dateToCompare) => {
+  return moment(date).isBefore(dateToCompare);
+};
