@@ -1,6 +1,6 @@
 import { SafeString } from "handlebars";
 const nodemailer = require("nodemailer");
-const templateService = require("@services/templateService");
+const templateService = require("../services/templateService");
 
 const transporter = nodemailer.createTransport({
   host: "mail.vps84069.inmotionhosting.com",
@@ -23,7 +23,6 @@ const sendEmail = async (mailOptions) => {
 };
 
 export const sendForgotPasswordEmail = async (toEmail, name, url) => {
-  console.log("----------", toEmail, name, url);
   const content = `Reset Your Password`;
   const subject = "Restore Password";
   const title = "Restore Password";
