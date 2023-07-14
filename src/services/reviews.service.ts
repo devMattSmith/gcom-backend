@@ -93,6 +93,7 @@ export class ReviewsService {
           comment: { $first: "$comment" },
           rating: { $first: "$rating" },
           userName: { $first: "$user.name" },
+          userId: { $first: "$user._id" },
           //  description: { $first: "$description" },
           userImage: { $first: "$user.thumbnail" },
           reviewDate: { $first: "$createdAt" },

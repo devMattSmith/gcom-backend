@@ -78,6 +78,10 @@ const CourseSchema: Schema = new Schema(
         default: null,
       },
     },
+    isFeatured: {
+      type: Boolean,
+      default: false,
+    },
     generalInfo: {
       instructorName: {
         type: ObjectId,
