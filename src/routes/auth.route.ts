@@ -40,7 +40,11 @@ export class AuthRoute implements Routes {
       // ValidationMiddleware(CreateUserDto, true),
       this.auth.resetPassword
     );
-
+    this.router.post(
+      `${this.path}googleAccessToken`,
+      // ValidationMiddleware(CreateUserDto, true),
+      this.auth.exchangeGoogleCodeForTokens
+    );
     this.router.post(`${this.path}socialLogin`, this.auth.socialLogin);
     this.router.post(`${this.path}logout`, AuthMiddleware, this.auth.logOut);
   }

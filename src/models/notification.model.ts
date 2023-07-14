@@ -3,6 +3,9 @@ import { INotification } from '@/interfaces/notification.interface';
 import { Document, Schema, model } from 'mongoose';
 const ObjectId = Schema.Types.ObjectId;
 const NotificationSchema: Schema = new Schema({
+  notificationTitle: {
+    type: String
+  },
   notificationType: {
     type: String,
     enum: notificationType,

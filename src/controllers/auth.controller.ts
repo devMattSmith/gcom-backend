@@ -8,6 +8,8 @@ import { HttpException } from "@/exceptions/httpException";
 import { getCurrentDateTime, isDatePast } from "@utils/utils";
 import moment from "moment";
 import { sendWelcomEmail } from "../utils/mailer";
+import axios from 'axios';
+
 export class AuthController {
   public auth = Container.get(AuthService);
   public userService = Container.get(UserService);
@@ -120,6 +122,40 @@ export class AuthController {
       const updateUser = await this.auth.resetPassword(userToken, payload);
       res.status(200).json({ message: "password updated" });
     } catch (err) {
+      next(err);
+    }
+  };
+
+  public exchangeGoogleCodeForTokens = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+
+      const authorizationCode = req.body.authorizationCode;
+      const tokenEndpoint = 'https://oauth2.googleapis.com/token';
+
+      // Parameters required to exchange the authorization code
+      const clientId = '609135067470-5jfj85nacrbgotpk1qh4h83fu1qv16fs.apps.googleusercontent.com';
+      const clientSecret = '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';
+      const redirectUri = 'http://localhost:3000'; // Should match the redirect URI specified in your Google API credentials
+
+      const response = await axios.post(tokenEndpoint, {
+        code: authorizationCode,
+        client_id: clientId,
+        client_secret: clientSecret,
+        redirect_uri: redirectUri,
+        grant_type: 'authorization_code',
+      });
+      console.log("---response --- ",response)
+  
+      const { access_token, refresh_token } = response.data;
+
+
+      res.status(200).json({ message: "password updated" });
+    } catch (err) {
+      console.log("any error -->> ",err)
       next(err);
     }
   };

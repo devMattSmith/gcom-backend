@@ -19,6 +19,16 @@
             "date": 1688736794447,
             "name": "/Users/suryaraj/Documents/workspace/gcom-backend/src/logs/debug/2023-07-07.log",
             "hash": "542734be19a8c1cc2bde052e3093a7a058e3cb0338c99da51987d77c81a8d7c3"
+        },
+        {
+            "date": 1689248421025,
+            "name": "/Users/suryaraj/Documents/workspace/gcom-backend/src/logs/debug/2023-07-13.log",
+            "hash": "d69853bdc724697f4c60cb6f3ab2e62a3d4adfec04fe28f2e3e5e86320c1a3f8"
+        },
+        {
+            "date": 1689323351069,
+            "name": "/Users/suryaraj/Documents/workspace/gcom-backend/src/logs/debug/2023-07-14.log",
+            "hash": "fc2ac09b485a709f0b324e3995aed3a42cd2aa75687cf2eb978526d69630bfc5"
         }
     ],
     "hashType": "sha256"
