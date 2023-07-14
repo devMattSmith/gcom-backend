@@ -36,3 +36,9 @@ export enum COUSE_PURCHASE_TYPE {
   ONE_TIME_PURCHASE = 1,
   SUBSCRIPTION = 2,
 }
+
+export enum LEARNING_TOOLD_PLATFORM {
+  GOOGLE = 1,
+  APPLE = 2,
+  OUTLOOK = 3,
+}
